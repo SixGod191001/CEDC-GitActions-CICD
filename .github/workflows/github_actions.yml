@@ -1,27 +1,64 @@
-name: "Terraform action"
+name: "Git Actions - Terraform - Deployment Workflow"
+
+workflow_dispatch:
+    inputs:
+      deploy_target:
+        description: 'Deployment environment'
+        required: true
+        default: 'DEV'
+        options:
+          - 'DEV'
+          - 'QA'
+          - 'PROD'
+      branch:
+        description: 'Select branch or tag to deploy'
+        required: true
+        default: 'dev'
+
+
 on:
   push:
+    paths-ignore:
+      - '**.md'
+      - '**.drawio'
+      - '**actions.yml'
+      - '**.bkp'
+      - '.github\workflows\**'
     branches:
       - main
+      - dev
+      - 'release/v[0-9].[0-9]' 
   pull_request:
+    paths-ignore:
+      - '**.md'
+      - '**.drawio'
+      - '**actions.yml'
+      - '**.bkp'
+      - '.github\workflows\**'
+    branches:
+      - main
+      - dev
+      - 'release/v[0-9].[0-9]'
 permissions:
       id-token: write # This is required for aws oidc connection
       contents: read # This is required for actions/checkout
       pull-requests: write # This is required for gh bot to comment PR
 env:
   TF_LOG: INFO
-  AWS_REGION: ${{ secrets.AWS_REGION }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: DEV
+    environment: ${{ github.event.inputs.deploy_target || github.ref }}
     defaults:
       run:
         shell: bash
         working-directory: .
     steps:
-      - name: Git checkout
+      - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.branch || github.ref }}
 
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v1

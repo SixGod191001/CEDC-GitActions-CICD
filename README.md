@@ -1,6 +1,8 @@
 # CEDC-GitActions-CICD
 This is repo to use git actions with terraform to deploy resources to aws
 
+![](https://github.com/SixGod191001/CEDC-GitActions-CICD/GithubActions.drawio.png)
+
 
 1. https://catalog.workshops.aws/stepfunctions/en-US/introduction
 Basic:
