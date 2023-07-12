@@ -78,7 +78,8 @@ jobs:
   deploy:
     needs: [build]
     if: |
-      github.ref == 'refs/heads/dev' || (github.event_name == 'pull_request_review' && github.event.review.state == 'approved')   
+      github.ref == 'refs/heads/dev' || (github.event_name == 'pull_request_review' && github.event.review.state == 'approved')
+   
     name: Deploy services to AWS
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.deploy_target || needs.build.outputs.env_name }}
@@ -131,7 +132,7 @@ jobs:
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-          github-token: ${{ secrets.GIT_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
