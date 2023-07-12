@@ -56,29 +56,29 @@ jobs:
         working-directory: .
     steps:
       - name: Check if manually triggered
-      id: manual_trigger
-      run: |
-        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-          echo "::set-output name=triggered::true"
-        else
-          echo "::set-output name=triggered::false"
-        fi
+        id: manual_trigger
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "::set-output name=triggered::true"
+          else
+            echo "::set-output name=triggered::false"
+          fi
 
     - name: Choose ENV by branch name
-      id: branch_check
-      run: |
-        echo "Running on branch ${{ github.ref }}"
-        if [ "${{ steps.manual_trigger.outputs.triggered }}" = "true" ]; then
-          echo "::set-output name=env_name::${{ github.event.inputs.deploy_target }}"
-        elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
-          echo "::set-output name=env_name::QA"
-        elif [ "${{ github.ref }}" = "refs/heads/dev" ]; then
-          echo "::set-output name=env_name::DEV"
-        elif [[ ${{ github.ref }} == refs/tags/* ]]; then
-          echo "::set-output name=env_name::PROD"
-        else
-          echo "::set-output name=env_name::FEATURE"
-        fi
+        id: branch_check
+        run: |
+          echo "Running on branch ${{ github.ref }}"
+          if [ "${{ steps.manual_trigger.outputs.triggered }}" = "true" ]; then
+            echo "::set-output name=env_name::${{ github.event.inputs.deploy_target }}"
+          elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "::set-output name=env_name::QA"
+          elif [ "${{ github.ref }}" = "refs/heads/dev" ]; then
+            echo "::set-output name=env_name::DEV"
+          elif [[ ${{ github.ref }} == refs/tags/* ]]; then
+            echo "::set-output name=env_name::PROD"
+          else
+            echo "::set-output name=env_name::FEATURE"
+          fi
           
       - name: Use variable setup in previous step
         run: echo "I'm using variable ${{ steps.branch_check.outputs.env_name }}"
