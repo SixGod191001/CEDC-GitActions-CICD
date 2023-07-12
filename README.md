@@ -98,8 +98,8 @@ call glue
 
 7. Github CICD integration in AWS
 - a. Create an OpenID Connect provider
-  url: token.actions.githubusercontent.com
-  audience： sts.amazonaws.com  
+  - url: token.actions.githubusercontent.com
+  - audience： sts.amazonaws.com  
 - b. Create an IAM role
     "Version": "2012-10-17",
     "Statement": [
@@ -121,8 +121,8 @@ call glue
 
 - c. Create policy
 
-- name: github-action-service-terroform-tfstates-s3-access
-
+  - name: github-action-service-terroform-tfstates-s3-access
+  - 
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -142,9 +142,8 @@ call glue
     ]
 }
 
-- name: github-actions-terraform-allow-service
-
-
+  - name: github-actions-terraform-allow-service
+   - 
 {
     "Version": "2012-10-17",
     "Statement": [
