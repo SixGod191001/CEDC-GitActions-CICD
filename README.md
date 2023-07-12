@@ -100,7 +100,7 @@ call glue
 - a. Create an OpenID Connect provider
   url: token.actions.githubusercontent.com
   audience： sts.amazonaws.com  
--b. Create an IAM role
+- b. Create an IAM role
     "Version": "2012-10-17",
     "Statement": [
         {
@@ -119,9 +119,9 @@ call glue
     ]
 }
 
--c. Create policy
+- c. Create policy
 
--name: github-action-service-terroform-tfstates-s3-access
+- name: github-action-service-terroform-tfstates-s3-access
 
 {
     "Version": "2012-10-17",
@@ -142,7 +142,7 @@ call glue
     ]
 }
 
--name: github-actions-terraform-allow-service
+- name: github-actions-terraform-allow-service
 
 
 {
@@ -161,4 +161,4 @@ call glue
     ]
 }
 
--d. Create an S3 bucket to restore statesfile
+- d. Create an S3 bucket to restore statesfile
