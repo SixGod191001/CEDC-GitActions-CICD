@@ -64,7 +64,7 @@ jobs:
             echo "::set-output name=triggered::false"
           fi
 
-    - name: Choose ENV by branch name
+      - name: Choose ENV by branch name
         id: branch_check
         run: |
           echo "Running on branch ${{ github.ref }}"
@@ -79,7 +79,7 @@ jobs:
           else
             echo "::set-output name=env_name::FEATURE"
           fi
-          
+            
       - name: Use variable setup in previous step
         run: echo "I'm using variable ${{ steps.branch_check.outputs.env_name }}"
         
