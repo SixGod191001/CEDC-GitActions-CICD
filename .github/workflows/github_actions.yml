@@ -27,6 +27,8 @@ on:
       - dev
 
   pull_request:
+    types:
+      - closed
     paths-ignore:
       - '**.md'
       - '**.drawio'
@@ -102,7 +104,7 @@ jobs:
   deploy:
     needs: [build]
     if: |
-      "${{ github.event_name }}" == "workflow_dispatch" || ${{ needs.build.outputs.ref_branch }} == 'refs/heads/dev' || (github.event_name == 'pull_request_review' && github.event.review.state == 'approved')
+      ${{ github.event_name }} == "workflow_dispatch" || ${{ needs.build.outputs.ref_branch }} == 'refs/heads/dev' || ${{ github.event.pull_request.merged }} == true)
    
     name: Deploy services to AWS
     runs-on: ubuntu-latest
