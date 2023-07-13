@@ -96,3 +96,66 @@ Usecase:
 6. Step Functions
 call glue
 
+7. Github CICD integration in AWS
+- a. Create an OpenID Connect provider
+  - url: token.actions.githubusercontent.com
+  - audience： sts.amazonaws.com  
+- b. Create an IAM role
+    - "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Statement1",
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::875120157787:oidc-provider/token.actions.githubusercontent.com"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringLike": {
+                    "token.actions.githubusercontent.com:sub": "repo:SixGod191001/CEDC-GitActions-CICD:*"
+                }
+            }
+        }
+    ]
+}
+
+- c. Create policy
+
+  - name: github-action-service-terroform-tfstates-s3-access
+  - {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Statement1",
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::github-actions-terraform-tfstates/*",
+                "arn:aws:s3:::github-actions-terraform-tfstates"
+            ]
+        }
+    ]
+}
+
+  - name: github-actions-terraform-allow-service 
+  - {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Statement1",
+            "Effect": "Allow",
+            "Action": [
+                "states:*",
+                "secretsmanager:*",
+                "ssm:*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+- d. Create an S3 bucket to restore statesfile
