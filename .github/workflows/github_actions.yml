@@ -79,11 +79,11 @@ jobs:
           echo "Running on branch ${{ github.ref }}"
           if [ "${{ steps.manual_trigger.outputs.triggered }}" = "true" ]; then
             echo "::set-output name=env_name::${{ github.event.inputs.deploy_target }}"
-          elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "refs/heads/main" ]; then
+          elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "main" ]; then
             echo "::set-output name=env_name::QA"
-          elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "refs/heads/dev" ]; then
+          elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "dev" ]; then
             echo "::set-output name=env_name::DEV"
-          elif [[ "${{ steps.set_ref_branch.outputs.ref_branch }}" == refs/tags/* ]]; then
+          elif [[ "${{ steps.set_ref_branch.outputs.ref_branch }}" == v*.* ]]; then
             echo "::set-output name=env_name::PROD"
           else
             echo "::set-output name=env_name::DEV"
@@ -102,7 +102,7 @@ jobs:
   deploy:
     needs: [build]
     if: |
-      "${{ github.event_name }}" == "workflow_dispatch" || ${{ needs.build.outputs.ref_branch }} == 'refs/heads/dev' || (github.event_name == 'pull_request_review' && github.event.review.state == 'approved')
+      "${{ github.event_name }}" == "workflow_dispatch" || ${{ needs.build.outputs.ref_branch }} == 'dev' || (github.event_name == 'pull_request_review' && github.event.review.state == 'approved')
    
     name: Deploy services to AWS
     runs-on: ubuntu-latest
