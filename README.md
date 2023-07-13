@@ -119,6 +119,7 @@ call glue
     ]
 }
 
+
 -c. Create policy
 
 -name: github-action-service-terroform-tfstates-s3-access
@@ -146,6 +147,7 @@ call glue
 
 
 {
+
     "Version": "2012-10-17",
     "Statement": [
         {
@@ -162,4 +164,3 @@ call glue
 }
 
 -d. Create an S3 bucket to restore statesfile
-
