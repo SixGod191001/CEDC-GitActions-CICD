@@ -55,6 +55,15 @@ jobs:
         shell: bash
         working-directory: .
     steps:
+      - name: Determine ref_branch
+        id: set_ref_branch
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event_name }}" = "push" ]; then
+            echo "::set-output name=ref_branch::${{ github.ref }}"
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "::set-output name=ref_branch::${{ github.base_ref }}"
+          fi
+
       - name: Check if manually triggered
         id: manual_trigger
         run: |
@@ -70,26 +79,30 @@ jobs:
           echo "Running on branch ${{ github.ref }}"
           if [ "${{ steps.manual_trigger.outputs.triggered }}" = "true" ]; then
             echo "::set-output name=env_name::${{ github.event.inputs.deploy_target }}"
-          elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
+          elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "refs/heads/main" ]; then
             echo "::set-output name=env_name::QA"
-          elif [ "${{ github.ref }}" = "refs/heads/dev" ]; then
+          elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "refs/heads/dev" ]; then
             echo "::set-output name=env_name::DEV"
-          elif [[ ${{ github.ref }} == refs/tags/* ]]; then
+          elif [[ "${{ steps.set_ref_branch.outputs.ref_branch }}" == refs/tags/* ]]; then
             echo "::set-output name=env_name::PROD"
           else
             echo "::set-output name=env_name::DEV"
           fi
             
-      - name: Use variable setup in previous step
+      - name: Output ENV
         run: echo "I'm using variable ${{ steps.branch_check.outputs.env_name }}"
+
+      - name: Output branch
+        run: echo "I'm using variable ${{ steps.set_ref_branch.outputs.ref_branch }}"
         
     outputs:
       env_name: ${{ steps.branch_check.outputs.env_name }}
+      ref_branch: ${{ steps.set_ref_branch.outputs.ref_branch }}
     
   deploy:
     needs: [build]
     if: |
-      "${{ github.event_name }}" == "workflow_dispatch" || github.ref == 'refs/heads/dev' || (github.event_name == 'pull_request_review' && github.event.review.state == 'approved')
+      "${{ github.event_name }}" == "workflow_dispatch" || ${{ needs.build.outputs.ref_branch }} == 'refs/heads/dev' || (github.event_name == 'pull_request_review' && github.event.review.state == 'approved')
    
     name: Deploy services to AWS
     runs-on: ubuntu-latest
@@ -102,7 +115,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.ref }}
+          ref: ${{ needs.build.outputs.ref_branch }}
 
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v1
