@@ -74,7 +74,7 @@ jobs:
             echo "::set-output name=env_name::${{ github.event.inputs.deploy_target }}"
           elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "main" ]; then
             echo "::set-output name=env_name::QA"
-          elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "refs/heads/dev" ]; then
+          elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "dev" ]; then
             echo "::set-output name=env_name::DEV"
           elif [[ "${{ steps.set_ref_branch.outputs.ref_branch }}" == refs/tags/* ]]; then
             echo "::set-output name=env_name::PROD"
@@ -95,7 +95,7 @@ jobs:
   deploy:
     needs: [build]
     if: |
-      ${{ github.event_name }} == "workflow_dispatch" || ${{ needs.build.outputs.ref_branch }} == 'refs/heads/dev' || ${{ github.event.pull_request.merged }} == true)
+      ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
    
     name: Deploy services to AWS
     runs-on: ubuntu-latest
@@ -141,7 +141,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
-        # if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request'
         continue-on-error: true
 
       - uses: actions/github-script@v6
@@ -186,5 +186,5 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply to default account
-        # if: github.event_name == 'pull_request' || github.event_name == 'push'
+        if: github.event_name == 'pull_request'
         run: terraform apply -auto-approve -input=false
