@@ -1,9 +1,46 @@
-name: "Terraform action"
+name: "Git Actions - Terraform - Deployment Workflow"
+
 on:
+  workflow_dispatch:
+    inputs:
+      deploy_target:
+        description: 'Deployment environment'
+        required: true
+        default: 'DEV'
+        options:
+          - 'DEV' # dev branch and aws dev account
+          - 'QA'  # main branch and aws qa account
+          - 'PROD' # release branch and aws prod account
+      # branch:
+      #   description: 'Select branch or tag to deploy'
+      #   required: true
+      #   default: 'dev'
+
   push:
+    paths-ignore:
+      - '**.md'
+      - '**.drawio'
+      - '**actions.yml'
+      - '**.bkp'
+      - '.github\workflows\**'
+    branches:
+      - dev
+
+  pull_request:
+    types:
+      - closed
+    paths-ignore:
+      - '**.md'
+      - '**.drawio'
+      - '**actions.yml'
+      - '**.bkp'
+      - '.github\workflows\**'
     branches:
       - main
-  pull_request:
+      - dev
+      - 'release/v[0-9].[0-9]'
+
+
 permissions:
       id-token: write # This is required for aws oidc connection
       contents: read # This is required for actions/checkout
@@ -11,17 +48,76 @@ permissions:
 env:
   TF_LOG: INFO
   AWS_REGION: ${{ secrets.AWS_REGION }}
+
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment: DEV
     defaults:
       run:
         shell: bash
         working-directory: .
     steps:
-      - name: Git checkout
+      - name: Determine ref_branch
+        id: set_ref_branch
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event_name }}" = "push" ]; then
+            echo "::set-output name=ref_branch::${{ github.ref }}"
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "::set-output name=ref_branch::${{ github.base_ref }}"
+          fi
+
+      - name: Check if manually triggered
+        id: manual_trigger
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "::set-output name=triggered::true"
+          else
+            echo "::set-output name=triggered::false"
+          fi
+
+      - name: Choose ENV by branch name
+        id: branch_check
+        run: |
+          echo "Running on branch ${{ github.ref }}"
+          if [ "${{ steps.manual_trigger.outputs.triggered }}" = "true" ]; then
+            echo "::set-output name=env_name::${{ github.event.inputs.deploy_target }}"
+          elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "main" ]; then
+            echo "::set-output name=env_name::QA"
+          elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "refs/heads/dev" ]; then
+            echo "::set-output name=env_name::DEV"
+          elif [[ "${{ steps.set_ref_branch.outputs.ref_branch }}" == refs/tags/* ]]; then
+            echo "::set-output name=env_name::PROD"
+          else
+            echo "::set-output name=env_name::DEV"
+          fi
+            
+      - name: Output ENV
+        run: echo "I'm using variable ${{ steps.branch_check.outputs.env_name }}"
+
+      - name: Output branch
+        run: echo "I'm using variable ${{ steps.set_ref_branch.outputs.ref_branch }}"
+        
+    outputs:
+      env_name: ${{ steps.branch_check.outputs.env_name }}
+      ref_branch: ${{ steps.set_ref_branch.outputs.ref_branch }}
+    
+  deploy:
+    needs: [build]
+    if: |
+      ${{ github.event_name }} == "workflow_dispatch" || ${{ needs.build.outputs.ref_branch }} == 'refs/heads/dev' || ${{ github.event.pull_request.merged }} == true)
+   
+    name: Deploy services to AWS
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.deploy_target || needs.build.outputs.env_name }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
+      - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.build.outputs.ref_branch }}
 
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v1
@@ -54,7 +150,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
-        if: github.event_name == 'pull_request'
+        # if: github.event_name == 'pull_request'
         continue-on-error: true
 
       - uses: actions/github-script@v6
@@ -98,6 +194,6 @@ jobs:
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      - name: Terraform Apply to default account
+        # if: github.event_name == 'pull_request' || github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
