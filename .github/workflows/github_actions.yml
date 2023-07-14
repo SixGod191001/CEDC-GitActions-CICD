@@ -16,15 +16,6 @@ on:
       #   required: true
       #   default: 'dev'
 
-  push:
-    paths-ignore:
-      - '**.md'
-      - '**.drawio'
-      - '**actions.yml'
-      - '**.bkp'
-      - '.github\workflows\**'
-    branches:
-      - dev
 
   pull_request:
     types:
@@ -60,7 +51,7 @@ jobs:
       - name: Determine ref_branch
         id: set_ref_branch
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event_name }}" = "push" ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "::set-output name=ref_branch::${{ github.ref }}"
           elif [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "::set-output name=ref_branch::${{ github.base_ref }}"
