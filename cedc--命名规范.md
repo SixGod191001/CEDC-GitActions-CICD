@@ -17,6 +17,5 @@ Glue：
 ​		cedc-data-to-s3-processing-user-glue-job--ap-northeast-1-dev	-----处理后的数据传到s3(target)
 
 
-
 可更改：user
 
