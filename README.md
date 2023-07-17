@@ -96,82 +96,85 @@ Usecase:
 6. Step Functions
 call glue
 
-7. Github CICD integration in AWS
-  
-- a. Create an OpenID Connect provider
 
-  - url: token.actions.githubusercontent.com
-  - audience： sts.amazonaws.com  
-- b. Create an IAM role
-  
- - {
+   ## Github CICD integration in AWS
 
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "Statement1",
-            "Effect": "Allow",
-            "Principal": {
-                "Federated": "arn:aws:iam::875120157787:oidc-provider/token.actions.githubusercontent.com"
-            },
-            "Action": "sts:AssumeRoleWithWebIdentity",
-            "Condition": {
-                "StringLike": {
-                    "token.actions.githubusercontent.com:sub": "repo:SixGod191001/CEDC-GitActions-CICD:*"
-                }
-            }
+To integrate Github CICD with AWS, follow these steps:
+
+a. Create an OpenID Connect provider with the following configuration:
+```
+   - URL: `token.actions.githubusercontent.com`
+   - Audience: `sts.amazonaws.com`
+```
+b. Create an IAM role with the following trust policy:
+```
+   {
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Statement1",
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::875120157787:oidc-provider/token.actions.githubusercontent.com"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringLike": {
+          "token.actions.githubusercontent.com:sub": "repo:SixGod191001/CEDC-GitActions-CICD:*"
         }
-    ]
- }
-
-
--c. Create policy
-
--name: github-action-service-terroform-tfstates-s3-access
-
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "Statement1",
-            "Effect": "Allow",
-            "Action": [
-                "s3:PutObject",
-                "s3:GetObject",
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::github-actions-terraform-tfstates/*",
-                "arn:aws:s3:::github-actions-terraform-tfstates"
-            ]
-        }
-    ]
- }
-
--name: github-actions-terraform-allow-service
-
-
-{
-
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "Statement1",
-            "Effect": "Allow",
-            "Action": [
-                "states:*",
-                "secretsmanager:*",
-                "ssm:*"
-            ],
-            "Resource": "*"
-        }
-    ]
+      }
+    }
+  ]
 }
+```
+This policy allows the role to be assumed by any user authenticated by the OpenID Connect provider for the repository `SixGod191001/CEDC-GitActions-CICD`.
 
+c. Create two policies with the following permissions:
+- `github-action-service-terroform-tfstates-s3-access`: Allows S3 `PutObject`, `GetObject`, and `ListBucket` operations for the `github-actions-terraform-tfstates` S3 bucket.
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Statement1",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::github-actions-terraform-tfstates/*",
+        "arn:aws:s3:::github-actions-terraform-tfstates"
+      ]
+    }
+  ]
+}
+````
 
-- d. Create an S3 bucket to restore statesfile
-  
-8. CICD Workflow
+- `github-actions-terraform-allow-service`: Allows access to AWS resources required by Github Actions, such as `states:`, `secretsmanager:`, and `ssm:`. The actual resources this policy grants access to should be specified based on your use case.
+````
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Statement1",
+      "Effect": "Allow",
+      "Action": [
+        "states:",
+        "secretsmanager:",
+        "ssm:"
+      ],
+      "Resource": ""
+    }
+  ]
+}
+````
+
+d. Create an S3 bucket to store the state file.
+
+ ## CICD Workflow  
+ ```
       ┌────────────────┐
       │   Feature Env  │
       │     (Branch)   │
