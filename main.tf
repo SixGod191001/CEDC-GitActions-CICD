@@ -5,7 +5,7 @@ resource "aws_ssm_parameter" "foo" {
 }
 
 module sf {
-  source  = "./cedc-terraform-development/applications/regional/landing"
+  source  = "gitlab.com/cedc-terraform-development/applications/regional/landing"
   description = "Simple data module for getting current external IP address"
   version = "1.0.0"
 }
