@@ -1,5 +1,5 @@
 resource "aws_ssm_parameter" "foo" {
     name = "foo"
     type = "String"
-    value = "changedOnFeature3"
+    value = "changedOnFeature5"
 }
