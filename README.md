@@ -97,11 +97,14 @@ Usecase:
 call glue
 
 7. Github CICD integration in AWS
+  
 - a. Create an OpenID Connect provider
   - url: token.actions.githubusercontent.com
   - audience： sts.amazonaws.com  
 - b. Create an IAM role
-    - "Version": "2012-10-17",
+  
+ - {
+    "Version": "2012-10-17",
     "Statement": [
         {
             "Sid": "Statement1",
@@ -117,7 +120,7 @@ call glue
             }
         }
     ]
-}
+ }
 
 - c. Create policy
 
@@ -139,7 +142,7 @@ call glue
             ]
         }
     ]
-}
+ }
 
   - name: github-actions-terraform-allow-service 
   - {
@@ -159,3 +162,30 @@ call glue
 }
 
 - d. Create an S3 bucket to restore statesfile
+  
+8. CICD Workflow
+      ┌────────────────┐
+      │   Feature Env  │
+      │     (Branch)   │
+      └────────────────┘
+             │
+             ▼
+      ┌────────────────┐ ◀── Pull Request
+      │   Dev Env      │
+      │  (Branch: dev) │
+      │ (aws:cedc_glue)│
+      └────────────────┘
+             │
+             ▼
+      ┌────────────────┐    Pull Request
+      │   QA Env       │◀── With Reviewer
+      │ (Branch: main) │
+      │    (Jacky)     │
+      └────────────────┘
+             │
+             ▼
+      ┌────────────────┐    Release Request
+      │   Prod Env     │◀── With Approval
+      │ (Branch: tag)  │
+      │     (Cui)      │
+      └────────────────┘
