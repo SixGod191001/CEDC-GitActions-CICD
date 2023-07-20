@@ -1,23 +1,20 @@
 variable "role_name" {
+  description = "The name of the IAM role"
   type        = string
-  description = "Name of the IAM role"
-  default     = "gitactions_eventbridge_role"
 }
 
-variable "policy_name" {
+variable "assume_role_policy"{
+  description = "trust policy"
   type        = string
-  description = "Name of the IAM policy"
-  default     = "gitactions_lambda_execution_policy"
 }
 
-variable "policy_description" {
-  type        = string
-  description = "Description of the IAM policy"
-  default     = "Policy for Lambda Execution"
-}
 
-variable "policy_actions" {
+variable "policy_names" {
+  description = "A list of policy names"
   type        = list(string)
-  description = "List of actions allowed by the IAM policy"
-  default     = ["lambda:InvokeFunction"]
+}
+
+variable "policy_contents" {
+  description = "A list of policy contents"
+  type        = list(string)
 }
