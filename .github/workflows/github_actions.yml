@@ -110,6 +110,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ needs.build.outputs.ref_branch }}
+          submodules: true
       
       - name: Print directory structure
         run: find . -type d -o -type f
@@ -137,7 +138,7 @@ jobs:
           AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
           AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
         run: terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
-
+      
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
