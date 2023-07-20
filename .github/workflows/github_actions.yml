@@ -34,11 +34,12 @@ on:
 
 permissions:
       id-token: write # This is required for aws oidc connection
-      contents: read # This is required for actions/checkout
+      contents: write # This is required for actions/checkout and wirte the output.tf
       pull-requests: write # This is required for gh bot to comment PR
 env:
   TF_LOG: INFO
   AWS_REGION: ${{ secrets.AWS_REGION }}
+  
 
 jobs:
   build:
@@ -109,6 +110,9 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ needs.build.outputs.ref_branch }}
+      
+      - name: Print directory structure
+        run: find . -type d
 
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v1
