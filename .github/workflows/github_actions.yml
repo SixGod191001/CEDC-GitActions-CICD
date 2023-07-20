@@ -110,6 +110,9 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ needs.build.outputs.ref_branch }}
+      
+      - name: Print directory structure
+        run: find . -type d
 
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v1
