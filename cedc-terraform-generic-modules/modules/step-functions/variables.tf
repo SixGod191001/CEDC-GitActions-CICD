@@ -18,7 +18,7 @@ variable "tags" {
   type        = map(string)
 }
 
-variable "depends_on" {
+variable "depends_on_resource" {
   description = "A list of resources that the state machine depends on"
   type        = list(string)
 }
