@@ -15,11 +15,9 @@
 #
 #$(for dir in $directories; do
 #    module_name=$(echo "$dir" | sed -e 's/[^a-zA-Z0-9]/_/g' -e 's/^.*\///')
+#    module_name=$(echo "$module_name" | sed 's/^__//')
 #    echo "module \"${module_name}\" {"
 #    echo "  source = \"${dir}\""
-#    echo "  bucket = var.bucket"
-#    echo "  key    = var.key"
-#    echo "  region = var.region"
 #    echo "}"
 #done)
 #EOF
