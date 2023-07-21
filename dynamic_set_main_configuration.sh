@@ -8,9 +8,10 @@ cat << EOF > main.tf
 variable "subdirectories" {
   type    = list(string)
   default = [
-$(echo "$directories" | awk '{printf "    \"%s\",\n", $0}' | sed 's/,$//')
+$(echo "$directories" | awk '{print " \""$0"\","}' | sed '$s/,$//')
   ]
 }
+
 
 $(for dir in $directories; do
     module_name=$(echo "$dir" | sed -e 's/[^a-zA-Z0-9]/_/g' -e 's/^.*\///')
