@@ -1,3 +1,4 @@
+bash
 #!/bin/bash
 
 # 获取所有符合模糊匹配的子目录
@@ -15,3 +16,6 @@ module "development" {
   count  = length(var.subdirectories)
 }
 EOF
+
+# 打印生成的文件内容
+cat main.tf
