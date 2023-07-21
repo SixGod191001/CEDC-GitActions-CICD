@@ -200,23 +200,29 @@ d. Create an S3 bucket to store the state file.
       │ (Branch: tag)  │
       │     (Cui)      │
       └────────────────┘
-````
 
-## CICD WorkflowCEDC——命名规范
-<项目名>-<功能>--<地区/aws区域>-<环境>
+ ```
+## CEDC——命名规范
+```
+<项目名>-<功能>-<姓名>
 
-EventBridge：cedc-event-schedule-trigger-lambda-user-ap-northeast-1-dev
+EventBridge：cedc-eventbridge-trigger-lambda-yourname
 
-Lambda：cedc-lambda-trigger-sfn-user-ap-northeast-1-dev
+Lambda：cedc-lambda-trigger-sfn-yourname
 
-step Functions：cedc-sm-workflow-glue-job-pyspark-user-ap-northeast-1-dev
+step Functions：cedc-sfn-workflow-glue-job-yourname
 
-Glue：
+<项目名>-<数据来源>-<功能>-<姓名>
 
-​ cedc-read-s3-data-user-glue-job--ap-northeast-1-dev ----- 从s3读取数据(source)
+Glue：cedc-s3-read-s3-data-glue-job-yourname	----- 从s3读取数据(source)
 
-​ cedc-data-processing-user-glue-job--ap-northeast-1-dev ----数据处理(workflow)
 
-​ cedc-data-to-s3-processing-user-glue-job--ap-northeast-1-dev -----处理后的数据传到s3(target)
+注：                    
+1)数据来源包含s3/postgre   
+2)sfn:stepFunctions缩写             
+3)姓名使用英文小写，两字姓名全拼，两字及以上使用后两字全拼                       
+eg：张三--zhangsan，李小四--xiaosi
 
-注释--可更改：user
+
+```
+
