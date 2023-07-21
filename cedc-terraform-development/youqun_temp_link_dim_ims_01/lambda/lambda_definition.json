@@ -1,0 +1,11 @@
+{
+    "Comment": "A simple example of Step Functions",
+    "StartAt": "Hello",
+    "States": {
+      "Hello": {
+        "Type": "Pass",
+        "Result": "Hello, Step Functions!",
+        "End": true
+      }
+    }
+  }
