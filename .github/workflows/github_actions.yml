@@ -147,11 +147,11 @@ jobs:
       
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: terraform validate -no-color -var="bucket=${AWS_BUCKET_NAME}" -var="key=${AWS_BUCKET_KEY_NAME}" -var="region=${AWS_REGION}"
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color
+        run: terraform plan -no-color -var="bucket=${AWS_BUCKET_NAME}" -var="key=${AWS_BUCKET_KEY_NAME}" -var="region=${AWS_REGION}"
         # if: github.event_name == 'pull_request'
         continue-on-error: true
 
@@ -198,4 +198,4 @@ jobs:
 
       - name: Terraform Apply to default account
         # if: github.event_name == 'pull_request'
-        run: terraform apply -auto-approve -input=false
+        run: terraform apply -auto-approve -var="bucket=${AWS_BUCKET_NAME}" -var="key=${AWS_BUCKET_KEY_NAME}" -var="region=${AWS_REGION}" 
