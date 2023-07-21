@@ -17,8 +17,3 @@ variable "tags" {
   description = "A map of tags for the state machine"
   type        = map(string)
 }
-
-variable "depends_on_resource" {
-  description = "A list of resources that the state machine depends on"
-  type        = list(string)
-}
