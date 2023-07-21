@@ -146,7 +146,7 @@ jobs:
       
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color -var="bucket=${AWS_BUCKET_NAME}" -var="key=${AWS_BUCKET_KEY_NAME}" -var="region=${AWS_REGION}"
+        run: terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
