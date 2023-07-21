@@ -14,7 +14,7 @@ $(echo "$directories" | awk '{printf "    \"%s\",\n", $0}' | sed 's/,$//')
 
 $(for dir in $directories; do
     module_name=$(echo "$dir" | sed -e 's/[^a-zA-Z0-9]/_/g' -e 's/^.*\///')
-    echo "module \"cedc_terraform_development_${module_name}\" {"
+    echo "module \"${module_name}\" {"
     echo "  source = \"${dir}\""
     echo "}"
 done)
