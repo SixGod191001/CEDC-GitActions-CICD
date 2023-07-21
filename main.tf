@@ -1,9 +1,8 @@
 locals {
-  module_directories = fileset(path.cwd, "cedc-terraform-development/*/")
+  subdirectories = fileset(path.cwd, "./cedc-terraform-development/*/")
 }
 
 module "development" {
-  source = "./cedc-terraform-development"
-  for_each = local.module_directories
-  name = each.key
+  source = element(local.subdirectories, count.index)
+  count  = length(local.subdirectories)
 }
