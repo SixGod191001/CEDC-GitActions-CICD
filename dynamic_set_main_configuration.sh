@@ -1,4 +1,3 @@
-bash
 #!/bin/bash
 
 # 获取符合条件的所有 .tf 文件的父级目录路径
@@ -12,6 +11,13 @@ variable "subdirectories" {
 $(echo "$directories" | awk '{printf "    \"%s\",\n", $0}' | sed 's/,$//')
   ]
 }
+
+$(for dir in $directories; do
+    module_name=$(echo "$dir" | sed -e 's/[^a-zA-Z0-9]/_/g' -e 's/^.*\///')
+    echo "module \"cedc_terraform_development_${module_name}\" {"
+    echo "  source = \"${dir}\""
+    echo "}"
+done)
 EOF
 
 # 打印生成的文件内容
