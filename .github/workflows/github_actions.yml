@@ -115,6 +115,10 @@ jobs:
       - name: Print directory structure
         run: find . -type d -o -type f
 
+      - name: Dynamic set main configuration
+        run: |
+          bash ./dynamic_set_main_configuration.sh
+
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v1
         with:
