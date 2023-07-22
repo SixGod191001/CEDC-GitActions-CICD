@@ -13,8 +13,8 @@ def temp_ym():
     fact_ims_city_df = sk.read.csv("s3 source fact_ims_city path",sep=',',header=True)
     fact_cpa_df = sk.read.csv("s3 source fact_ims_city path",sep=',',header=True)
     # 找到列名为ym 并使用1作为join key
-    fact_ims_city_df_ym = fact_ims_city_df.selectExpr('ym','1 as joinkey')
-    fact_cpa_df_ym = fact_cpa_df.selectExpr('ym','1 as joinkey')
+    fact_ims_city_df_ym = fact_ims_city_df.selectExpr('ym','1 as joinkey').dropDuplicates()
+    fact_cpa_df_ym = fact_cpa_df.selectExpr('ym','1 as joinkey').dropDuplicates()
     # 进行union操作
     temp_ym_union = fact_cpa_df_ym.union(fact_ims_city_df_ym)
     # 将 DataFrame 写入 s3 target temp_ym 文件
