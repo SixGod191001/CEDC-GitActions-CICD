@@ -1,18 +1,18 @@
-data "aws_iam_role" "state_machine_role" {
-  count = var.role_exists ? 1 : 0
-  name  = var.role_name
+locals {
+  use_data_block = can(data.aws_iam_role.state_machine_role)
+  role_arn       = local.use_data_block ? data.aws_iam_role.state_machine_role.arn : ""
 }
 
-resource "null_resource" "dependency" {
-  depends_on = [data.aws_iam_role.state_machine_role]
+data "aws_iam_role" "state_machine_role" {
+  name = var.role_name
 }
 
 resource "aws_sfn_state_machine" "aws_sfn_state_machine" {
-  name        = var.state_machine_name
-  role_arn    = var.role_exists ? data.aws_iam_role.state_machine_role[0].arn : ""
-  definition  = var.definition
-  tags        = var.tags
+  name       = var.state_machine_name
+  role_arn   = local.role_arn
+  definition = var.definition
+  tags       = var.tags
   depends_on = [
-    null_resource.dependency
+    data.aws_iam_role.state_machine_role
   ]
 }
