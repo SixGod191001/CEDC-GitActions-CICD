@@ -1,8 +1,14 @@
 module "state_machine" {
-  source            = "../../cedc-terraform-generic-modules/modules/eventbridge"
-  eventbridgename = "aws_sfn_state_machine"
-  role_arn          = aws_iam_role.eventbridge_execute_role.arn
-  definition        = file("${path.module}/state_machine_definition.json")
-  tags              = { "project" = "CEDC" }
-  depends_on        = [aws_iam_role.step_functions_execute_role]
+  source          = "../../cedc-terraform-generic-modules/modules/eventbridge"
+  eventbridgename = "cedc-eventbridge-trigger-lambda-xy"
+  role_arn        = aws_iam_role.eventbridge_execute_role.arn
+  description     = "input sfn name to Trigger Lambda every five minutes"
+  schedule_expression = "rate(5 minutes)"
+  event_pattern   = <<EOF
+                    {
+                      "detail": {
+                        "state_machine_name": ["cedc-sm-workflow-glue-job-xy"]
+                      }
+                    }
+                    EOF
 }
