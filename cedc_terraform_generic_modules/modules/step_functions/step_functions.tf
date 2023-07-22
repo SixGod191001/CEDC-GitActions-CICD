@@ -1,5 +1,6 @@
 data "aws_iam_role" "state_machine_role" {
-  name = var.role_name
+  count = var.role_exists ? 1 : 0
+  name  = var.role_name
 }
 
 resource "null_resource" "dependency" {
@@ -8,7 +9,7 @@ resource "null_resource" "dependency" {
 
 resource "aws_sfn_state_machine" "aws_sfn_state_machine" {
   name        = var.state_machine_name
-  role_arn    = data.aws_iam_role.state_machine_role.arn
+  role_arn    = var.role_exists ? data.aws_iam_role.state_machine_role[0].arn : ""
   definition  = var.definition
   tags        = var.tags
   depends_on = [
