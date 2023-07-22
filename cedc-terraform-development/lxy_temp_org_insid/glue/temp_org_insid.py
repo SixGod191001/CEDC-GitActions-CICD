@@ -3,7 +3,7 @@ from pyspark.context import SparkContext
 from pyspark.sql import SparkSession
 
 
-def temp_ym():
+def temp_org_insid():
     # 创建 对象
     sk = SparkSession.builder \
         .appName("Read data from S3 to data processing") \
