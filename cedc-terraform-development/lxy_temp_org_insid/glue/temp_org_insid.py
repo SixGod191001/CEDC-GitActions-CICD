@@ -17,4 +17,4 @@ def temp_org_insid():
     # 查找想要字段
     join_df.selectExpr('ym','insid','brandcode','citycode','provincecode','rsm_code', 'dsm_code', 'mr_code', 'dsm', 'rsm','mr','team','region','rsd_code','rsd') \
         .write \
-        .csv("s3 target temp_ym table path")
+        .csv("s3 target temp_org_insid table path")
