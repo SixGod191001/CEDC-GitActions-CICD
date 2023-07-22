@@ -5,3 +5,10 @@ module "state_machine" {
   definition        = file("${path.module}/state_machine_definition.json")
   tags              = { "project" = "CEDC" }
 }
+
+# please input the dependencies path from content root
+variable "dependencies" {
+  type    = list(string)
+  default = ["cedc_terraform_development/cedc_step_functions_iam_common"]
+}
+
