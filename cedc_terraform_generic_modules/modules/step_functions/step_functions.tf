@@ -1,5 +1,8 @@
 data "aws_iam_role" "state_machine_role" {
   name = var.role_name
+  lifecycle {
+    ignore_changes = [name]
+  }
 }
 
 resource "null_resource" "dependency" {
