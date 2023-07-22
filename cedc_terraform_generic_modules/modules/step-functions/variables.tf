@@ -3,8 +3,8 @@ variable "state_machine_name" {
   type        = string
 }
 
-variable "role_arn" {
-  description = "The ARN of the IAM role"
+variable "role_name" {
+  description = "The name of the IAM role"
   type        = string
 }
 
