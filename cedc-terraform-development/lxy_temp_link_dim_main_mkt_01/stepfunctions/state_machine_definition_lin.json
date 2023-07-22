@@ -36,13 +36,13 @@
         "Comment": "A Wait state delays the state machine from continuing for a specified time.",
         "Type": "Wait",
         "Seconds": 3,
-        "Next": "call cedc-demo-glue-job-2"
+        "Next": "call cedc-s3-read-s3-data-glue-job-xy"
       },
       "call cedc-demo-glue-job-2": {
         "Type": "Task",
         "Resource": "arn:aws:states:::glue:startJobRun",
         "Parameters": {
-          "JobName": "cedc-demo-glue-job-2"
+          "JobName": "cedc-s3-read-s3-data-glue-job-xy"
         },
         "Next": "Parallel State"
       },
