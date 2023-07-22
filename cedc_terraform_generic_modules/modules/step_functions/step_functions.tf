@@ -1,18 +1,14 @@
-locals {
-  use_data_block = can(data.aws_iam_role.state_machine_role)
-  role_arn       = local.use_data_block ? data.aws_iam_role.state_machine_role.arn : ""
-}
-
-data "aws_iam_role" "state_machine_role" {
-  name = var.role_name
-}
+#data "aws_iam_role" "state_machine_role" {
+#  name = var.role_name
+#}
 
 resource "aws_sfn_state_machine" "aws_sfn_state_machine" {
   name       = var.state_machine_name
-  role_arn   = local.role_arn
+#  role_arn   = data.aws_iam_role.state_machine_role.arn
+  role_arn   = module.cedc_terraform_development_cedc_step_functions_iam_common.module.step_functions_iam_role.aws_iam_role.iam_role.arn
   definition = var.definition
   tags       = var.tags
   depends_on = [
-    data.aws_iam_role.state_machine_role
+    module.cedc_terraform_development_cedc_step_functions_iam_common.module.step_functions_iam_role.aws_iam_role.iam_role
   ]
 }
