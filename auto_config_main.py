@@ -47,10 +47,11 @@ for k, v in mapping.items():
         else:
             print(f"Dependencies not found in the {os.path.join(k, i)}.")
     if len(dependencies) != 0:
-        content += ' depends_on = [' + ', '.join(['"{0}"'.format(rename_path(element)) for element in dependencies]) + ']\n'
+        content += ' depends_on = [' + ', '.join(['module.{0}'.format(rename_path(element)) for element in dependencies]) + ']\n'
     content += '}\n\n'
 
 with open('./main.tf', 'w') as file:
     file.write(content)
 
+print(content)
 print("Content written to main.tf successfully.")
