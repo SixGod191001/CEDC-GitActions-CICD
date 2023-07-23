@@ -53,4 +53,5 @@ for k, v in mapping.items():
 with open('./main.tf', 'w') as file:
     file.write(content)
 
+print(content)
 print("Content written to main.tf successfully.")
