@@ -38,11 +38,51 @@
         "Seconds": 3,
         "Next": "call cedc-s3-read-s3-data-glue-job-xy"
       },
-      "call cedc-demo-glue-job-2": {
+      "call cedc-temp_ym-glue-job-xy": {
         "Type": "Task",
         "Resource": "arn:aws:states:::glue:startJobRun",
         "Parameters": {
-          "JobName": "cedc-s3-read-s3-data-glue-job-xy"
+          "JobName": "cedc-temp_ym-glue-job-xy"
+        },
+        "Next": "cedc-temp_org_insid-glue-job-xy"
+      },
+      "call cedc-temp_org_insid-glue-job-xy": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::glue:startJobRun",
+        "Parameters": {
+          "JobName": "cedc-temp_org_insid-glue-job-xy"
+        },
+        "Next": "cedc-temp_org_noinsid-glue-job-xy"
+      },
+      "call cedc-temp_org_noinsid-glue-job-xy": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::glue:startJobRun",
+        "Parameters": {
+          "JobName": "cedc-temp_org_noinsid-glue-job-xy"
+        },
+        "Next": "cedc-temp_link_dim_main_mkt_01-glue-job-xy"
+      },
+      "call cedc-temp_link_dim_main_mkt_01-glue-job-xy": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::glue:startJobRun",
+        "Parameters": {
+          "JobName": "cedc-temp_link_dim_main_mkt_01-glue-job-xy"
+        },
+        "Next": "cedc-temp_link_dim_main_mkt_02-glue-job-xy"
+      },
+      "call cedc-temp_link_dim_main_mkt_02-glue-job-xy": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::glue:startJobRun",
+        "Parameters": {
+          "JobName": "cedc-temp_link_dim_main_mkt_02-glue-job-xy"
+        },
+        "Next": "cedc-link_dim_main_mkt-glue-job-xy"
+      },
+      "call cedc-link_dim_main_mkt-glue-job-xy": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::glue:startJobRun",
+        "Parameters": {
+          "JobName": "cedc-link_dim_main_mkt-glue-job-xy"
         },
         "Next": "Parallel State"
       },
