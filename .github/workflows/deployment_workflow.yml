@@ -120,7 +120,7 @@ jobs:
 
       - name: Dynamic set main configuration
         run: |
-          bash ./dynamic_set_main_configuration.sh
+          python ./auto_config_main.py
 
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v1
