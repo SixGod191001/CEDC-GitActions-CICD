@@ -17,3 +17,8 @@ variable "tags" {
   description = "A map of tags for the state machine"
   type        = map(string)
 }
+
+variable "dependencies" {
+  type    = list(string)
+  default = []
+}
