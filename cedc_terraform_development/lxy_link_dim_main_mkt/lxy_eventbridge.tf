@@ -1,7 +1,7 @@
 module "aws_cloudwatch_event_rule_xy" {
   source          = "../../cedc_terraform_generic_modules/modules/cloud_watch_event"
   eventbridgename = "cedc-eventbridge-trigger-lambda-xy"
-  # role_arn        = aws_cloudwatch_event_rule.event_rule.arn
+  role_arn        = eventbridge_invoke_lambda_iam_role.arn
   description     = "input sfn name to Trigger Lambda every five minutes"
   schedule_expression = "rate(5 minutes)"  # 每五分钟触发一次
   event_pattern = <<PATTERN
@@ -14,6 +14,6 @@ module "aws_cloudwatch_event_rule_xy" {
 }
 PATTERN
   target {
-    arn = aws_lambda_function.my_lambda_function.arn
+    arn = lambda_to_stepfunctions_iam_role.arn
   }
 }
