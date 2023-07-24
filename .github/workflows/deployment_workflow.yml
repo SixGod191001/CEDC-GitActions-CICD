@@ -15,8 +15,13 @@ on:
       #   description: 'Select branch or tag to deploy'
       #   required: true
       #   default: 'dev'
-
-
+  push:
+    branches:
+      - 'feature**'
+    paths:
+      - '**.tf'
+      - '**.json'
+      
   pull_request:
     types:
       - closed
