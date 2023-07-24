@@ -13,4 +13,4 @@ def link_dim_main_mkt():
     # 查找想要字段
     temp_link_dim_main_mkt_02_df.selectExpr('ym','citycode','ims_citycode','defined_mkt','brandcode','insid','insid_aspen','provincecode','rsm_code','rsm','rsd_code','rsd','region','dsm_code','dsm','mr_code','mr','team') \
         .write \
-        .csv("s3 target link_dim_main_mkt table path")
+        .csv("s3 target lxy_link_dim_main_mkt table path")
