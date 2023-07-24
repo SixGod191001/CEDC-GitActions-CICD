@@ -1,0 +1,202 @@
+name: "Git Actions - Terraform - Deployment Workflow"
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_target:
+        description: 'Deployment environment'
+        required: true
+        default: 'DEV'
+        options:
+          - 'DEV' # dev branch and aws dev account
+          - 'QA'  # main branch and aws qa account
+          - 'PROD' # release branch and aws prod account
+      # branch:
+      #   description: 'Select branch or tag to deploy'
+      #   required: true
+      #   default: 'dev'
+
+
+  pull_request:
+    types:
+      - closed
+    paths-ignore:
+      - '**.md'
+      - '**.sh'
+      - '**.drawio'
+      - '**actions.yml'
+      - '**.bkp'
+      - '.github\workflows\**'
+    branches:
+      - main
+      - dev
+      # - 'release/v[0-9].[0-9]'  release 分支只能手动触发发布
+
+
+permissions:
+      id-token: write # This is required for aws oidc connection
+      contents: write # This is required for actions/checkout and wirte the output.tf
+      pull-requests: write # This is required for gh bot to comment PR
+env:
+  TF_LOG: INFO
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+  AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
+  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
+      - name: Determine ref_branch
+        id: set_ref_branch
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "::set-output name=ref_branch::${{ github.ref }}"
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "::set-output name=ref_branch::${{ github.base_ref }}"
+          fi
+
+      - name: Check if manually triggered
+        id: manual_trigger
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "::set-output name=triggered::true"
+          else
+            echo "::set-output name=triggered::false"
+          fi
+
+      - name: Choose ENV by branch name
+        id: branch_check
+        run: |
+          echo "Running on branch ${{ github.ref }}"
+          if [ "${{ steps.manual_trigger.outputs.triggered }}" = "true" ]; then
+            echo "::set-output name=env_name::${{ github.event.inputs.deploy_target }}"
+          elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "main" ]; then
+            echo "::set-output name=env_name::QA"
+          elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "dev" ]; then
+            echo "::set-output name=env_name::DEV"
+          elif [[ "${{ steps.set_ref_branch.outputs.ref_branch }}" == refs/tags/* ]]; then
+            echo "::set-output name=env_name::PROD"
+          else
+            echo "::set-output name=env_name::DEV"
+          fi
+            
+      - name: Output ENV
+        run: echo "I'm using variable ${{ steps.branch_check.outputs.env_name }}"
+
+      - name: Output branch
+        run: echo "I'm using variable ${{ steps.set_ref_branch.outputs.ref_branch }}"
+        
+    outputs:
+      env_name: ${{ steps.branch_check.outputs.env_name }}
+      ref_branch: ${{ steps.set_ref_branch.outputs.ref_branch }}
+    
+  deploy:
+    needs: [build]
+    if: |
+      ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
+   
+    name: Deploy services to AWS
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.deploy_target || needs.build.outputs.env_name }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.build.outputs.ref_branch }}
+          submodules: true
+      
+      - name: Print directory structure
+        run: find . -type d -o -type f
+
+      - name: Dynamic set main configuration
+        run: |
+          python ./auto_config_main.py
+
+      - name: Configure AWS credentials from AWS account
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-session-name: GitHub-Actions-TERRAFORM
+      
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+#        with:
+#          terraform_version: 1.5.3
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+  
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
+      
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+#        run: terraform plan -no-color -var="bucket=${AWS_BUCKET_NAME}" -var="key=${AWS_BUCKET_KEY_NAME}" -var="region=${AWS_REGION}"
+        # if: github.event_name == 'pull_request'
+        continue-on-error: true
+
+      - uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            <details><summary>Validation Output</summary>
+
+            \`\`\`\n
+            ${{ steps.validate.outputs.stdout }}
+            \`\`\`
+
+            </details>
+
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+
+            </details>
+
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Terraform Apply to default account
+        # if: github.event_name == 'pull_request'
+        run: terraform apply -auto-approve
+#        run: terraform apply -auto-approve -var="bucket=${AWS_BUCKET_NAME}" -var="key=${AWS_BUCKET_KEY_NAME}" -var="region=${AWS_REGION}"

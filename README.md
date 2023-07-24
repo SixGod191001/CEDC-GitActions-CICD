@@ -96,66 +96,133 @@ Usecase:
 6. Step Functions
 call glue
 
-7. Github CICD integration in AWS
-- a. Create an OpenID Connect provider
-  - url: token.actions.githubusercontent.com
-  - audience： sts.amazonaws.com  
-- b. Create an IAM role
-    - "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "Statement1",
-            "Effect": "Allow",
-            "Principal": {
-                "Federated": "arn:aws:iam::875120157787:oidc-provider/token.actions.githubusercontent.com"
-            },
-            "Action": "sts:AssumeRoleWithWebIdentity",
-            "Condition": {
-                "StringLike": {
-                    "token.actions.githubusercontent.com:sub": "repo:SixGod191001/CEDC-GitActions-CICD:*"
-                }
-            }
+
+   ## Github CICD integration in AWS
+
+To integrate Github CICD with AWS, follow these steps:
+
+a. Create an OpenID Connect provider with the following configuration:
+```
+   - URL: `token.actions.githubusercontent.com`
+   - Audience: `sts.amazonaws.com`
+```
+b. Create an IAM role with the following trust policy:
+```
+   {
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Statement1",
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::875120157787:oidc-provider/token.actions.githubusercontent.com"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringLike": {
+          "token.actions.githubusercontent.com:sub": "repo:SixGod191001/CEDC-GitActions-CICD:*"
         }
-    ]
+      }
+    }
+  ]
 }
+```
+This policy allows the role to be assumed by any user authenticated by the OpenID Connect provider for the repository `SixGod191001/CEDC-GitActions-CICD`.
 
-- c. Create policy
-
-  - name: github-action-service-terroform-tfstates-s3-access
-  - {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "Statement1",
-            "Effect": "Allow",
-            "Action": [
-                "s3:PutObject",
-                "s3:GetObject",
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::github-actions-terraform-tfstates/*",
-                "arn:aws:s3:::github-actions-terraform-tfstates"
-            ]
-        }
-    ]
+c. Create two policies with the following permissions:
+- `github-action-service-terroform-tfstates-s3-access`: Allows S3 `PutObject`, `GetObject`, and `ListBucket` operations for the `github-actions-terraform-tfstates` S3 bucket.
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Statement1",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::github-actions-terraform-tfstates/*",
+        "arn:aws:s3:::github-actions-terraform-tfstates"
+      ]
+    }
+  ]
 }
+````
 
-  - name: github-actions-terraform-allow-service 
-  - {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "Statement1",
-            "Effect": "Allow",
-            "Action": [
-                "states:*",
-                "secretsmanager:*",
-                "ssm:*"
-            ],
-            "Resource": "*"
-        }
-    ]
+- `github-actions-terraform-allow-service`: Allows access to AWS resources required by Github Actions, such as `states:`, `secretsmanager:`, and `ssm:`. The actual resources this policy grants access to should be specified based on your use case.
+````
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Statement1",
+      "Effect": "Allow",
+      "Action": [
+        "states:",
+        "secretsmanager:",
+        "ssm:"
+      ],
+      "Resource": ""
+    }
+  ]
 }
+````
 
-- d. Create an S3 bucket to restore statesfile
+d. Create an S3 bucket to store the state file.
+
+ ## CICD Workflow  
+ ```
+      ┌────────────────┐
+      │   Feature Env  │
+      │     (Branch)   │
+      └────────────────┘
+             │
+             ▼
+      ┌────────────────┐ ◀── Pull Request
+      │   Dev Env      │
+      │  (Branch: dev) │
+      │ (aws:cedc_glue)│
+      └────────────────┘
+             │
+             ▼
+      ┌────────────────┐    Pull Request
+      │   QA Env       │◀── With Reviewer
+      │ (Branch: main) │
+      │    (Jacky)     │
+      └────────────────┘
+             │
+             ▼
+      ┌────────────────┐    Release Request
+      │   Prod Env     │◀── With Approval
+      │ (Branch: tag)  │
+      │     (Cui)      │
+      └────────────────┘
+
+ ```
+## CEDC——命名规范
+```
+<项目名>-<功能>-<姓名>
+
+EventBridge：cedc-eventbridge-trigger-lambda-yourname
+
+Lambda：cedc-lambda-trigger-sfn-yourname
+
+step Functions：cedc-sfn-workflow-glue-job-yourname
+
+<项目名>-<数据来源>-<功能>-<姓名>
+
+Glue：cedc-s3-read-s3-data-glue-job-yourname	----- 从s3读取数据(source)
+
+
+注：                    
+1)数据来源包含s3/postgre   
+2)sfn:stepFunctions缩写             
+3)姓名使用英文小写，两字姓名全拼，两字及以上使用后两字全拼                       
+eg：张三--zhangsan，李小四--xiaosi
+
+
+```
+
