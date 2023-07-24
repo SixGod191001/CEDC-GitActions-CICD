@@ -14,8 +14,12 @@ def lambda_handler(event, context):
     load_id = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S")
     response = sfn_client.start_execution(
         stateMachineArn=state_machine_arn,
-        name=f"{load_id}-{state_machine_name}"
+        name=f"{load_id}-{state_machine_name}",
+        input=json.dumps({
+            "load_id": load_id,
+            "state_machine_name": state_machine_name
+        })
     )
     return {
-        "成功启动{step_functions_name}:".format(state_machine_name)
+        "message: ""成功启动{}:".format(state_machine_name)
     }
