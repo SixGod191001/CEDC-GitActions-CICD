@@ -3,8 +3,8 @@ variable "state_machine_name" {
   type        = string
 }
 
-variable "role_arn" {
-  description = "The ARN of the IAM role"
+variable "role_name" {
+  description = "The name of the IAM role"
   type        = string
 }
 
@@ -18,7 +18,7 @@ variable "tags" {
   type        = map(string)
 }
 
-variable "depends_on" {
-  description = "A list of resources that the state machine depends on"
-  type        = list(string)
+variable "dependencies" {
+  type    = list(string)
+  default = []
 }
