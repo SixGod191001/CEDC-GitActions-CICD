@@ -3,5 +3,5 @@ module "aws_lambda" {
   function_name = "cedc-lambda-trigger-sfn-xy"
   role          = lambda_to_stepfunctions_iam_role.arn
   handler       = "main.handler"
-  runtime       = "python3.8"
+  runtime       = "python3.7"
 }
