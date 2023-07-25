@@ -7,4 +7,3 @@ module "state_machine" {
   dependencies       = ["cedc_terraform_development/cedc_step_functions_iam_common"]
 }
 
-

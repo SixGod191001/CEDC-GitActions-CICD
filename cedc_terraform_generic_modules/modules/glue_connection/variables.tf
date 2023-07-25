@@ -17,3 +17,8 @@ variable "connection_name" {
   description = "The connection name"
   type = string
 }
+
+variable "dependencies" {
+  type    = list(string)
+  default = []
+}
