@@ -5,11 +5,7 @@
         "Sid": "AllowStepFunctionsToInvokeLambda",
         "Effect": "Allow",
         "Action": [
-          "lambda:InvokeFunction",
-          "glue:StartJobRun",
-          "glue:GetJobRun",
-          "glue:GetJobRuns",
-          "glue:GetJob"
+          "lambda:InvokeFunction"
         ],
         "Resource": [
           "*"
