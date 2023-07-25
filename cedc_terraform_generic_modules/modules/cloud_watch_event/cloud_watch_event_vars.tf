@@ -35,3 +35,8 @@ variable "function_details_name" {
     type = string
     default = null
 }
+
+variable "dependencies" {
+  type    = list(string)
+  default = []
+}
