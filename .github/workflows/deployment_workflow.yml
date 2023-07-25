@@ -65,6 +65,8 @@ jobs:
             echo "::set-output name=ref_branch::${{ github.ref }}"
           elif [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "::set-output name=ref_branch::${{ github.base_ref }}"
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            echo "::set-output name=ref_branch::${{ github.base_ref }}"
           fi
 
       - name: Check if manually triggered
@@ -150,7 +152,7 @@ jobs:
   
       - name: Terraform Init
         id: init
-        run: terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
+        run: terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}" -lock=true -lock-timeout=600 
       
       - name: Terraform Validate
         id: validate
