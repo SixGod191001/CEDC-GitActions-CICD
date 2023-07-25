@@ -6,8 +6,6 @@ module "aws_cloudwatch_event_rule_xy" {
   schedule_expression = "rate(5 minutes)"  # 每五分钟触发一次
   event_pattern = <<PATTERN
 {
-  "source": ["my-event-source"],
-  "detail-type": ["my-event-type"],
   "detail": {
     "state_machine_name": ["${state_machine_xy.state_machine_name}"]
   }
