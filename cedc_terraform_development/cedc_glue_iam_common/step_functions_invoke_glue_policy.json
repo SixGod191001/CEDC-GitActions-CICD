@@ -10,7 +10,8 @@
           "s3:ListBucket"
         ],
         "Resource": [
-          "arn:aws:s3:::cicddevraw"
+          "arn:aws:s3:::cicddevraw",
+          "arn:aws:s3:::gitaction-s3-terraform"
         ]
       }
     ]
