@@ -6,17 +6,23 @@ on:
       deploy_target:
         description: 'Deployment environment'
         required: true
-        default: 'DEV'
+        default: 'Feature'
         options:
-          - 'DEV' # dev branch and aws dev account
-          - 'QA'  # main branch and aws qa account
-          - 'PROD' # release branch and aws prod account
+          - 'Feature' # feature branch and aws dev account
+          - 'UAT' # dev branch and aws dev account
+          - 'PROD'  # main branch and aws qa account
+          - 'Release' # release branch and aws prod account
       # branch:
       #   description: 'Select branch or tag to deploy'
       #   required: true
       #   default: 'dev'
-
-
+  push:
+    branches:
+      - 'feature**'
+    paths:
+      - '**.tf'
+      - '**.json'
+      
   pull_request:
     types:
       - closed
@@ -59,6 +65,8 @@ jobs:
             echo "::set-output name=ref_branch::${{ github.ref }}"
           elif [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "::set-output name=ref_branch::${{ github.base_ref }}"
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            echo "::set-output name=ref_branch::${{ github.base_ref }}"
           fi
 
       - name: Check if manually triggered
@@ -77,13 +85,15 @@ jobs:
           if [ "${{ steps.manual_trigger.outputs.triggered }}" = "true" ]; then
             echo "::set-output name=env_name::${{ github.event.inputs.deploy_target }}"
           elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "main" ]; then
-            echo "::set-output name=env_name::QA"
-          elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "dev" ]; then
-            echo "::set-output name=env_name::DEV"
-          elif [[ "${{ steps.set_ref_branch.outputs.ref_branch }}" == refs/tags/* ]]; then
             echo "::set-output name=env_name::PROD"
+          elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "dev" ]; then
+            echo "::set-output name=env_name::UAT"
+          elif [[ "${{ steps.set_ref_branch.outputs.ref_branch }}" == refs/tags/* ]]; then
+            echo "::set-output name=env_name::Release"
+          elif [[ "${{ steps.set_ref_branch.outputs.ref_branch }}" == feature* ]]; then
+            echo "::set-output name=env_name::Feature"
           else
-            echo "::set-output name=env_name::DEV"
+            echo "::set-output name=env_name::Feature"
           fi
             
       - name: Output ENV
@@ -142,7 +152,7 @@ jobs:
   
       - name: Terraform Init
         id: init
-        run: terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
+        run: terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}" -lock=true -lock-timeout=600 
       
       - name: Terraform Validate
         id: validate
