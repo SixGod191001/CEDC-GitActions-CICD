@@ -4,18 +4,82 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, when
 
 def temp_link_dim_main_mkt_02():
-    # 创建 对象
-    sk = SparkSession.builder \
-        .appName("Read data from S3 to data processing") \
-        .getOrCreate()
 
-    # 读取 s3 source 文件
-    temp_link_dim_main_mkt_01_df = sk.read.csv("s3 source temp_link_dim_main_mkt_01 path",sep=',',header=True)
-    fact_cpa_df = sk.read.csv("s3 source fact_cpa path",sep=',',header=True)
-    dim_party_df = sk.read.csv("s3 source dim_party path", sep=',', header=True)
-    dim_geography_df = sk.read.csv("s3 source dim_geography path", sep=',', header=True)
-    temp_org_insid_df = sk.read.csv("s3 source temp_org_insid path", sep=',', header=True)
-    temp_org_noinsid_df = sk.read.csv("s3 source temp_org_noinsid path", sep=',', header=True)
+    # 创建对象
+    args = getResolvedOptions(sys.argv, ["JOB_NAME"])
+    sc = SparkContext()
+    glueContext = GlueContext(sc)
+    # spark = glueContext.spark_session
+    job = Job(glueContext)
+    job.init(args["JOB_NAME"], args)
+
+    # 读取 s3 source
+    temp_link_dim_main_mkt_01 = glueContext.create_dynamic_frame.from_options(
+        format_options={"withHeader": True, "separator": ","},
+        connection_type="s3",
+        format="csv",
+        connection_options={
+            "paths": ["s3://source-demo-test/demo-table-1.csv"]
+            # "recurse": True,
+        }
+    )
+
+    fact_cpa = glueContext.create_dynamic_frame.from_options(
+        format_options={"withHeader": True, "separator": ","},
+        connection_type="s3",
+        format="csv",
+        connection_options={
+            "path": ["s3://source-demo-test/demo-table-1.csv"]
+            # "recurse":True  # 分区写入,True 表示glue会按照一个文件写入
+        }
+    )
+
+    dim_party = glueContext.create_dynamic_frame.from_options(
+        format_options={"withHeader": True, "separator": ","},
+        connection_type="s3",
+        format="csv",
+        connection_options={
+            "path": ["s3://source-demo-test/demo-table-1.csv"]
+            # "recurse":True  # 分区写入,True 表示glue会按照一个文件写入
+        }
+    )
+
+    dim_geography = glueContext.create_dynamic_frame.from_options(
+        format_options={"withHeader": True, "separator": ","},
+        connection_type="s3",
+        format="csv",
+        connection_options={
+            "path": ["s3://source-demo-test/demo-table-1.csv"]
+            # "recurse":True  # 分区写入,True 表示glue会按照一个文件写入
+        }
+    )
+
+    temp_org_insid = glueContext.create_dynamic_frame.from_options(
+        format_options={"withHeader": True, "separator": ","},
+        connection_type="s3",
+        format="csv",
+        connection_options={
+            "path": ["s3://source-demo-test/demo-table-1.csv"]
+            # "recurse":True  # 分区写入,True 表示glue会按照一个文件写入
+        }
+    )
+
+    temp_org_noinsid = glueContext.create_dynamic_frame.from_options(
+        format_options={"withHeader": True, "separator": ","},
+        connection_type="s3",
+        format="csv",
+        connection_options={
+            "path": ["s3://source-demo-test/demo-table-1.csv"]
+            # "recurse":True  # 分区写入,True 表示glue会按照一个文件写入
+        }
+    )
+    # toDF
+    temp_link_dim_main_mkt_01_df = temp_link_dim_main_mkt_01.toDF()
+    fact_cpa_df = fact_cpa.toDF()
+    dim_party_df = dim_party.toDF()
+    dim_geography_df = dim_geography.toDF()
+    temp_org_noinsid_df = temp_org_noinsid.toDF()
+    temp_org_insid_df = temp_org_insid.toDF()
 
     # 进行left join
     joined_df = temp_link_dim_main_mkt_01_df.join(
@@ -40,7 +104,7 @@ def temp_link_dim_main_mkt_02():
 
 
     # 查找想要字段，并写入target 表
-    joined_df.select(
+    writer_df = joined_df.select(
         col("main_link.ym"),
         col("main_link.citycode"),
         col("main_link.ims_citycode"),
@@ -64,4 +128,17 @@ def temp_link_dim_main_mkt_02():
         when(col("org_insid.rsd_code").isNull(), col("org_noinsid.rsd_code")).otherwise(
             col("org_insid.rsd_code")).alias("rsd_code"),
         when(col("org_insid.rsd").isNull(), col("org_noinsid.rsd")).otherwise(col("org_insid.rsd")).alias("rsd")
-    ).write.csv("s3 target temp_link_dim_main_mkt_02 table path")
+    )
+
+    # 写入 s3 target
+    temp_link_dim_main_mkt_02 = glueContext.write_dynamic_frame.from_options(
+        frame=writer_df,
+        connection_type="s3",
+        format="csv",
+        connection_options={
+            "path": "s3://target-demo-test/temp_ym/",
+            "partitionKeys": []  # 禁止分区写入，默认是分区写入
+        }
+    )
+
+    job.commit()
