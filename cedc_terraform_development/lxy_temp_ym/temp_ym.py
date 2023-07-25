@@ -54,7 +54,10 @@ temp_ym = glueContext.write_dynamic_frame.from_options(
     frame=temp_ym_union_DY,
     connection_type="s3",
     format="csv",
-    connection_options={"path": "s3://target-demo-test/temp_ym/"}
+    connection_options={
+        "path": "s3://target-demo-test/temp_ym/",
+        "partitionKeys": []
+    }
 )
 
 job.commit()
