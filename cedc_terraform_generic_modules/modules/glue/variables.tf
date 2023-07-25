@@ -12,3 +12,8 @@ variable "s_location" {
   description = "The location of the job script"
   type = string
 }
+
+variable "dependencies" {
+  type    = list(string)
+  default = []
+}
