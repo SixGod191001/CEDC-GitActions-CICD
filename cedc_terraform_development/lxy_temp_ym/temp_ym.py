@@ -60,5 +60,5 @@ def temp_ym():
             "partitionKeys": []   # 禁止分区写入，默认是分区写入
         }
     )
-
+    #  https://docs.amazonaws.cn/glue/latest/dg/aws-glue-api-crawler-pyspark-extensions-dynamic-frame.html#aws-glue-api-crawler-pyspark-extensions-dynamic-frame-unnest
     job.commit()
