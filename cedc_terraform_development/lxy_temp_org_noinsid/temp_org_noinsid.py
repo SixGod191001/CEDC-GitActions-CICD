@@ -50,10 +50,13 @@ def temp_org_noinsid():
     wirte_df = join_df.selectExpr('ym','insid','brandcode','citycode','provincecode','rsm_code', 'dsm_code', 'mr_code', 'dsm', 'rsm','mr','team','region','rsd_code','rsd') \
         .dropDuplicates()
 
+    # toDynamicFrame
+    temp_org_noinsid_DY = DynamicFrame.fromDF(writer_df, glueContext, "temp_org_noinsid_DY")
+
     # 写入target s3 表
 
     temp_org_noinsid = glueContext.write_dynamic_frame.from_options(
-        frame=wirte_df,
+        frame=temp_org_noinsid_DY,
         connection_type="s3",
         format="csv",
         connection_options={

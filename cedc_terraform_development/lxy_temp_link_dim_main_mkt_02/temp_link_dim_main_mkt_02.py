@@ -130,9 +130,13 @@ def temp_link_dim_main_mkt_02():
         when(col("org_insid.rsd").isNull(), col("org_noinsid.rsd")).otherwise(col("org_insid.rsd")).alias("rsd")
     )
 
+    # toDynamicFrame
+    temp_link_dim_main_mkt_02_DY = DynamicFrame.fromDF(writer_df, glueContext, "temp_link_dim_main_mkt_02_DY")
+
+
     # 写入 s3 target
     temp_link_dim_main_mkt_02 = glueContext.write_dynamic_frame.from_options(
-        frame=writer_df,
+        frame=temp_link_dim_main_mkt_02_DY,
         connection_type="s3",
         format="csv",
         connection_options={
