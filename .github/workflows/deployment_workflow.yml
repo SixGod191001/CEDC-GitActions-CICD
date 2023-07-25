@@ -31,6 +31,7 @@ on:
       - '**.sh'
       - '**.drawio'
       - '**actions.yml'
+      - '**workflow.yml'
       - '**.bkp'
       - '.github\workflows\**'
     branches:
@@ -66,7 +67,7 @@ jobs:
           elif [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "::set-output name=ref_branch::${{ github.base_ref }}"
           elif [ "${{ github.event_name }}" = "push" ]; then
-            echo "::set-output name=ref_branch::${{ github.base_ref }}"
+            echo "::set-output name=ref_branch::${{ github.ref }}"
           fi
 
       - name: Check if manually triggered
