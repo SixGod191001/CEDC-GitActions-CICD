@@ -1,1 +1,1 @@
-print('youqun test job was created')
+print('youqun test job created')
