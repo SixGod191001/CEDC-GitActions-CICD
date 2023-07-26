@@ -64,11 +64,11 @@ jobs:
         id: set_ref_branch
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "::set-output name=ref_branch::${{ github.ref }}"
+            echo "::set-output name=ref_branch::${{ github.ref_name }}"
           elif [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "::set-output name=ref_branch::${{ github.base_ref }}"
           elif [ "${{ github.event_name }}" = "push" ]; then
-            echo "::set-output name=ref_branch::${{ github.ref }}"
+            echo "::set-output name=ref_branch::${{ github.ref_name }}"
           fi
 
       - name: Check if manually triggered
@@ -83,7 +83,7 @@ jobs:
       - name: Choose ENV by branch name
         id: branch_check
         run: |
-          echo "Running on branch ${{ github.ref }}"
+          echo "Running on branch ${{ github.ref_name }}"
           if [ "${{ steps.manual_trigger.outputs.triggered }}" = "true" ]; then
             echo "::set-output name=env_name::${{ github.event.inputs.deploy_target }}"
           elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "main" ]; then
