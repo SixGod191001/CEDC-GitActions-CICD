@@ -31,6 +31,7 @@ on:
       - '**.sh'
       - '**.drawio'
       - '**actions.yml'
+      - '**workflow.yml'
       - '**.bkp'
       - '.github\workflows\**'
     branches:
@@ -61,7 +62,7 @@ jobs:
       - name: Determine ref_branch
         id: set_ref_branch
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" || "${{ github.event_name }}" = "push"]; then
             echo "::set-output name=ref_branch::${{ github.ref }}"
           elif [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "::set-output name=ref_branch::${{ github.base_ref }}"
@@ -150,7 +151,7 @@ jobs:
   
       - name: Terraform Init
         id: init
-        run: terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
+        run: terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}" 
       
       - name: Terraform Validate
         id: validate
