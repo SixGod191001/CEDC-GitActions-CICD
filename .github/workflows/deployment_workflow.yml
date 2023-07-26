@@ -32,7 +32,7 @@ on:
       - '**.sh'
       - '**.drawio'
       - '**actions.yml'
-      - '**workflow.yml'
+     # - '**workflow.yml'
       - '**.bkp'
       - '.github\workflows\**'
     branches:
