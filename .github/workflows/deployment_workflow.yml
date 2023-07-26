@@ -110,7 +110,7 @@ jobs:
   deploy:
     needs: [build]
     if: |
-      ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
+      ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
    
     name: Deploy services to AWS
     runs-on: ubuntu-latest
