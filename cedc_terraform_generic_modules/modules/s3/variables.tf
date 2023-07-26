@@ -3,6 +3,11 @@ variable "bucket_name" {
   type = string
 }
 
+variable "region" {
+  description = "The region of the s3bucket"
+  type = string
+}
+
 variable "acl" {
   description = "The acl of the s3bucket"
   type = string
