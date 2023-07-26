@@ -3,9 +3,9 @@ variable "job_name" {
   type = string
 }
 
-variable "glue_role_arn" {
-  description = "The arn of the glue role"
-  type = string
+variable "role_name" {
+  description = "The name of the IAM role"
+  type        = string
 }
 
 variable "s_location" {
