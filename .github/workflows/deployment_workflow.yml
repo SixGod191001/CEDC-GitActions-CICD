@@ -22,7 +22,6 @@ on:
     paths:
       - '**.tf'
       - '**.json'
-      - '**.py'
       
   pull_request:
     types:
@@ -32,7 +31,7 @@ on:
       - '**.sh'
       - '**.drawio'
       - '**actions.yml'
-     # - '**workflow.yml'
+      #- '**workflow.yml'
       - '**.bkp'
       - '.github\workflows\**'
     branches:
@@ -67,7 +66,7 @@ jobs:
             echo "::set-output name=ref_branch::${{ github.ref_name }}"
           elif [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "::set-output name=ref_branch::${{ github.base_ref }}"
-          elif [ "${{ github.event_name }}" = "push" ]; then
+          elif [ "${{ github.event_name }}" = "push" ]; then 
             echo "::set-output name=ref_branch::${{ github.ref_name }}"
           fi
 
