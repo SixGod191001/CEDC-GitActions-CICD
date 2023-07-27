@@ -50,8 +50,8 @@ for k, v in mapping.items():
         content += ' depends_on = [' + ', '.join(['module.{0}'.format(rename_path(element)) for element in dependencies]) + ']\n'
     content += '}\n\n'
 
-with open('./main.tf', 'w') as file:
-    file.write(content)
+#with open('./main.tf', 'w') as file:
+ #   file.write(content)
 
 print(content)
 print("Content written to main.tf successfully.")
