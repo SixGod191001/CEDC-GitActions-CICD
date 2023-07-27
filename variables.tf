@@ -12,3 +12,18 @@ variable "region" {
   type    = string
   default = ""
 }
+
+variable "sourcebucket" {
+  type    = string
+  default = ""
+}
+
+variable "targetbucket" {
+  type    = string
+  default = ""
+}
+
+variable "scriptbucket" {
+  type    = string
+  default = ""
+}
