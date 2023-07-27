@@ -4,7 +4,7 @@ variable "lambda_name" {
 }
 
 variable "lambda_role_arn" {
-  description = "The arn of the lambda role"
+  description = "The lambda role arn"
   type = string
 }
 
