@@ -1,0 +1,11 @@
+{
+    "Comment": "A simple example of Lambda",
+    "StartAt": "Hello",
+    "States": {
+      "Hello": {
+        "Type": "Pass",
+        "Result": "Hello, Lambda!",
+        "End": true
+      }
+    }
+  }
