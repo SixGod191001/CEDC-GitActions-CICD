@@ -11,7 +11,7 @@
         ],
         "Resource": [
           "arn:aws:s3:::cicddevraw",
-          "arn:aws:s3:::gitaction-s3-terraform"
+          "arn:aws:s3:::cedc-gitaction-cicd-luyan"
         ]
       }
     ]
