@@ -9,10 +9,7 @@
           "s3:PutObject",
           "s3:ListBucket"
         ],
-        "Resource": [
-          "arn:aws:s3:::cicddevraw",
-          "arn:aws:s3:::cedc-gitaction-cicd-luyan"
-        ]
+        "Resource": "*"
       }
     ]
   }
