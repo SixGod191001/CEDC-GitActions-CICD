@@ -7,7 +7,7 @@
       "Action": [
         "states:StartExecution"
       ],
-      "Resource": "step_functions.arn"
+      "Resource": "*"
     }
   ]
 }
