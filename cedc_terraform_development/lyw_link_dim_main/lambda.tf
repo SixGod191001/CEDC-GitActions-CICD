@@ -4,9 +4,9 @@ module "lambda" {
   handler       = "main.handler"
   runtime       = "python3.9"
   environment {
-    variables = jsondecode(file("${path.module}/lambda.json"))["environment"]["variables"]
+    variables = jsondecode(file("${path.module}/lambda_definition.json"))["environment"]["variables"]
   }
-  tags = jsondecode(file("${path.module}/lambda.json"))["tags"]
+  tags = jsondecode(file("${path.module}/lambda_definition.json"))["tags"]
  
 }
   
