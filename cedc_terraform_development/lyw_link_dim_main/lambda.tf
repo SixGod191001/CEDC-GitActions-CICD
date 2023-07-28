@@ -4,4 +4,5 @@ module "aws_lambda" {
   role          = lambda_to_stepfunctions_iam_role.arn
   handler       = "main.handler"
   runtime       = "python3.8"
+
 }
