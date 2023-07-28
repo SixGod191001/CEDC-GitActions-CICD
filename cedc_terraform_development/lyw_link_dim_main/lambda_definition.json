@@ -1,11 +1,17 @@
+
 {
-    "Comment": "A simple example of Lambda",
-    "StartAt": "Hello",
-    "States": {
-      "Hello": {
-        "Type": "Pass",
-        "Result": "Hello, Lambda!",
-        "End": true
-      }
+  "function_name": "lambda_to_stepfunctions_execute_role000",
+  "runtime": "python3.9",
+  "handler": "main.handler",
+  "timeout": 60,
+  "environment": {
+    "variables": {
+      "key1": "1",
+      "key2": "22"
     }
+  },
+  "tags": {
+    "tag1": "value1",
+    "tag2": "value2"
   }
+}
