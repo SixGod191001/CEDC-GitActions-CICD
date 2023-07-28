@@ -1,4 +1,4 @@
-resource "aws_lambda_fucntion" "lambda_name" {
+resource "aws_lambda_function" "lambda_name" {
   name        = var.lambda_name
   role_arn    = var.lambda_role_arn
   handler     = var.lambda_handler
