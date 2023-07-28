@@ -1,4 +1,4 @@
-resource "aws_lambda_function" "lambda_vic" {
+resource  "lambda_vic" {
   lambda_name          = "lambda_vic"
   source               = "../../cedc_terraform_generic_modules/modules/lambda"
   lambda_role_arn      = lambda_to_stepfunctions_execute_role000
