@@ -31,3 +31,4 @@ source_table.write.format("parquet").mode("overwrite").save(f"s3://{target_bucke
 
 # 结束 Glue 作业
 job.commit()
+
