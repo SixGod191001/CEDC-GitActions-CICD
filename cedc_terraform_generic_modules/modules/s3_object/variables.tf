@@ -8,10 +8,10 @@ variable "scripts_bucket_name" {
   type = string
 }
 
-variable "scripts_bucket_region" {
-  description = "The region of the script bucket"
-  type = string
-}
+#variable "scripts_bucket_region" {
+#  description = "The region of the script bucket"
+#  type = string
+#}
 
 #variable "scripts_name" {
 #  description = "your-script-name"
