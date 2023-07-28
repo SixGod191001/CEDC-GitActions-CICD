@@ -13,7 +13,18 @@ variable "s_location" {
   type = string
 }
 
+variable "definition" {
+  description = "The definition of the glue"
+  type        = string
+}
+
+variable "tags" {
+  description = "The tag of glue"
+  type        = string
+}
+
 variable "dependencies" {
   type    = list(string)
   default = []
 }
+
