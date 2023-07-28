@@ -10,7 +10,5 @@ module "glue_job" {
   job_name           = "cedc-s3-read-s3-data-glue-job-youqun"
   role_name          = "glue_execute_role"
   s_location         = "s3://cedc-gitaction-cicd-luyan"
-  definition         = "from s3 to s3"
-  tags               = { "project" = "CEDC" }
   dependencies       = ["cedc_terraform_development/cedc_glue_iam_common"]
 }
