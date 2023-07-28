@@ -2,7 +2,7 @@ module "glue_script" {
   source       = "../../cedc_terraform_generic_modules/modules/s3_object"
   scripts_bucket_name = "gitaction-s3-terraform"
   scripts_bucket_location ="s3://gitaction-s3-terraform"
-  scripts_path ="../../cedc_terraform_development/youqun_temp_dim_main/cedc_s3_read_data_youqun.py"
+  scripts_path =file("${path.module}/cedc_s3_read_data_youqun.py")
 }
 
 module "glue_job" {
