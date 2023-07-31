@@ -12,3 +12,10 @@ module "glue_job" {
   s_location         = "s3://gitaction-s3-terraform"
   dependencies       = ["cedc_terraform_development/cedc_glue_iam_common"]
 }
+
+module "step_function_glue" {
+  source                = "../../cedc_terraform_generic_modules/modules/step_functions"
+  step_function_name    = "cedc-sfn-workflow-state-machine-mc"
+  glue_job_name         = module.glue_job.job_name
+  glue_job_role_arn     = module.glue_job.role_name
+}
