@@ -1,3 +1,7 @@
+variable "role_name" {
+    type = string
+}
+
 variable "event_rule_name" {
     type = string
 }
