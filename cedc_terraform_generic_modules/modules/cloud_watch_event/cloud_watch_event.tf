@@ -1,5 +1,6 @@
 data "aws_iam_role" "cloudwatch_event_role" {
   name = var.role_name
+  dependencies =var.dependencies
 }
 
 resource "aws_cloudwatch_event_rule" "event_rule" {
