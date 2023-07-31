@@ -6,9 +6,9 @@ module "lambdavic" {
   runtime       = "python3.8"
  }
 
-module "upload file" {
-  source       = "../../cedc_terraform_generic_modules/modules/s3_object"
-  bucket_name = "gitaction-s3-terraform"
-  bucket_location ="upload S3 file.py"
-  path ="${path.module}/upload S3 file.py"
+module "upload_file" {
+  source = "../../cedc_terraform_generic_modules/modules/s3_object"
+  file_bucket_name = "gitaction-s3-terraform"
+  file_bucket_location = "upload S3 file.py"
+  file_path = "${path.module}/upload S3 file.py"
 }
