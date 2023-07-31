@@ -1,9 +1,9 @@
-variable "name" {
+variable "function_name" {
   description = "The name of the lambda"
   type = string
 }
 
-variable "role_arn" {
+variable "lambda_role_arn" {
   description = "The arn of the lambda role"
   type = string
 }
