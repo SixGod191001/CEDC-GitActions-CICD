@@ -18,7 +18,3 @@ variable "runtime" {
   type = string
 }
 
-variable "source_code_hash" {
-  description = "The source code of the lambda"
-  type = string
-}
