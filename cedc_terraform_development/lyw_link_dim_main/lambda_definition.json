@@ -1,9 +1,0 @@
-{
-    "Comment": "A Hello World ",
-    "StartAt": "Pass",
-    "States": {
-      "Pass": {
-        "Comment": "pass.",
-        "Type": "Pass",
-        "Next": "Hello World example?"
-      },
