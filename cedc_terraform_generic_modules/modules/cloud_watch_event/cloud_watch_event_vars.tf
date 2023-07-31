@@ -16,5 +16,9 @@ variable "schedule_expression_details" {
     default = null
 }
 
+variable "event_enabled" {
+    type = bool
+    default = true
+}
 
 
