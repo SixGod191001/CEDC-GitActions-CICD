@@ -6,7 +6,7 @@ from awsglue.context import GlueContext
 from awsglue.job import Job
 
 # 获取命令行参数
-args = getResolvedOptions(sys.argv, ['cedc-s3-read-s3-data-glue-job-youqun'])
+args = getResolvedOptions(sys.argv, ['cedc-s3-read-s3-data-glue-job-youqun2'])
 
 # 创建 SparkContext 和 GlueContext
 sc = SparkContext()
@@ -15,7 +15,7 @@ spark = glueContext.spark_session
 
 # 初始化 Glue 作业
 job = Job(glueContext)
-job.init(args['cedc-s3-read-s3-data-glue-job-youqun'], args)
+job.init(args['cedc-s3-read-s3-data-glue-job-youqun2'], args)
 
 # 定义源和目标数据目录
 source_bucket = 'cicddevraw'
