@@ -4,6 +4,7 @@ module "lambdavic" {
   role_name = "lambda_to_stepfunctions_execute_role0001"
   handler       = "main.handler"
   runtime       = "python3.8"
+  s3_bucket     = "gitaction-s3-terraform"
  }
 
 
