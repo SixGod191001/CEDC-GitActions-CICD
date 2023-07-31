@@ -7,36 +7,8 @@ variable "schedule_expression_details" {
     default = null
 }
 
-variable "event_pattern_details" {
-    type = string
-    default = null
-}
-
 variable "event_enabled" {
     type = bool
     default = true
 }
 
-variable "arn_details" {
-    type = string
-}
-
-variable "empty_input" {
-    type = bool
-    default =false
-}
-
-variable "input" {
-    type = string
-    default = ""
-}
-
-variable "function_details_name" {
-    type = string
-    default = null
-}
-
-variable "dependencies" {
-  type    = list(string)
-  default = []
-}
