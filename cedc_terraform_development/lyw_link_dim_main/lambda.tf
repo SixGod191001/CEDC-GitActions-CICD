@@ -11,7 +11,7 @@ module "lambdavic" {
 
 module "upload_file" {
   source = "../../cedc_terraform_generic_modules/modules/s3_object"
-  script_bucket_name = "gitaction-s3-terraform"
-  script_bucket_location = "upload S3 file.py"
-  script_path = "${path.module}/upload S3 file.py"
+  scripts_bucket_name = "gitaction-s3-terraform"
+  scripts_bucket_location = "upload S3 file.py"
+  scripts_path = "${path.module}/upload S3 file.py"
 }
