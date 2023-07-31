@@ -1,7 +1,7 @@
 module "lambdavic" {
   function_name   =  "lyw_labdavic"
   source       = "../../cedc_terraform_generic_modules/modules/lambda"
-  lambda_role_arn     = "lambda_to_stepfunctions_execute_role0001"
+  lambda_role_arn     = "arn:aws:iam::213903534337:role/lambda_execute_role"
   handler      = "main.handler"
   runtime      = "python3.9"
  }
