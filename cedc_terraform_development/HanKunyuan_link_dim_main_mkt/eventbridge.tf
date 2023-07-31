@@ -3,9 +3,9 @@ module "aws_cloudwatch_event_rule" {
   name            = "cedc-eventbridge-trigger-lambda"
 
   role_name        = "eventbridge_invoke_lambda_execute_role"
-
   event_rule_name = "schedule_rate"
   schedule_expression_details = "rate(1 hour)"  # 每一小时触发一次
+  dependencies       = ["cedc_terraform_development/cedc_eventbirdge"]
 }
 
   
