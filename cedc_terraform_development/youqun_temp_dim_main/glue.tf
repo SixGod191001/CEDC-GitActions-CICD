@@ -18,7 +18,7 @@ module "step_function_glue" {
   source                = "../../cedc_terraform_generic_modules/modules/step_functions"
   state_machine_name    = "cedc-sfn-workflow-state-machine-mc"
   role_name             = "step_functions_execute_role" 
-  definition            = "state_machine_definition_mc.json" 
+  definition            = file("${path.module}/state_machine_definition_mc.json")
   tags                  = {}  # 可根据实际情况进行调整
   depends_on            = [module.glue_job]
 }
