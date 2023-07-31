@@ -23,3 +23,7 @@ variable "s3_bucket" {
   type = string
 }
 
+variable "s3_key" {
+  description = "The s3 key of the lambda"
+  type = string
+}
