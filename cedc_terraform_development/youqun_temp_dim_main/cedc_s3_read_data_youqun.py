@@ -19,7 +19,7 @@ job.init(args['cedc-s3-read-s3-data-glue-job-youqun2'], args)
 
 # 定义源和目标数据目录
 source_bucket = 'cicddevraw'
-source_key = 'source/dim_brand.py'
+source_key = 'source/dim_brand.csv'
 target_bucket = 'cicddevtarget'
 target_key = 'target/cedc_temp_dim_main_youqun.py'
 
