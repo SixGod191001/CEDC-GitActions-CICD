@@ -4,5 +4,6 @@ module "cloudwatch_event_rule" {
   
   role_name       = "event_bridge_execute_role"
   event_rule_name ="schedule_rate"
-  schedule_expression = "rate(1 hour)"
+  schedule_expression_details = "rate(1 hour)"
+  event_enabled   ="enabled"
 }
