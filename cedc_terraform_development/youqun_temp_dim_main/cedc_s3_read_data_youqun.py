@@ -21,7 +21,7 @@ job.init(args['cedc-s3-read-s3-data-glue-job-youqun'], args)
 source_bucket = 'cicddevraw'
 source_key = 'source/dim_brand.py'
 target_bucket = 'cicddevtarget'
-target_key = 'cedc_temp_dim_mainyouqun.py'
+target_key = 'target/cedc_temp_dim_mainyouqun.py'
 
 # 读取源表数据
 source_table = spark.read.format("parquet").load(f"s3://{source_bucket}/{source_key}")
