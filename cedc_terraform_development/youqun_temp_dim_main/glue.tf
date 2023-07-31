@@ -10,7 +10,7 @@ module "glue_job" {
   job_name           = "cedc-s3-read-s3-data-glue-job-youqun"
   role_name          = "glue_execute_role"
   s_location         = "s3://gitaction-s3-terraform"
-  depends_on        = ["cedc_terraform_development/cedc_glue_iam_common"]
+  dependencies        = ["cedc_terraform_development/cedc_glue_iam_common"]
 }
 
 
