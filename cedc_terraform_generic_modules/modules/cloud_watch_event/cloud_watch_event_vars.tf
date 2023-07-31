@@ -2,8 +2,9 @@ variable "role_name" {
     type = string
 }
 
-variable "dependencies"{
-     type = string
+variable "dependencies" {
+  type    = list(string)
+  default = []
 }
 
 variable "event_rule_name" {
