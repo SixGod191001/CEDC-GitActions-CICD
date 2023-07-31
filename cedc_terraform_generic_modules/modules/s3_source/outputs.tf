@@ -20,7 +20,8 @@ resource "aws_iam_policy" "s3_access_policy" {
       "Sid": "S3Access",
       "Effect": "Allow",
       "Action": [
-        "s3:*"
+         "s3:GetObject",
+         "s3:PutObject"
       ],
       "Resource": [
             "arn:aws:s3:::cicddevraw/*",
