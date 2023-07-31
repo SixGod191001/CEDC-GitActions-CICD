@@ -13,9 +13,12 @@ module "glue_job" {
   dependencies       = ["cedc_terraform_development/cedc_glue_iam_common"]
 }
 
+
 module "step_function_glue" {
   source                = "../../cedc_terraform_generic_modules/modules/step_functions"
-  step_function_name    = "cedc-sfn-workflow-state-machine-mc"
-  glue_job_name         = module.glue_job.job_name
-  glue_job_role_arn     = module.glue_job.role_name
+  state_machine_name    = "cedc-sfn-workflow-state-machine-mc"
+  role_name             = "step_functions_execute_role"  # 请替换为您的角色名称
+  definition            = "state_machine_definition_mc.json"  # 请替换为您的状态机定义
+  tags                  = {"cedc"}  # 可根据实际情况进行调整
+  depends_on            = [module.glue_job]
 }
