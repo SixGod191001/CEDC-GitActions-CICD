@@ -4,5 +4,5 @@ module "cloudwatch_event_rule" {
   role_name       = "event_bridge_execute_role"
   event_rule_name ="cedc-eventbridge-trigger-lambda"
   schedule_expression_details = "rate(1 hour)"
-  event_enabled   ="true"
+  
 }
