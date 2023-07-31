@@ -1,5 +1,6 @@
 module "state_machine_mc" {
   source            = "../../cedc_terraform_generic_modules/modules/step_functions"
+  input             ={}
   state_machine_name = "cedc-sfn-workflow-state-machine-mc"
   role_name          = "step_functions_execute_role"
   definition        = file("${path.module}/state_machine_definition_mc.json")
