@@ -1,19 +1,19 @@
-variable "lambda_name" {
+variable "name" {
   description = "The name of the lambda"
   type = string
 }
 
-variable "lambda_role_arn" {
+variable "role_arn" {
   description = "The arn of the lambda role"
   type = string
 }
 
-variable "lambda_handler" {
+variable "handler" {
   description = "The handler of the lambda"
   type = string
 }
 
-variable "lambda_runtime" {
+variable "runtime" {
   description = "The runtime of the lambda"
   type = string
 }
