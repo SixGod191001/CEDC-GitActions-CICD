@@ -3,6 +3,6 @@ module "lambdavic" {
   function_name   =  "lyw_labdavic"
   role_name = "lambda_execute_role"
   handler       = "main.handler"
-  runtime       = "python3.9"
+  runtime       = "python3.8"
  }
 
