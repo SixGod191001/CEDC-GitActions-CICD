@@ -13,7 +13,7 @@ variable "runtime" {
   type = string
 }
 
-variable "role_name" {
+variable "role" {
   description = "The role_name of the lambda"
   type = string
 }
