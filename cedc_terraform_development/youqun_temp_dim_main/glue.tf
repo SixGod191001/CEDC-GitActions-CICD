@@ -7,7 +7,7 @@ module "glue_script" {
 
 module "glue_job" {
   source             = "../../cedc_terraform_generic_modules/modules/glue"
-  job_name           = "cedc-s3-read-s3-data-glue-job-youqun"
+  job_name           = "cedc-s3-read-s3-data-glue-job-youqun1"
   role_name          = "glue_execute_role"
   s_location         = "s3://gitaction-s3-terraform"
   dependencies       = ["cedc_terraform_development/cedc_glue_iam_common"]
