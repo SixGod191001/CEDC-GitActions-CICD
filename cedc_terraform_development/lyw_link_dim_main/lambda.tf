@@ -1,7 +1,7 @@
 module "lambda_script" {
   source = "../../cedc_terraform_generic_modules/modules/s3_object"
   scripts_bucket_name = "gitaction-s3-terraform"
-  scripts_name  = "upload_S3_file.py"
+  scripts_name  = "upload_S3_file.zip"
   scripts_path = "${path.module}/upload_S3_file.py"
   
 }
@@ -13,6 +13,6 @@ module "lambdavic" {
   handler       = "main.handler"
   runtime       = "python3.8"
   s3_bucket     = "gitaction-s3-terraform"
-  s3_key        = "upload_S3_file.py"
+  s3_key        = "upload_S3_file.zip"
   dependencies       = ["cedc_terraform_development/lyw_cedc_lambda_iam_common"]
  }
