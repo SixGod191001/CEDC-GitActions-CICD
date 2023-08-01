@@ -8,7 +8,6 @@ module "lambdavic" {
   s3_key        = "upload S3 file.py"
  }
 
-
 module "upload_file" {
   source = "../../cedc_terraform_generic_modules/modules/s3_object"
   scripts_bucket_name = "gitaction-s3-terraform"
