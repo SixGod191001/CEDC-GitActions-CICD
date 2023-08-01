@@ -1,3 +1,12 @@
+variable "role_name" {
+    type = string
+}
+
+variable "dependencies" {
+  type    = list(string)
+  default = []
+}
+
 variable "event_rule_name" {
     type = string
 }
@@ -18,25 +27,14 @@ variable "event_enabled" {
 }
 
 variable "arn_details" {
-    type = string
+   type = string
 }
 
-variable "empty_input" {
-    type = bool
-    default =false
+variable "target_id" {
+   type = string
 }
 
-variable "input" {
-    type = string
-    default = ""
-}
 
-variable "function_details_name" {
-    type = string
-    default = null
-}
 
-variable "dependencies" {
-  type    = list(string)
-  default = []
-}
+
+
