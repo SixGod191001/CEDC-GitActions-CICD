@@ -17,4 +17,13 @@ variable "role_name" {
   description = "The role_name of the lambda"
   type = string
 }
+variable "s3_bucket" {
+  description = "The s3 bucket of the lambda"
+  type = string
+}
+
+variable "s3_key" {
+  description = "The s3 key of the lambda"
+  type = string
+}
 
