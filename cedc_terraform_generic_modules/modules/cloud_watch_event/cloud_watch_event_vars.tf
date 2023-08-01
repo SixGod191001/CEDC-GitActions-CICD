@@ -30,19 +30,6 @@ variable "arn_details" {
     type = string
 }
 
-variable "empty_input" {
-    type = bool
-    default =false
-}
 
-variable "input" {
-    type = string
-    default = ""
-}
-
-variable "function_details_name" {
-    type = string
-    default = null
-}
 
 
