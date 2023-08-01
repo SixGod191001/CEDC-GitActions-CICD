@@ -1,0 +1,14 @@
+{
+  "Comment": "A Hello World example of the Amazon States Language using a Glue Job",
+  "StartAt": "GlueJob",
+  "States": {
+    "GlueJob": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "cedc-s3-read-s3-data-glue-job-youqun"
+      },
+      "End": true
+    }
+  }
+}

@@ -10,5 +10,15 @@ module "glue_job" {
   job_name           = "cedc-s3-read-s3-data-glue-job-youqun"
   role_name          = "glue_execute_role"
   s_location         = "s3://gitaction-s3-terraform"
-  dependencies       = ["cedc_terraform_development/cedc_glue_iam_common"]
+  dependencies        = ["cedc_terraform_development/cedc_glue_iam_common"]
+}
+
+
+module "step_function_glue" {
+  source                = "../../cedc_terraform_generic_modules/modules/step_functions"
+  state_machine_name    = "cedc-sfn-workflow-state-machine-mc"
+  role_name             = "step_functions_execute_role" 
+  definition            = file("${path.module}/state_machine_definition_mc.json")
+  tags                  = {}  # 可根据实际情况进行调整
+  depends_on            = [module.glue_job]
 }
