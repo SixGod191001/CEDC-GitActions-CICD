@@ -12,5 +12,5 @@ resource "aws_cloudwatch_event_rule" "event_rule" {
 resource "aws_cloudwatch_event_target" "event_rule_target" {
   rule         = aws_cloudwatch_event_rule.event_rule.name
   target_id    = "event_rule_target"
-  arn          = var.arn_details
+  arn          = "arn:aws:lambda:ap-northeast-1:213903534337:function:Test"
 }
