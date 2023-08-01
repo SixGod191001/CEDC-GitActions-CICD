@@ -4,4 +4,14 @@ module "lambda_script" {
   scripts_name  = "upload_S3_file.zip"
   scripts_path = "${path.module}/upload_S3_file.zip"
   }
+module "lambdavic" {
+  source       = "../../cedc_terraform_generic_modules/modules/lambda"
+  function_name   =  "lyw_labdavic"
+  role_name = "lambda_to_stepfunctions_execute_role0002"
+  handler       = "main.handler"
+  runtime       = "python3.9"
+  s3_bucket     = "gitaction-s3-terraform"
+  s3_key        = "upload_S3_file.zip"
+  dependencies  = ["cedc_terraform_development/lyw_cedc_lambda_iam_common"]
+ }
 
