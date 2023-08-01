@@ -13,5 +13,5 @@ module "lambda_script" {
   scripts_bucket_name = "gitaction-s3-terraform"
   scripts_name  = "upload S3 file.py"
   scripts_path = "${path.module}/upload S3 file.py"
-  dependencies       = ["cedc_terraform_development/cedc_lambda_iam_common"]
+  dependencies       = ["cedc_terraform_development/lyw_cedc_lambda_iam_common"]
 }
