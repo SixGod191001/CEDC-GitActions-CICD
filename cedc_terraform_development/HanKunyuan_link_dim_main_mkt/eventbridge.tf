@@ -24,3 +24,4 @@ module "cloudwatch_event_rule_target" {
   arn_details                 = "arn:aws:lambda:ap-northeast-1:213903534337:function:Test"
   depends_on                  = [module.lambda_add_permission]
 }
+
