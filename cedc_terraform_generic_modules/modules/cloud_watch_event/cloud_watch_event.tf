@@ -8,9 +8,3 @@ resource "aws_cloudwatch_event_rule" "event_rule" {
   is_enabled            =var.event_enabled
   role_arn              = data.aws_iam_role.cloudwatch_event_role.arn
 }
-
-resource "aws_cloudwatch_event_target" "event_rule_target" {
-  rule         = aws_cloudwatch_event_rule.event_rule.name
-  target_id    = var.target_id
-  arn          = var.arn_details
-}
