@@ -7,11 +7,20 @@ module "cloudwatch_event_rule" {
 }
 
 
+
+module "lambda_add_permission" {
+  source                      = "../../cedc_terraform_generic_modules/modules/lambda_permissions"
+  permission_statement_id     = "lambda_add_permission"
+  lambda_function_name        = "Test"
+  execution_arn               = "arn:aws:events:ap-northeast-1:213903534337:rule/cedc-eventbridge-trigger-lambda"
+  depends_on                  = [module.cloudwatch_event_rule]
+}
+
+
 module "cloudwatch_event_rule_target" {
   source                      = "../../cedc_terraform_generic_modules/modules/cloud_watch_event_target"
   event_rule_name             = "cedc-eventbridge-trigger-lambda"
   target_id                   = "Test"
   arn_details                 = "arn:aws:lambda:ap-northeast-1:213903534337:function:Test"
-  depends_on                  = [module.cloudwatch_event_rule]
+  depends_on                  = [module.lambda_add_permission]
 }
-
