@@ -26,13 +26,6 @@ variable "event_enabled" {
     default = true
 }
 
-variable "arn_details" {
-   type = string
-}
-
-variable "target_id" {
-   type = string
-}
 
 
 
