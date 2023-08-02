@@ -1,4 +1,4 @@
-variable "role_name" {
+variable "event_rule_name" {
     type = string
 }
 
