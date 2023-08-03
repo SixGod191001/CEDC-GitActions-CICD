@@ -15,6 +15,11 @@ variable "compatible_runtimes" {
   default = []
 }
 
+variable "source_code_hash" {
+  description = "The code of layer"
+  type = string
+}
+ 
 
 
 
