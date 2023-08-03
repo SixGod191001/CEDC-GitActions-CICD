@@ -7,7 +7,7 @@ module "cloudwatch_event_rule" {
 }
 
  output "eventbridge_name" {
-    value = cloudwatch_event_rule.event_rule_name
+    value = cloudwatch_event_rule.event_rule_name.name
 }
 
 module "lambda_add_permission" {
