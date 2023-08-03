@@ -7,12 +7,11 @@ module "cloudwatch_event_rule" {
 }
 
 
-
 module "lambda_add_permission" {
   source                      = "../../cedc_terraform_generic_modules/modules/lambda_permissions"
   permission_statement_id     = "lambda_add_permission"
   lambda_function_name        = "Test"
-  execution_arn               = "arn:aws:events:ap-northeast-1:213903534337:rule/cedc-eventbridge-trigger-lambda"
+  execution_arn               = module.cloudwatch_event_rule.aws_cloudwatch_event_rule.event_rule.arn   #调用event bridge的arn
   depends_on                  = [module.cloudwatch_event_rule]
 }
 
