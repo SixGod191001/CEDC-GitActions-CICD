@@ -12,6 +12,6 @@ module "lambdavic" {
   runtime       = "python3.9"
   s3_bucket     = "gitaction-s3-terraform"
   s3_key        = "my-lambda-function.zip"
-  dependencies  = ["cedc_terraform_development/lyw_cedc_lambda_iam_common"]
+  dependencies  = ["cedc_terraform_development/cedc_lambda_iam_common"]
  }
 
