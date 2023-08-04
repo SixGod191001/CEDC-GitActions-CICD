@@ -12,6 +12,11 @@ output "event_rule_arn" {
   description = "output ARN of the EventBridge rule created in the module"
 }
 
+output "event_rule_name" {
+  value       = module.cloudwatch_event_rule.event_rule_name
+  description = "output NAME of the EventBridge rule created in the module"
+}
+
 # target lambda adds permissions that can be operated by eventbridge
 module "lambda_add_permission" {
   source                      = "../../cedc_terraform_generic_modules/modules/lambda_permissions"
@@ -24,7 +29,7 @@ module "lambda_add_permission" {
 # add eventbridge rule target
 module "cloudwatch_event_rule_target" {
   source                      = "../../cedc_terraform_generic_modules/modules/cloud_watch_event_target"
-  event_rule_name             = "cedc-eventbridge-trigger-lambda"
+  event_rule_name             = module.cloudwatch_event_rule.event_rule_name
   target_id                   = "eventbridge_target_for_lambda"
   arn_details                 = "arn:aws:lambda:ap-northeast-1:213903534337:function:Test"     # ARN of the target lambda
   depends_on                  = [module.lambda_add_permission]                                 # This module depends on lambda added permission
