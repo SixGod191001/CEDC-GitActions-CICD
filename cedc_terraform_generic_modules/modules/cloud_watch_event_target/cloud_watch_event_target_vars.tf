@@ -1,8 +1,8 @@
-/*
+
 variable "event_rule_name" {
     type = string
 }
-*/
+
 
 variable "target_id" {
    type = string
