@@ -2,9 +2,9 @@
 module "cloudwatch_event_rule" {
   source                      = "../../cedc_terraform_generic_modules/modules/cloud_watch_event"
   event_rule_name             = "cedc-eventbridge-trigger-lambda"
-  schedule_expression_details = "rate(1 minute)"
+  schedule_expression_details = "rate(1 minute)"                                   # trigger every minute
   role_name                   = "eventbridge_invoke_lambda_execute_role"
-  dependencies                = ["cedc_terraform_development/cedc_eventbirdge"]
+  dependencies                = ["cedc_terraform_development/cedc_eventbirdge"]    # depends on the created IAM
 }
 
 output "event_rule_arn" {
@@ -21,12 +21,12 @@ module "lambda_add_permission" {
   depends_on                  = [module.cloudwatch_event_rule]                    # This module depends on eventbridge already being created
 }
 
-# add eventbridge target
+# add eventbridge rule target
 module "cloudwatch_event_rule_target" {
   source                      = "../../cedc_terraform_generic_modules/modules/cloud_watch_event_target"
   event_rule_name             = "cedc-eventbridge-trigger-lambda"
-  target_id                   = "Test"
-  arn_details                 = "arn:aws:lambda:ap-northeast-1:213903534337:function:Test"     # ARN of the lambda
+  target_id                   = "eventbridge_target_for_lambda"
+  arn_details                 = "arn:aws:lambda:ap-northeast-1:213903534337:function:Test"     # ARN of the target lambda
   depends_on                  = [module.lambda_add_permission]                                 # This module depends on lambda added permission
 }
 
