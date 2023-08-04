@@ -1,3 +1,4 @@
+# create eventbridge rule
 module "cloudwatch_event_rule" {
   source                      = "../../cedc_terraform_generic_modules/modules/cloud_watch_event"
   event_rule_name             = "cedc-eventbridge-trigger-lambda"
@@ -8,24 +9,24 @@ module "cloudwatch_event_rule" {
 
 output "event_rule_arn" {
   value       = module.cloudwatch_event_rule.event_rule_arn
-  description = "ARN of the EventBridge rule created in the module"
+  description = "output ARN of the EventBridge rule created in the module"
 }
 
+# target lambda adds permissions that can be operated by eventbridge
 module "lambda_add_permission" {
   source                      = "../../cedc_terraform_generic_modules/modules/lambda_permissions"
   permission_statement_id     = "lambda_add_permission"
   lambda_function_name        = "Test"
- # execution_arn               = "arn:aws:events:ap-northeast-1:213903534337:rule/cedc-eventbridge-trigger-lambda"   #eventbridge的arn
-  execution_arn               = module.cloudwatch_event_rule.event_rule_arn
-  depends_on                  = [module.cloudwatch_event_rule]
+  execution_arn               = module.cloudwatch_event_rule.event_rule_arn       # ARN of the EventBridge
+  depends_on                  = [module.cloudwatch_event_rule]                    # This module depends on eventbridge already being created
 }
 
-
+# add eventbridge target
 module "cloudwatch_event_rule_target" {
   source                      = "../../cedc_terraform_generic_modules/modules/cloud_watch_event_target"
   event_rule_name             = "cedc-eventbridge-trigger-lambda"
   target_id                   = "Test"
-  arn_details                 = "arn:aws:lambda:ap-northeast-1:213903534337:function:Test"
-  depends_on                  = [module.lambda_add_permission]
+  arn_details                 = "arn:aws:lambda:ap-northeast-1:213903534337:function:Test"     # ARN of the lambda
+  depends_on                  = [module.lambda_add_permission]                                 # This module depends on lambda added permission
 }
 
