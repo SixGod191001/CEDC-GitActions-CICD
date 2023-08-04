@@ -9,11 +9,12 @@ resource "aws_cloudwatch_event_rule" "event_rule" {
   role_arn              = data.aws_iam_role.cloudwatch_event_role.arn
 }
 
-/*
- output "eventbridge_arn" {
-    value = aws_cloudwatch_event_rule.event_rule.arn
+output "event_rule_arn" {
+  value       = aws_cloudwatch_event_rule.event_rule.arn
+  description = "ARN of the created EventBridge rule"
 }
 
+/*
  output "eventbridge_name" {
     value = aws_cloudwatch_event_rule.event_rule.name
 }
