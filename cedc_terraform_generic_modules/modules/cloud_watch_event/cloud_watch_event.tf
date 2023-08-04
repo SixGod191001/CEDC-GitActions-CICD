@@ -15,8 +15,7 @@ output "event_rule_arn" {
   description = "output ARN of the created EventBridge rule"
 }
 
-/*
- output "eventbridge_name" {
-    value = aws_cloudwatch_event_rule.event_rule.name
+ output "event_rule_name" {
+   value       = aws_cloudwatch_event_rule.event_rule.name
+   description = "output NAME of the created EventBridge rule"
 }
-*/
