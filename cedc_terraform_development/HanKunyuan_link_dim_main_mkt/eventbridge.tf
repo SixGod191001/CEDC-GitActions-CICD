@@ -6,12 +6,17 @@ module "cloudwatch_event_rule" {
   dependencies                = ["cedc_terraform_development/cedc_eventbirdge"]
 }
 
+output "event_rule_arn" {
+  value       = module.cloudwatch_event_rule.event_rule_arn
+  description = "ARN of the EventBridge rule created in the module"
+}
 
 module "lambda_add_permission" {
   source                      = "../../cedc_terraform_generic_modules/modules/lambda_permissions"
   permission_statement_id     = "lambda_add_permission"
   lambda_function_name        = "Test"
-  execution_arn               = "arn:aws:events:ap-northeast-1:213903534337:rule/cedc-eventbridge-trigger-lambda"   #eventbridge的arn
+ # execution_arn               = "arn:aws:events:ap-northeast-1:213903534337:rule/cedc-eventbridge-trigger-lambda"   #eventbridge的arn
+  execution_arn               = module.cloudwatch_event_rule.event_rule_arn
   depends_on                  = [module.cloudwatch_event_rule]
 }
 
