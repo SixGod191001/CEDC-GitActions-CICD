@@ -1,7 +1,7 @@
 module "glue_script" {
   source       = "../../cedc_terraform_generic_modules/modules/s3_object"
   scripts_bucket_name = "scriptbucket"
-  scripts_name ="cicdgluescript.py"
+  scripts_name ="cicd-glue-script.py"
   scripts_path ="${path.module}/cicdgluescript.py"
 }
 
@@ -13,7 +13,7 @@ module "glue_job" {
   work_type          = "Standard"
   glue_version       = "2.0"
   s3_path_header     = "s3://"
-  s3_path_tail       = "/cicdgluescript.py"
+  s3_path_tail       = "/cicd-glue-script.py"
   scripts_bucket_name = "scriptbucket"
   dependencies       = ["cedc_terraform_development/cedc_glue_iam_common"]
   depends_on         = [module.glue_script]
