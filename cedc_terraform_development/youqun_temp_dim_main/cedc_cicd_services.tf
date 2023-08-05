@@ -19,6 +19,15 @@ module "glue_job" {
   depends_on         = [module.glue_script]  
  }
 
+module "state_machine" {
+  source            = "../../cedc_terraform_generic_modules/modules/step_functions"
+  state_machine_name = cicd-workflow-state-machine"
+  role_name          = "step_functions_execute_role"
+  definition        = file("${path.module}/state_machine_definition.json")
+  tags              = { "project" = "CEDC" }
+  dependencies       = ["cedc_terraform_development/cedc_step_functions_iam_common"]
+}
+
 module "step_function_glue" {
   source                = "../../cedc_terraform_generic_modules/modules/step_functions"
   state_machine_name    = "cicd-workflow-state-machine"
@@ -28,14 +37,7 @@ module "step_function_glue" {
   depends_on            = [module.glue_job]
 }
 
-module "state_machine" {
-  source            = "../../cedc_terraform_generic_modules/modules/step_functions"
-  state_machine_name = cicd-workflow-state-machine"
-  role_name          = "step_functions_execute_role"
-  definition        = file("${path.module}/state_machine_definition.json")
-  tags              = { "project" = "CEDC" }
-  dependencies       = ["cedc_terraform_development/cedc_step_functions_iam_common"]
-}
+
 
 module "lambda_script" {
   source = "../../cedc_terraform_generic_modules/modules/s3_object"
