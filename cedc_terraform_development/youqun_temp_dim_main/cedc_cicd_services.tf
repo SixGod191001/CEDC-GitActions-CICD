@@ -49,7 +49,7 @@ module "lambda_script" {
 module "lambda" {
   source = "../../cedc_terraform_generic_modules/modules/lambda"
   function_name = "cicd-workflow-lambda"
-  role_name = "lambda_execute_role"
+  role_name = "lambda_execute_role00000"
   handler = "lambda_function.lambda_handler"
   runtime = "python3.9"
   s3_bucket = "gitaction-s3-terraform"
