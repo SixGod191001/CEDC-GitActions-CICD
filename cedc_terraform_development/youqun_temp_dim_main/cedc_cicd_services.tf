@@ -19,42 +19,34 @@ module "glue_job" {
   depends_on         = [module.glue_script]  
  }
 
-module "state_machine" {
-  source            = "../../cedc_terraform_generic_modules/modules/step_functions"
-  state_machine_name = "cicd-workflow-state-machine"
-  role_name          = "step_functions_execute_role"
-  definition        = file("${path.module}/state_machine_definition.json")
-  tags              = { "project" = "CEDC" }
-  dependencies       = ["cedc_terraform_development/cedc_step_functions_iam_common"]
-}
-
 module "step_function_glue" {
   source                = "../../cedc_terraform_generic_modules/modules/step_functions"
   state_machine_name    = "cicd-workflow-state-machine"
   role_name             = "step_functions_execute_role" 
   definition            = file("${path.module}/state_machine_definition.json")
   tags                  = {}  # 可根据实际情况进行调整
+  dependencies          = ["cedc_terraform_development/cedc_step_functions_iam_common"]
   depends_on            = [module.glue_job]
 }
 
-
-
 module "lambda_script" {
-  source = "../../cedc_terraform_generic_modules/modules/s3_object"
-  scripts_bucket_name = "scriptbucket"
-  scripts_name  = "cicd-lambda-scprit.zip"
-  scripts_path = "${path.module}/cicd-lambda-scprit.zip"
+  source               = "../../cedc_terraform_generic_modules/modules/s3_object"
+  scripts_bucket_name  = "scriptbucket"
+  scripts_name         = "cicd-lambda-scprit.zip"
+  scripts_path         = "${path.module}/cicd-lambda-scprit.zip"
+  depends_on           = [module.step_function_glue]
 }
 
 module "lambda" {
-  source = "../../cedc_terraform_generic_modules/modules/lambda"
-  function_name = "cicd-workflow-lambda"
-  role_name = "lambda_execute_role00000"
-  handler = "lambda_function.lambda_handler"
-  runtime = "python3.9"
-  s3_bucket = "gitaction-s3-terraform"
-  s3_key = "cicd-lambda-scprit.zip"
-  dependencies = ["cedc_terraform_development/cedc_lambda_iam_common","state_machine"]
+  source           = "../../cedc_terraform_generic_modules/modules/lambda"
+  function_name    = "cicd-workflow-lambda"
+  role_name        = "lambda_execute_role00000"
+  handler          = "lambda_function.lambda_handler"
+  runtime          = "python3.9"
+  s3_bucket        = "scriptbucket"
+  s3_key           = "cicd-lambda-scprit.zip"
+  dependencies     = ["cedc_terraform_development/cedc_lambda_iam_common"]
+  depends_on       = [module.lambda_script]
 }
 
 # "depends_on" of each module may needs to be appropriately adjusted 
@@ -62,10 +54,10 @@ module "lambda" {
 module "cloudwatch_event_rule" {
   source                      = "../../cedc_terraform_generic_modules/modules/cloud_watch_event"
   event_rule_name             = "cicd-eventbridge-trigger-lambda"
-  schedule_expression_details = "rate(1 minute)"                                              # trigger every minute
+  schedule_expression_details = "rate(5 minute)"                                              # trigger every minute
   role_name                   = "eventbridge_invoke_lambda_execute_role"
   dependencies                = ["cedc_terraform_development/cedc_eventbridge_iam_common"]    # depends on the created IAM
-# depends_on                  = [module.lambda]                                               # This module depends on lambda already being created
+  depends_on                  = [module.lambda]                                               # This module depends on lambda already being created
 }
 
 output "event_rule_arn" {
@@ -92,7 +84,7 @@ module "cloudwatch_event_rule_target" {
   source                      = "../../cedc_terraform_generic_modules/modules/cloud_watch_event_target"
   event_rule_name             = module.cloudwatch_event_rule.event_rule_name
   target_id                   = "eventbridge_target_for_lambda"
-  arn_details                 = "arn:aws:lambda:ap-northeast-1:213903534337:function:Test"     # ARN of the target lambda (need to change)
+  arn_details                 = "arn:aws:lambda:ap-northeast-1:213903534337:function:cicd-workflow-lambda"     # ARN of the target lambda (need to change)
   depends_on                  = [module.lambda_add_permission]                                 # This module depends on eventbridge being created and lambda being added permissions
 }
     
