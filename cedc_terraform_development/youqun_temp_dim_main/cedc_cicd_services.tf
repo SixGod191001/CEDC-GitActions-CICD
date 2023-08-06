@@ -38,15 +38,15 @@ module "lambda_script" {
 }
 
 module "lambda" {
-  source           = "../../cedc_terraform_generic_modules/modules/lambda"
-  function_name    = "cicd-workflow-lambda"
-  role_name        = "lambda_execute_role00000"
-  handler          = "lambda_function.lambda_handler"
-  runtime          = "python3.9"
-  s3_bucket        = "scriptbucket"
-  s3_key           = "cicd-lambda-scprit.zip"
-  dependencies     = ["cedc_terraform_development/cedc_lambda_iam_common"]
-  depends_on       = [module.lambda_script]
+  source               = "../../cedc_terraform_generic_modules/modules/lambda"
+  function_name        = "cicd-workflow-lambda"
+  role_name            = "lambda_execute_role00000"
+  handler              = "lambda_function.lambda_handler"
+  runtime              = "python3.9"
+  scripts_bucket_name  = "scriptbucket"
+  s3_key               = "cicd-lambda-scprit.zip"
+  dependencies         = ["cedc_terraform_development/cedc_lambda_iam_common"]
+  depends_on           = [module.lambda_script]
 }
 
 # "depends_on" of each module may needs to be appropriately adjusted 
