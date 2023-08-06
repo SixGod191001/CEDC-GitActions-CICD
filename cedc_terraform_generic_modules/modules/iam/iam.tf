@@ -11,7 +11,7 @@ resource "aws_iam_policy" "iam_policy" {
 
 resource "aws_iam_policy_attachment" "iam_policy_attachment" {
   name        = "attachment"
-  policy_arn  = "[arn:aws:iam::aws:policy/AmazonS3FullAccess]"
+  policy_arn  = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 
   roles = concat(
     [aws_iam_role.iam_role.name],
