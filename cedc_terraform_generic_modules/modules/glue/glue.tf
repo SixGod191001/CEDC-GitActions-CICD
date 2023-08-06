@@ -12,7 +12,7 @@ resource "aws_glue_job" "glue_job" {
   number_of_workers = var.worker_number
   worker_type       = var.work_type
   glue_version      = var.glue_version
-  s3_bucket         = data.aws_ssm_parameter.ssm_param.value
+  
  
 command {
     script_location = "${var.s3_path_header}${data.aws_ssm_parameter.ssm_param.value}${var.s3_path_tail}"  
