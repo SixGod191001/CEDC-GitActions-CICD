@@ -1,22 +1,24 @@
 {
-	"Version": "2012-10-17",
-	"Statement": [
-		{
-			"Sid": "VisualEditor1",
-			"Effect": "Allow",
-			"Action": "sts:AssumeRole",
-			"Resource": "arn:aws:iam::500431098704:role/cedc_s3"
-		},
-		{
-			"Sid": "VisualEditor0",
-			"Effect": "Allow",
-			"Action": "s3:*",
-			"Resource": [
-				"arn:aws:s3:::cedcdevraw/*",
-				"arn:aws:s3:::cedcdevraw",
-				"arn:aws:s3:::cicddevraw/*",
-				"arn:aws:s3:::cicddevraw",
-				"arn:aws:s3:::cicddevtarget/*",
-				"arn:aws:s3:::cicddevtarget"
-			]
-		} 
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor1",
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Resource": "arn:aws:iam::500431098704:role/cedc_s3"
+    },
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::cedcdevraw/*",
+        "arn:aws:s3:::cedcdevraw",
+        "arn:aws:s3:::cicddevraw/*",
+        "arn:aws:s3:::cicddevraw",
+        "arn:aws:s3:::cicddevtarget/*",
+        "arn:aws:s3:::cicddevtarget"
+      ]
+    }
+  ]
+}
