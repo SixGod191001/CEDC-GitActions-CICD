@@ -3,7 +3,7 @@ data "aws_iam_role" "lambda_function_role" {
 }
 
 data "aws_ssm_parameter" "ssm_param" {
- name          = data.aws_ssm_parameter.ssm_param.value
+  name           = var.scripts_bucket_name
 }
 
 resource "aws_lambda_function" "lambda_rule" {
