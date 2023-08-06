@@ -33,7 +33,3 @@ variable "dependencies" {
   default = []
 }
 
-variable "scripts_bucket_name" {
-  description = "The burcket of the job script"
-  type = string
-}
