@@ -15,6 +15,6 @@ resource "aws_glue_job" "glue_job" {
   s3_bucket         = data.aws_ssm_parameter.ssm_param.value
  
 command {
-    script_location = "${var.s3_path_header}${s3_bucket}${var.s3_path_tail}"  
+    script_location = "${var.s3_path_header}${data.aws_ssm_parameter.ssm_param.value}${var.s3_path_tail}"  
  }
 }
