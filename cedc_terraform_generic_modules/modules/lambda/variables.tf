@@ -31,7 +31,7 @@ variable "dependencies" {
   description = "The dependencies of the lambda"
   type = list(string)
   default = []
-
+}
 
 variable "scripts_bucket_name" {
   description = "The burcket of the job script"
