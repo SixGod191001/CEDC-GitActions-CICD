@@ -54,7 +54,7 @@ module "lambdavic" {
   runtime = "python3.9"
   s3_bucket = "gitaction-s3-terraform"
   s3_key = "cicd-lambda-scprit.zip"
-  dependencies = ["cedc_terraform_development/lyw_cedc_lambda_iam_common","state_machine"]
+  dependencies = ["cedc_terraform_development/cedc_lambda_iam_common","state_machine"]
 }
 
 # "depends_on" of each module may needs to be appropriately adjusted 
