@@ -46,7 +46,7 @@ module "lambda_script" {
   scripts_path = "${path.module}/cicd-lambda-scprit.zip"
 }
 
-module "lambdavic" {
+module "lambda" {
   source = "../../cedc_terraform_generic_modules/modules/lambda"
   function_name = "cicd-workflow-lambda"
   role_name = "lambda_execute_role"
