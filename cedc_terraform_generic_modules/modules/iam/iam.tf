@@ -11,12 +11,9 @@ resource "aws_iam_policy" "iam_policy" {
 
 resource "aws_iam_policy_attachment" "iam_policy_attachment" {
   name        = "attachment"
-  policy_arn  = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-
-  roles = concat(
-    [aws_iam_role.iam_role.name],
-    [for i in aws_iam_policy.iam_policy : i.arn]
-  )
+  count       = length(var.policy_names)
+  policy_arn  = aws_iam_policy.iam_policy[count.index].arn
+  roles       = [aws_iam_role.iam_role.name]
 }
 
 output "iam_role_arn" {
