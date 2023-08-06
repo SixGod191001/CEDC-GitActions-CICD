@@ -18,12 +18,12 @@ resource "aws_iam_policy_attachment" "iam_policy_attachment" {
 
 resource "aws_iam_policy_attachment" "iam_policy_attachment1" {
   policy_arn  = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
-  roles       = [aws_iam_role.iam_role.name]
+  roles       = "glue_execute_role"
 }
 
 resource "aws_iam_policy_attachment" "iam_policy_attachment2" {
   policy_arn  = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-  roles       = [aws_iam_role.iam_role.name]
+  roles       = "glue_execute_role"
 }
 
 output "iam_role_arn" {
