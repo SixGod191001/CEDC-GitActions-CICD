@@ -3,7 +3,7 @@ variable "scripts_bucket_name" {
   type = string
 }
 
-variable "scripts_bucket_location" {
+variable "scripts_name" {
   description = "The location of the script bucket"
   type = string
 }
