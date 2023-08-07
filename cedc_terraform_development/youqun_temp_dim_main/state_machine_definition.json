@@ -6,7 +6,7 @@
       "Type": "Task",
       "Resource": "arn:aws:states:::glue:startJobRun.sync",
       "Parameters": {
-        "JobName": "cicd-gitaction-glue-job"
+        "JobName": "cicd_gitaction_glue_job"
       },
       "End": true
     }
