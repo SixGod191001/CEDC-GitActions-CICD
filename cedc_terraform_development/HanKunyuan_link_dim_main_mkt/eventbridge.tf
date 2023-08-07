@@ -7,13 +7,6 @@ module "cloudwatch_event_rule" {
   dependencies                = ["cedc_terraform_development/cedc_eventbirdge"]    # depends on the created IAM
 }
 
-/*
-output "event_rule_arn" {
-  value       = module.cloudwatch_event_rule.event_rule_arn
-  description = "output ARN of the EventBridge rule created in the module"
-}
-*/
-
 output "event_rule_arn_by_ssm" {
   value       = module.cloudwatch_event_rule.event_rule_arn_by_ssm
   description = "output ARN of the created EventBridge rule by SSM"
