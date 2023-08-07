@@ -5,7 +5,7 @@ module "glue_script" {
   scripts_path         ="${path.module}/cicd_glue_script.py"
 }
 
-module "glue_job" {
+module "glue_job1" {
   source             = "../../cedc_terraform_generic_modules/modules/glue"
   job_name           = "cicd_gitaction_glue_job"
   role_name          = "glue_execute_role"
