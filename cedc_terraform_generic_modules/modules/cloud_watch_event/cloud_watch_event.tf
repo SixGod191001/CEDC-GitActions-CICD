@@ -2,6 +2,13 @@ data "aws_iam_role" "cloudwatch_event_role" {
   name = var.role_name
 }
 
+/*
+# Get the ssm parameters
+data "aws_ssm_parameter" "my_value" {
+  name = "myValue"
+}
+*/
+
 resource "aws_cloudwatch_event_rule" "event_rule" {
   name                  = var.event_rule_name
   schedule_expression   = var.schedule_expression_details      # Trigger time (frequency/specific time)
