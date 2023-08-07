@@ -10,9 +10,17 @@ resource "aws_cloudwatch_event_rule" "event_rule" {
   role_arn              = data.aws_iam_role.cloudwatch_event_role.arn      
 }
 
+/*
 output "event_rule_arn" {
   value       = aws_cloudwatch_event_rule.event_rule.arn
   description = "output ARN of the created EventBridge rule"
+}
+*/
+
+output "event_rule_arn_by_ssm" {
+  value       = format("arn:aws:events:%s:%s:rule/%s", "ap-northeast-1", "213903534337", var.event_rule_name)
+              # arn:aws:events:ap-northeast-1:213903534337:rule/cedc-eventbridge-trigger-lambda
+  description = "output ARN of the created EventBridge rule by SSM"
 }
 
  output "event_rule_name" {
