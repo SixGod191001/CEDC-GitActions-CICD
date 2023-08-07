@@ -19,7 +19,7 @@ module "glue_job" {
   depends_on         = [module.glue_script]  
  }
 
-module "step_function_glue" {
+module "step_function_glue1" {
   source                = "../../cedc_terraform_generic_modules/modules/step_functions"
   state_machine_name    = "cicd_workflow_state_machine"
   role_name             = "step_functions_execute_role" 
