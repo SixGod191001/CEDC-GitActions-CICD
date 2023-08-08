@@ -1,4 +1,4 @@
-variable "lambda_function" {
+variable "lambda_function_name" {
     type = string
 }
 
