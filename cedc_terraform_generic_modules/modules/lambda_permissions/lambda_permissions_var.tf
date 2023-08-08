@@ -11,8 +11,3 @@ variable "permission_statement_id" {
 variable "lambda_function_name" {
    type = string
 }
-
-variable "dependencies" {
-  type    = list(string)
-  default = []
-}
