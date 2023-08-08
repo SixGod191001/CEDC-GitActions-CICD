@@ -2,7 +2,6 @@ data "aws_iam_role" "cloudwatch_event_role" {
   name = var.role_name
 }
 
-/*
 # Get the ssm parameters_account
 data "aws_ssm_parameter" "Account" {
   name = "ETL_Account"
@@ -12,7 +11,6 @@ data "aws_ssm_parameter" "Account" {
 data "aws_ssm_parameter" "Region" {
   name = "ETL_Region"
 }
-*/
 
 resource "aws_cloudwatch_event_rule" "event_rule" {
   name                  = var.event_rule_name
@@ -22,7 +20,6 @@ resource "aws_cloudwatch_event_rule" "event_rule" {
   role_arn              = data.aws_iam_role.cloudwatch_event_role.arn      
 }
 
-/*
 output "event_rule_arn_by_ssm" {
   value       = format("arn:aws:events:%s:%s:rule/%s", data.aws_ssm_parameter.Region.value, data.aws_ssm_parameter.Account.value, var.event_rule_name)
   description = "output ARN of the created EventBridge rule by SSM"
@@ -32,4 +29,3 @@ output "event_rule_arn_by_ssm" {
    value       = aws_cloudwatch_event_rule.event_rule.name
    description = "output NAME of the created EventBridge rule"
 }
-*/
