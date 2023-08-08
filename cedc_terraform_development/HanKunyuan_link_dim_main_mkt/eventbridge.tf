@@ -36,3 +36,4 @@ module "cloudwatch_event_rule_target" {
   depends_on                  = [module.lambda_add_permission]                                 # This module depends on lambda added permission
 }
 
+
