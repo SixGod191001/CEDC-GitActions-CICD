@@ -75,6 +75,7 @@ module "lambda_add_permission" {
   source                      = "../../cedc_terraform_generic_modules/modules/lambda_permissions"
   permission_statement_id     = "lambda_add_permission"
   lambda_function_name        = "cicd_workflow_lambda"                                            # NAME of the target lambda (need to change)
+  event_rule_name             = "cedc-eventbridge-trigger-lambda"
 #  execution_arn               = module.cloudwatch_event_rule.event_rule_arn       # ARN of the EventBridge
   depends_on                  = [module.cloudwatch_event_rule]                    # This module depends on eventbridge and lambda already being created
 }
