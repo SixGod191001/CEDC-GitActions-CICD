@@ -85,8 +85,9 @@ module "cloudwatch_event_rule_target" {
   source                      = "../../cedc_terraform_generic_modules/modules/cloud_watch_event_target"
   event_rule_name             = module.cloudwatch_event_rule.event_rule_name
   target_id                   = "eventbridge_target_for_lambda"
-  arn_details                 = "arn:aws:lambda:ap-northeast-1:213903534337:function:cicd_workflow_lambda"     # ARN of the target lambda (need to change)
-  depends_on                  = [module.lambda_add_permission]                                 # This module depends on eventbridge being created and lambda being added permissions
+  lambda_function_name        = "Test"                                                    # NAME of the target lambda to get arn
+  depends_on                  = [module.lambda_add_permission]                            # This module depends on lambda added permission
 }
+
     
     
