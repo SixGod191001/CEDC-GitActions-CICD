@@ -7,7 +7,6 @@ module "cloudwatch_event_rule" {
   dependencies                = ["cedc_terraform_development/cedc_eventbirdge"]    # depends on the created IAM
 }
 
-/*
 output "event_rule_arn_by_ssm" {
   value       = module.cloudwatch_event_rule.event_rule_arn_by_ssm
   description = "output ARN of the created EventBridge rule by SSM"
@@ -17,15 +16,14 @@ output "event_rule_name" {
   value       = module.cloudwatch_event_rule.event_rule_name
   description = "output NAME of the EventBridge rule created in the module"
 }
-*/
 
 # target lambda adds permissions that can be operated by eventbridge
 module "lambda_add_permission" {
   source                      = "../../cedc_terraform_generic_modules/modules/lambda_permissions"
   permission_statement_id     = "lambda_add_permission"
   lambda_function_name        = "Test"
-  event_rule_name             = "cedc-eventbridge-trigger-lambda"
-# execution_arn               = module.cloudwatch_event_rule.event_rule_arn_by_ssm       # ARN of the EventBridge
+# event_rule_name             = "cedc-eventbridge-trigger-lambda"
+  execution_arn               = module.cloudwatch_event_rule.event_rule_arn_by_ssm       # ARN of the EventBridge
   depends_on                  = [module.cloudwatch_event_rule]                           # This module depends on eventbridge already being created
 }
 
