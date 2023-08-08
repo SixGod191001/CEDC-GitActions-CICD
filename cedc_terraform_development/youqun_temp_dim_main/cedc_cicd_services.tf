@@ -55,13 +55,13 @@ module "cloudwatch_event_rule" {
   source                      = "../../cedc_terraform_generic_modules/modules/cloud_watch_event"
   event_rule_name             = "cicd_eventbridge_trigger_lambda"
   schedule_expression_details = "rate(16 minutes)"                                              # trigger every minute
-  role_name                   = "eventbridge_invoke_lambda_execute_role1"
+  role_name                   = "eventbridge_invoke_lambda_execute_role"
   dependencies                = ["cedc_terraform_development/cedc_eventbridge_iam_common"]    # depends on the created IAM
   depends_on                  = [module.lambda]                                               # This module depends on lambda already being created
 }
 
 output "event_rule_arn" {
-  value       = module.cloudwatch_event_rule.event_rule_arn
+  value       = module.cloudwatch_event_rule.event_rule_arn_by_ssm
   description = "output ARN of the EventBridge rule created in the module"
 }
 
