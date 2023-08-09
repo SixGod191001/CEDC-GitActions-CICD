@@ -1,8 +1,22 @@
-resource "aws_lambda_permission" "lambda_permission" {
-  statement_id  = var.permission_statement_id  
-  action        = "lambda:InvokeFunction"      
-  function_name = var.lambda_function_name     #target lambda
-  principal     = "events.amazonaws.com"       #表示只有来自 AWS 事件服务的调用才能调用 Lambda 函数
+# Get the ssm parameters_account
+data "aws_ssm_parameter" "Account" {
+  name = "ETL_Account"
+}
 
-  source_arn = var.execution_arn               #调用target lambda的eventbridge的arn
+# Get the ssm parameters_region
+data "aws_ssm_parameter" "Region" {
+  name = "ETL_Region"
+}
+
+# Concatenate strings as arn and assign it to local variable
+locals {
+  event_rule_arn = format("arn:aws:events:%s:%s:rule/%s", data.aws_ssm_parameter.Region.value, data.aws_ssm_parameter.Account.value, var.event_rule_name)
+}
+
+resource "aws_lambda_permission" "lambda_permission" {
+  statement_id   = var.permission_statement_id
+  action         = "lambda:InvokeFunction"
+  function_name  = var.lambda_function_name
+  principal      = "events.amazonaws.com"
+  source_arn     = local.event_rule_arn
 }
