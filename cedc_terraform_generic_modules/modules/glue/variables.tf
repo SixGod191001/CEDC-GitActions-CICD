@@ -8,12 +8,7 @@ variable "role_name" {
   type        = string
 }
 
-variable "s3_path_header" {
-  description = "The s3 path header"
-  type = string
-}
-
-variable "s3_path_tail" {
+variable "s3_key" {
   description = "The s3 path tail"
   type = string
 }
