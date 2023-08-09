@@ -1,8 +1,6 @@
-
 variable "event_rule_name" {
     type = string
 }
-
 
 variable "permission_statement_id" {
     type = string
