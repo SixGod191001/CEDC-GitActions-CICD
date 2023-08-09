@@ -6,17 +6,16 @@ module "glue_script" {
 }
 
 module "glue_job" {
-  source             = "../../cedc_terraform_generic_modules/modules/glue"
-  job_name           = "cicd_gitaction_glue_job"
-  role_name          = "glue_execute_role"
-  worker_number      =  2
-  work_type          = "Standard"
-  glue_version       = "2.0"
-  s3_path_header     = "s3://"
-  s3_path_tail       = "/cicd_glue_script.py"
+  source              = "../../cedc_terraform_generic_modules/modules/glue"
+  job_name            = "cicd_gitaction_glue_job"
+  role_name           = "glue_execute_role"
+  worker_number       =  2
+  work_type           = "Standard"
+  glue_version        = "2.0"
+  s3_key              = "/cicd_glue_script.py"
   scripts_bucket_name = "scriptbucket"
-  dependencies       = ["cedc_terraform_development/cedc_glue_iam_common"]
-  depends_on         = [module.glue_script]  
+  dependencies        = ["cedc_terraform_development/cedc_glue_iam_common"]
+  depends_on          = [module.glue_script]
  }
 
 module "step_function_glue" {
