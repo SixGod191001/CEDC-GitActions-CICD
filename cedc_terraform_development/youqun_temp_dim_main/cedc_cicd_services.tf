@@ -49,10 +49,10 @@ module "lambda" {
   depends_on           = [module.lambda_script]
 }
 
-# "depends_on" of each module may needs to be appropriately adjusted 
 # create eventbridge rule
 module "cloudwatch_event_rule" {
   source                      = "../../cedc_terraform_generic_modules/modules/cloud_watch_event"
+
   event_rule_name             = "cicd_eventbridge_trigger_lambda"
   schedule_expression_details = "rate(1200 minutes)"                                              # trigger every minute
   role_name                   = "eventbridge_invoke_lambda_execute_role"
@@ -89,5 +89,3 @@ module "cloudwatch_event_rule_target" {
   depends_on                  = [module.lambda_add_permission]                            # This module depends on lambda added permission
 }
 
-    
-    
