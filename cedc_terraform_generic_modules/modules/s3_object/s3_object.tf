@@ -5,6 +5,6 @@ data "aws_ssm_parameter" "ssm_param" {
 
 resource "aws_s3_bucket_object" "glue_script" {
   bucket = data.aws_ssm_parameter.ssm_param.value
-  key    = var.scripts_bucket_location
+  key    = var.scripts_name
   source = var.scripts_path
 }

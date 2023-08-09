@@ -6,7 +6,7 @@
       "Type": "Task",
       "Resource": "arn:aws:states:::glue:startJobRun.sync",
       "Parameters": {
-        "JobName": "cedc-s3-read-s3-data-glue-job-youqun"
+        "JobName": "cicd_gitaction_glue_job"
       },
       "End": true
     }
