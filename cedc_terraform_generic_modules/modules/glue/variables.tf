@@ -6,7 +6,7 @@ variable "job_name" {
 variable "role_name" {
   description = "The name of the IAM role"
   type        = string
-  default     = "glue_execute_role"
+  default     = "glue-execute"
 }
 
 variable "s3_key" {
