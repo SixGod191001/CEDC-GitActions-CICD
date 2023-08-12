@@ -6,6 +6,7 @@ variable "job_name" {
 variable "role_name" {
   description = "The name of the IAM role"
   type        = string
+  default     = "glue_execute_role"
 }
 
 variable "s3_key" {
@@ -21,10 +22,12 @@ variable "scripts_bucket_name" {
 variable "worker_number" {
   description = "The number of workers"
   type = number
+  default = 2
 }
 variable "work_type" {
   description = "The work type"
   type = string
+  default = "Standard"
 }
 
 variable "dependencies" {
@@ -34,5 +37,5 @@ variable "dependencies" {
 
 variable "glue_version" {
   type = string
-  default = ""
+  default = "2.0"
 }
