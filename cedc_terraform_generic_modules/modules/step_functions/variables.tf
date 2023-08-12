@@ -21,5 +21,5 @@ variable "tags" {
 
 variable "dependencies" {
   type    = list(string)
-  default = []
+  default = ["cedc_terraform_development/cedc_step_functions_iam_common"]
 }
