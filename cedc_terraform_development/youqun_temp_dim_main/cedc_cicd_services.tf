@@ -9,7 +9,6 @@ module "glue_job" {
   source              = "../../cedc_terraform_generic_modules/modules/glue"
   job_name            = "cicd_gitaction_glue_job"
   s3_key              = "/cicd_glue_script.py"
-  scripts_bucket_name = "scriptbucket"
   dependencies        = ["cedc_terraform_development/cedc_glue_iam_common"]
   depends_on          = [module.glue_script]
  }
