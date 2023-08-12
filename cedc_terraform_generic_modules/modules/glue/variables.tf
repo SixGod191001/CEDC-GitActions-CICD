@@ -33,7 +33,7 @@ variable "work_type" {
 
 variable "dependencies" {
   type    = list(string)
-  default = []
+  default = ["cedc_terraform_development/cedc_glue_iam_common"]
 }
 
 variable "glue_version" {
