@@ -6,6 +6,7 @@ variable "state_machine_name" {
 variable "role_name" {
   description = "The name of the IAM role"
   type        = string
+  default     = "step_functions_execute_role"
 }
 
 variable "definition" {
