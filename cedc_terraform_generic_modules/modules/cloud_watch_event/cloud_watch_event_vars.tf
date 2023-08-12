@@ -1,5 +1,6 @@
 variable "role_name" {
     type = string
+    default  = "eventbridge_invoke_lambda_execute_role"
 }
 
 variable "dependencies" {
@@ -8,8 +9,7 @@ variable "dependencies" {
 }
 
 variable "event_rule_name" {
-   type     =  string
-   default  = "eventbridge_invoke_lambda_execute_role"
+   type     =  string  
 }
 
 variable "schedule_expression_details" {
