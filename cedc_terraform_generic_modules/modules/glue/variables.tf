@@ -17,6 +17,7 @@ variable "s3_key" {
 variable "scripts_bucket_name" {
   description = "The burcket of the job script"
   type = string
+  default = "scriptbucket"
 }
 
 variable "worker_number" {
