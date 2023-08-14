@@ -6,6 +6,7 @@ variable "state_machine_name" {
 variable "role_name" {
   description = "The name of the IAM role"
   type        = string
+  default     = "step_functions_execute_role"
 }
 
 variable "definition" {
@@ -16,9 +17,10 @@ variable "definition" {
 variable "tags" {
   description = "A map of tags for the state machine"
   type        = map(string)
+  default     = {}
 }
 
 variable "dependencies" {
   type    = list(string)
-  default = []
+  default = ["cedc_terraform_development/cedc_step_functions_iam_common"]
 }

@@ -6,6 +6,7 @@ variable "job_name" {
 variable "role_name" {
   description = "The name of the IAM role"
   type        = string
+  default     = "glue-execute"
 }
 
 variable "s3_key" {
@@ -16,23 +17,26 @@ variable "s3_key" {
 variable "scripts_bucket_name" {
   description = "The burcket of the job script"
   type = string
+  default = "scriptbucket"
 }
 
 variable "worker_number" {
   description = "The number of workers"
   type = number
+  default = 2
 }
 variable "work_type" {
   description = "The work type"
   type = string
+  default = "Standard"
 }
 
 variable "dependencies" {
   type    = list(string)
-  default = []
+  default = ["cedc_terraform_development/cedc_glue_iam_common"]
 }
 
 variable "glue_version" {
   type = string
-  default = ""
+  default = "2.0"
 }
