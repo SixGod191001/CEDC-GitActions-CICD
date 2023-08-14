@@ -5,7 +5,7 @@ This is repo to use git actions with terraform to deploy resources to aws
 
 
 1. https://catalog.workshops.aws/stepfunctions/en-US/introduction
-2. SageWorker  https://catalog.us-east-1.prod.workshops.aws/workshops/63069e26-921c-4ce1-9cc7-dd882ff62575/en-US
+2. Sagemaker  https://catalog.us-east-1.prod.workshops.aws/workshops/63069e26-921c-4ce1-9cc7-dd882ff62575/en-US
 3. DataBrew  https://catalog.us-east-1.prod.workshops.aws/workshops/6532bf37-3ad2-4844-bd26-d775a31ce1fa/en-US
 Basic:
    - task state
