@@ -1,0 +1,64 @@
+[
+  {
+    "Action": {
+      "Operation": "FILL_WITH_CUSTOM",
+      "Parameters": {
+        "columnDataType": "double",
+        "sourceColumn": "Product_Id_11_Total_Sales_sum_sum",
+        "value": "0"
+      }
+    }
+  },
+  {
+    "Action": {
+      "Operation": "FILL_WITH_CUSTOM",
+      "Parameters": {
+        "columnDataType": "double",
+        "sourceColumn": "Product_Id_22_Total_Sales_sum_sum",
+        "value": "0"
+      }
+    }
+  },
+  {
+    "Action": {
+      "Operation": "SUBTRACT",
+      "Parameters": {
+        "functionStepType": "SUBTRACT",
+        "sourceColumn1": "Product_Id_11_Total_Sales_sum_sum",
+        "sourceColumn2": "Product_Id_22_Total_Sales_sum_sum",
+        "targetColumn": "SUBTRACT Column 1"
+      }
+    }
+  },
+  {
+    "Action": {
+      "Operation": "REMOVE_VALUES",
+      "Parameters": {
+        "sourceColumn": "SUBTRACT Column 1"
+      }
+    },
+    "ConditionExpressions": [
+      {
+        "Condition": "LESS_THAN_EQUAL",
+        "Value": "1",
+        "TargetColumn": "SUBTRACT Column 1"
+      }
+    ]
+  },
+  {
+    "Action": {
+      "Operation": "DELETE",
+      "Parameters": {
+        "sourceColumns": "[\"Product_Id_22_Total_Sales_sum_sum\"]"
+      }
+    }
+  },
+  {
+    "Action": {
+      "Operation": "DELETE",
+      "Parameters": {
+        "sourceColumns": "[\"Product_Id_11_Total_Sales_sum_sum\",\"SUBTRACT Column 1\"]"
+      }
+    }
+  }
+]

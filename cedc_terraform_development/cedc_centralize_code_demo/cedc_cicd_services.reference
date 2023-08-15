@@ -1,8 +1,7 @@
 module "glue_script" {
   source               = "../../cedc_terraform_generic_modules/modules/s3_object"
-  scripts_bucket_name  = "scriptbucket"
-  scripts_name         ="cicd_glue_script.py"
-  scripts_path         ="${path.module}/cicd_glue_script.py"
+  s3_bucket_name       = "scriptbucket"
+  key                  = "${path.module}/cicd_glue_script.py"
 }
 
 module "glue_job" {
@@ -21,8 +20,7 @@ module "step_function_glue" {
 
 module "lambda_script" {
   source               = "../../cedc_terraform_generic_modules/modules/s3_object"
-  scripts_bucket_name  = "scriptbucket"
-  scripts_name         = "cicd_lambda_scprit.zip"
+  s3_bucket_name       = "scriptbucket"
   scripts_path         = "${path.module}/cicd_lambda_scprit.zip"
   depends_on           = [module.step_function_glue]
 }

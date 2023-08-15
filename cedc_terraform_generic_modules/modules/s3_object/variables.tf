@@ -1,14 +1,15 @@
-variable "scripts_bucket_name" {
-  description = "your-script-bucket-name"
-  type = string
+variable "s3_bucket_name" {
+  description = "s3 bucket name"
+  type        = string
 }
 
-variable "scripts_name" {
-  description = "The location of the script bucket"
-  type = string
+variable "key" {
+  description = "The absolutely path of the object"
+  type        = string
 }
 
-variable "scripts_path" {
-  description = "path to your script.py"
-  type = string
+variable "files" {
+  description = "Local folder or path which should be uploaded to s3"
+  type        = list(string)
 }
+
