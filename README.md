@@ -1,10 +1,20 @@
 # CEDC-GitActions-CICD
 This is repo to use git actions with terraform to deploy resources to aws
 
-![](https://github.com/SixGod191001/CEDC-GitActions-CICD/blob/dev/GithubActions.drawio.png)
+## CICD Diagram
+![](https://github.com/SixGod191001/CEDC-GitActions-CICD/blob/main/documents/GithubActions.drawio.png)
+
+## Business Diagram
+![](https://github.com/SixGod191001/CEDC-GitActions-CICD/blob/main/documents/Phase2.drawio.png)
+
+## Release Diagram
+![](https://github.com/SixGod191001/CEDC-GitActions-CICD/blob/main/documents/github_release_workflow.drawio.png)
+
 
 
 1. https://catalog.workshops.aws/stepfunctions/en-US/introduction
+2. Sagemaker  https://catalog.us-east-1.prod.workshops.aws/workshops/63069e26-921c-4ce1-9cc7-dd882ff62575/en-US
+3. DataBrew  https://catalog.us-east-1.prod.workshops.aws/workshops/6532bf37-3ad2-4844-bd26-d775a31ce1fa/en-US
 Basic:
    - task state
    - run job
@@ -27,7 +37,7 @@ Usecase:
    - Large-Scale Parallelization with Distributed Map
    - Large-Scale Parallelization with Distributed Map
 
-2. GitActions workflow
+4. GitActions workflow
    - Feature --> DEV  (PR/Push)
    - DEV --> approve --> QA (PR/Push)
    - QA --> approve --> Release(tag)
@@ -40,7 +50,7 @@ Usecase:
        - ENV (github ENV: DEV,QA,PROD)
 	   - xxx
 
-3. Glue
+5. Glue
    - Pyspark Operator
    - Common Function Wrapper
    - Folder Structure
@@ -52,13 +62,13 @@ Usecase:
 	   - Jb_<name>
 	     - xxx.py
 
-4. Lambda
+6. Lambda
    Execute Step Functions
     - option1: call without parameters
 	- option2: call with parameters
 
 
-5. Terraform
+7. Terraform
    - Event Bridge
    - Lambda
    - Step Functions
