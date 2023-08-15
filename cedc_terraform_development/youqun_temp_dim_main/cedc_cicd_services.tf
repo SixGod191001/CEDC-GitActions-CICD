@@ -38,7 +38,7 @@ module "lambda" {
 module "cloudwatch_event_rule" {
   source                       = "../../cedc_terraform_generic_modules/modules/cloud_watch_event"
   event_rule_name              = "cicd-eventbridge-trigger-lambda"
-  schedule_expression_details  = "rate(30 minutes)"                                              # trigger every minute
+  schedule_expression_details  = "rate(31 minutes)"                                              # trigger every minute
   depends_on                   = [module.lambda]  
 }
 
