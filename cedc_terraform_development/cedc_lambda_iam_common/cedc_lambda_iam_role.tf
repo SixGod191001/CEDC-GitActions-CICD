@@ -1,4 +1,4 @@
-module "step_functions_iam_role1" {
+module "lambda_iam_role" {
   source          = "../../cedc_terraform_generic_modules/modules/iam"
   role_name       = "lambda_execute_role"
   assume_role_policy = file("${path.module}/trust_policy.json")

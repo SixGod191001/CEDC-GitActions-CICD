@@ -1,11 +1,14 @@
 {
-    "Version": "2012-10-17",
     "Statement": [
-      {
-      "Sid": "AllowLambdaToInvokeStepFunction",
-      "Effect": "Allow",
-      "Action": "states:StartExecution",
-      "Resource": "*"
-    }
-    ]
-  }
+        {
+            "Action": [
+                "states:StartExecution",
+                "states:ListStateMachines"
+            ],
+            "Effect": "Allow",
+            "Resource": "*",
+            "Sid": "AllowLambdaToInvokeStepFunction"
+        }
+    ],
+    "Version": "2012-10-17"
+}
