@@ -1,7 +1,15 @@
 # CEDC-GitActions-CICD
 This is repo to use git actions with terraform to deploy resources to aws
 
-![](https://github.com/SixGod191001/CEDC-GitActions-CICD/blob/dev/GithubActions.drawio.png)
+## CICD Diagram
+![](https://github.com/SixGod191001/CEDC-GitActions-CICD/blob/main/documents/GithubActions.drawio.png)
+
+## Business Diagram
+![](https://github.com/SixGod191001/CEDC-GitActions-CICD/blob/main/documents/Phase2.drawio.png)
+
+## Release Diagram
+![](https://github.com/SixGod191001/CEDC-GitActions-CICD/blob/main/documents/github_release_workflow.drawio.png)
+
 
 
 1. https://catalog.workshops.aws/stepfunctions/en-US/introduction
