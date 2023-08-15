@@ -2,14 +2,9 @@ data "aws_ssm_parameter" "ssm_param" {
   name = var.s3_bucket_name
 }
 
-data "local_file" "objects" {
-  count    = length(var.files)
-  filename = element(var.files, count.index)
-}
-
 locals {
   file_paths = flatten([
-    for file in data.local_file.objects : (
+    for file in var.files : (
       fileset(file, "**")  # 递归获取文件夹下的所有文件路径
     )
   ])

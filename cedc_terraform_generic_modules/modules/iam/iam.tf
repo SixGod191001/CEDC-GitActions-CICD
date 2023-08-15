@@ -16,6 +16,3 @@ resource "aws_iam_policy_attachment" "iam_policy_attachment" {
   roles       = [aws_iam_role.iam_role.name]
 }
 
-output "iam_role_arn" {
-  value = aws_iam_role.iam_role.arn
-}
