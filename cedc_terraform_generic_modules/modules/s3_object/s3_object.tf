@@ -10,15 +10,14 @@ data "local_file" "objects" {
 locals {
   file_paths = flatten([
     for file in data.local_file.objects : (
-      fileset(file, "**/*")  # 递归获取文件夹下的所有文件路径
+      fileset(file, "**")  # 递归获取文件夹下的所有文件路径
     )
   ])
 }
 
 resource "aws_s3_object" "s3_objects" {
   for_each = { for idx, file in local.file_paths : idx => file }
-
   bucket   = data.aws_ssm_parameter.ssm_param.value
-  key      = var.key
+  key      = each.value
   source   = each.value
 }
