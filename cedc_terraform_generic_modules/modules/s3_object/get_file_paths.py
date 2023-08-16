@@ -66,7 +66,7 @@ def setup_keys(keys, current_idx, self_key):
 
 if __name__ == "__main__":
     folder_paths = sys.argv[1].split(";")
-    if len(sys.argv[2]) is None:
+    if sys.argv[2] is None:
         keys = []
     else:
         keys = sys.argv[2].split(";")
