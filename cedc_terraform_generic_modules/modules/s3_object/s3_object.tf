@@ -5,7 +5,7 @@ data "aws_ssm_parameter" "ssm_param" {
 locals {
   file_paths = flatten([
     for file in var.files : (
-      fileset(file, "**")  # 递归获取文件夹下的所有文件路径
+      fileset(pathexpand(file), "**")  # 使用绝对路径获取文件夹下的所有文件路径
     )
   ])
 }
