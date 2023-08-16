@@ -11,6 +11,6 @@ variable "files" {
 variable "keys" {
   description = "target paths list in s3 bucket, you can upload multiple folders or objects to one s3 path, or upload multiple to multiple s3 path"
   type        = list(string)
-  default     = []
+  default     = ['NONE']
 }
 

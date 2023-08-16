@@ -66,10 +66,10 @@ def setup_keys(keys, current_idx, self_key):
 
 if __name__ == "__main__":
     folder_paths = sys.argv[1].split(";")
-    if sys.argv[2] is None:
+    keys = sys.argv[2].split(";")
+
+    if len(keys) == 1 and keys[0] == 'NONE':
         keys = []
-    else:
-        keys = sys.argv[2].split(";")
 
     file_paths_json = get_file_paths(folder_paths, keys)
     print(file_paths_json)
