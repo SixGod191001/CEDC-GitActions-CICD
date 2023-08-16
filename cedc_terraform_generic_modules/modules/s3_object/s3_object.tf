@@ -3,7 +3,7 @@ data "aws_ssm_parameter" "ssm_param" {
 }
 
 data "external" "file_paths" {
-  program = ["python", "${path.module}/get_file_paths.py", var.files]
+  program = ["python", "${path.module}/get_file_paths.py", join(";", var.files)]
 }
 
 resource "aws_s3_object" "s3_objects" {
