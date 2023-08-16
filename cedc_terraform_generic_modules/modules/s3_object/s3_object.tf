@@ -7,7 +7,7 @@ data "external" "file_paths" {
 }
 
 resource "aws_s3_object" "s3_objects" {
-  for_each = { for idx, file in jsondecode(data.external.file_paths.result) : idx => file }
+  for_each = data.external.file_paths.result
   bucket   = data.aws_ssm_parameter.ssm_param.value
   key      = each.value
   source   = each.value
