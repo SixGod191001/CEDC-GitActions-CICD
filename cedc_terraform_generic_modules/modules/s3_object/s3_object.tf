@@ -1,15 +1,14 @@
 data "aws_ssm_parameter" "ssm_param" {
-  name     = var.s3_bucket_name
+  name = var.s3_bucket_name
 }
 
-data "local_file" "objects" {
-  count    = length(var.files)
-  filename = element(var.files, count.index)
+data "external" "file_paths" {
+  program = ["python", "${path.module}/get_file_paths.py", join(";", var.files), join(";", var.keys)]
 }
 
 resource "aws_s3_object" "s3_objects" {
-  for_each = data.local_file.objects
+  for_each = data.external.file_paths.result
   bucket   = data.aws_ssm_parameter.ssm_param.value
-  key      = var.key
+  key      = each.key
   source   = each.value
 }

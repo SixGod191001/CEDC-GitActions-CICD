@@ -3,13 +3,14 @@ variable "s3_bucket_name" {
   type        = string
 }
 
-variable "key" {
-  description = "The absolutely path of the object"
-  type        = string
-}
-
 variable "files" {
   description = "Local folder or path which should be uploaded to s3"
   type        = list(string)
+}
+
+variable "keys" {
+  description = "target paths list in s3 bucket, you can upload multiple folders or objects to one s3 path, or upload multiple to multiple s3 path"
+  type        = list(string)
+  default     = ["NONE"]
 }
 
