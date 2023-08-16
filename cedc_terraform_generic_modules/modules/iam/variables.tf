@@ -3,18 +3,25 @@ variable "role_name" {
   type        = string
 }
 
-variable "assume_role_policy"{
+variable "trust_policy"{
   description = "trust policy"
   type        = string
 }
 
-
-variable "policy_names" {
-  description = "A list of policy names"
+variable "custom_policy_names" {
+  description = "A list of custom policy names"
   type        = list(string)
+  default     = []
 }
 
-variable "policy_contents" {
-  description = "A list of policy contents"
+variable "custom_policy_contents" {
+  description = "A list of custom policy contents"
   type        = list(string)
+  default     = []
+}
+
+variable "system_policy_names" {
+  description = "A list of system policy names"
+  type        = list(string)
+  default     = []
 }
