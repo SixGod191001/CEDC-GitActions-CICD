@@ -12,5 +12,6 @@ def get_file_paths(folder_paths):
 
 if __name__ == "__main__":
     folder_paths = sys.argv[1].split(";")
+    file_paths = get_file_paths(folder_paths)
     file_paths_json = json.dumps({"result": file_paths})
     print(file_paths_json)
