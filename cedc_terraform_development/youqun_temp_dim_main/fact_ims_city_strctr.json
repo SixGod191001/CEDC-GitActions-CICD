@@ -16,6 +16,6 @@
     {"name": "PACKAGE","type": "string"},
     {"name": "PACK_SIZE","type": "string"},
     {"name": "NFCI_Code","type": "string"},
-    {"name": "NFCI_Description","type": "string"}
+    {"name": "NFCI_Description1","type": "string"}
   ]
 }
