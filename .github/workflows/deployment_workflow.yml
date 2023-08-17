@@ -52,7 +52,7 @@ env:
   AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
   AWS_ROLE: ${{ secrets.AWS_ROLE }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+  
 
 jobs:
   build:
@@ -99,7 +99,7 @@ jobs:
           else
             echo "env_name=Feature" >> $GITHUB_OUTPUT
           fi
-
+            
       - name: Output ENV
         run: echo "I'm using variable ${{ steps.branch_check.outputs.env_name }}"
 
@@ -110,7 +110,7 @@ jobs:
     needs: [build]
     if: |
       ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
-
+   
     name: Deploy services to AWS
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
@@ -124,7 +124,7 @@ jobs:
         with:
           ref: ${{ needs.build.outputs.ref_branch }}
           submodules: true
-
+      
       - name: Print directory structure
         run: find . -type d -o -type f
 
@@ -136,11 +136,11 @@ jobs:
         using: 'node16'
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ AWS_ROLE }}
-          aws-region: ${{ AWS_REGION }}
+          role-to-assume: ${ AWS_ROLE }
+          aws-region: ${ AWS_REGION }
           role-session-name: GitHub-Actions-TERRAFORM
-
-
+      
+      
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 #        with:
@@ -150,11 +150,11 @@ jobs:
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
-
+  
       - name: Terraform Init
         id: init
-        run: terraform init -lock-timeout=600s -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
-
+        run: terraform init -lock-timeout=600s -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}" 
+      
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
@@ -167,11 +167,11 @@ jobs:
         continue-on-error: true
 
       - uses: actions/github-script@v6
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' 
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-          github-token: ${{ GITHUB_TOKEN }}
+          github-token: ${ GITHUB_TOKEN }
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
