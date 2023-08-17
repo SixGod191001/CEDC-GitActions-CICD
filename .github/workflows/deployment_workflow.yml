@@ -135,12 +135,11 @@ jobs:
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          node-version: '16'
-          role-to-assume: $AWS_ROLE
-          aws-region: $AWS_REGION
+          role-to-assume: ${{ env.AWS_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
           role-session-name: GitHub-Actions-TERRAFORM
-      
-      
+
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 #        with:
@@ -150,11 +149,11 @@ jobs:
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
-  
+
       - name: Terraform Init
         id: init
-        run: terraform init -lock-timeout=600s -backend-config="bucket=$AWS_BUCKET_NAME" -backend-config="key=$AWS_BUCKET_KEY_NAME" -backend-config="region=$AWS_REGION" 
-      
+        run: terraform init -lock-timeout=600s -backend-config="bucket=${{ env.AWS_BUCKET_NAME }}" -backend-config="key=${{ env.AWS_BUCKET_KEY_NAME }}" -backend-config="region=${{ env.AWS_REGION }}"
+
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
@@ -167,11 +166,11 @@ jobs:
         continue-on-error: true
 
       - uses: actions/github-script@v6
-        if: github.event_name == 'pull_request' 
+        if: github.event_name == 'pull_request'
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-          github-token: $GITHUB_TOKEN
+          github-token: ${{ env.GITHUB_TOKEN }}
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
