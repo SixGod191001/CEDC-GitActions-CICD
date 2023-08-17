@@ -12,3 +12,8 @@ variable "table_name" {
   description = "glue catalog table name"
   type        = string
 }
+
+variable "dependencies" {
+  type    = list(string)
+  default = []
+}
