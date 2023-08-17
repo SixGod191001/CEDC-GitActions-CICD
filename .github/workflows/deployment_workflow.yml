@@ -104,35 +104,36 @@ jobs:
       env_name: ${{ steps.branch_check.outputs.env_name }}
       ref_branch: ${{ steps.set_ref_branch.outputs.ref_branch }}
 
-  deploy:
+  checkout_code:
     needs: [build]
     if: |
       ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
-   
-    name: Deploy services to AWS
-    runs-on: ubuntu-latest
+
+    name: Checkout code from branch: ${{ needs.build.outputs.ref_branch }}
     environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
     defaults:
       run:
         shell: bash
         working-directory: .
     steps:
-      - name: Print environment variables
-        run: |
-          echo "AWS_REGION is ${{ secrets.AWS_REGION }}"
-          echo "AWS_BUCKET_NAME is ${{ secrets.AWS_BUCKET_NAME }}"
-          echo "AWS_BUCKET_KEY_NAME is ${{ secrets.AWS_BUCKET_KEY_NAME }}"
-          echo "AWS_ROLE is ${{ secrets.AWS_ROLE }}"
-          echo "GITHUB_TOKEN is ${{ secrets.GITHUB_TOKEN }}"
-          echo "ref_branch is ${{ needs.build.outputs.ref_branch }}"
-          echo "ENV is ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}"
-
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           ref: ${{ needs.build.outputs.ref_branch }}
           submodules: true
-      
+
+  config_terraform_configuration:
+    needs: [checkout_code]
+    if: |
+      ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
+
+    name: Automatically config terraform main configuration
+    environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
       - name: Print directory structure
         run: find . -type d -o -type f
 
@@ -140,6 +141,18 @@ jobs:
         run: |
           python ./auto_config_main.py
 
+  config_aws_credentials:
+    needs: [config_terraform_configuration]
+    if: |
+      ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
+
+    name: Setup AWS credentials
+    environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -148,24 +161,84 @@ jobs:
           role-session-name: GitHub-Actions-TERRAFORM
 
 
+  setup_terraform:
+    needs: [config_aws_credentials]
+    if: |
+      ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
+
+    name: Setup Terraform Version
+    environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 #        with:
 #          terraform_version: 1.5.3
 
+  terraform_format:
+    needs: [setup_terraform]
+    if: |
+      ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
+
+    name: Teraform format
+    environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
 
+  terraform_init:
+    needs: [terraform_format]
+    if: |
+      ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
+
+    name: Terraform init with S3 backend
+    environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
       - name: Terraform Init
         id: init
         run: terraform init -lock-timeout=600s -backend-config="bucket=${{ secrets.AWS_BUCKET_NAME }}" -backend-config="key=${{ secrets.AWS_BUCKET_KEY_NAME }}" -backend-config="region=${{ secrets.AWS_REGION }}"
 
+  terraform_validate:
+    needs: [terraform_init]
+    if: |
+      ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
+
+    name: Terraform validate
+    environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
 
+  terraform_plan:
+    needs: [terraform_validate]
+    if: |
+      ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
+
+    name: Terraform plan
+    environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
@@ -173,6 +246,18 @@ jobs:
         # if: github.event_name == 'pull_request'
         continue-on-error: true
 
+  write_pull_requests_log:
+    needs: [terraform_plan]
+    if: |
+      ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
+
+    name: Write pull requests log
+    environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         env:
@@ -210,10 +295,34 @@ jobs:
               body: output
             })
 
+  terraform_plan_status:
+    needs: [terraform_plan]
+    if: |
+      ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
+
+    name: Terraform plan
+    environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
+  terraform_apply:
+    needs: [terraform_plan_status]
+    if: |
+      ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
+
+    name: Terraform apply
+    environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
       - name: Terraform Apply to default account
         # if: github.event_name == 'pull_request'
         run: terraform apply -auto-approve
