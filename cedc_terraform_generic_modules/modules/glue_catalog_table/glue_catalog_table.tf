@@ -12,7 +12,7 @@ resource "aws_glue_catalog_table" "create_catalog_table" {
   storage_descriptor {
     input_format    = "org.apache.hadoop.mapred.TextInputFormat"
     output_format   = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
-    location        = "s3://${var.data_file_bucket_name}/${var.s3_key}/${jsondecode(file("${var.table_strctr_file_path}/${each.key}")).table_name}.csv"
+    location        = "s3://${var.datafile_bucket_name}/${var.s3_key}/${jsondecode(file("${var.table_strctr_file_path}/${each.key}")).table_name}.csv"
 
     dynamic "columns" {
       iterator      = columns
