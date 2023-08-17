@@ -10,6 +10,7 @@ module "create_glue_catalog_table" {
   glue_catalog_table_list   = "*_strctr.json"
   datafile_bucket_name      = "cicddevraw"
   s3_key                    = "source"
+  depends_on                = [module.create_glue_database]
 }
 
 module "glue_script" {
