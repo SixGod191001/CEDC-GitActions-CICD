@@ -1,8 +1,23 @@
+module "glue_database" {
+  source                    = "../../cedc_terraform_generic_modules/modules/glue_database"
+  table_strctr_file_path    = "${path.module}"
+  glue_catalog_table_list   = "*_strctr.json"
+}
+
+module "glue_catalog_table" {
+  source                    = "../../cedc_terraform_generic_modules/modules/glue_catalog_table"
+  table_strctr_file_path    = "${path.module}"
+  glue_catalog_table_list   = "*_strctr.json"
+  data_file_bucket_name     = "cicddevraw"
+  s3_key                    = "source"
+}
+
 module "glue_script" {
   source               = "../../cedc_terraform_generic_modules/modules/s3_object"
   scripts_bucket_name  = "scriptbucket"
   scripts_name         ="cicd_glue_script.py"
   scripts_path         ="${path.module}/cicd_glue_script.py"
+  depends_on          = [module.glue_catalog_table]
 }
 
 module "glue_job" {
