@@ -100,6 +100,10 @@ jobs:
       - name: Output branch
         run: echo "I'm using variable ${{ steps.set_ref_branch.outputs.ref_branch }}"
 
+    outputs:
+      env_name: ${{ steps.branch_check.outputs.env_name }}
+      ref_branch: ${{ steps.set_ref_branch.outputs.ref_branch }}
+
   deploy:
     needs: [build]
     if: |
@@ -115,11 +119,11 @@ jobs:
     steps:
       - name: Print environment variables
         run: |
-          echo "AWS_REGION is ${{ env.AWS_REGION }}"
-          echo "AWS_BUCKET_NAME is ${{ env.AWS_BUCKET_NAME }}"
-          echo "AWS_BUCKET_KEY_NAME is ${{ env.AWS_BUCKET_KEY_NAME }}"
-          echo "AWS_ROLE is ${{ env.AWS_ROLE }}"
-          echo "GITHUB_TOKEN is ${{ env.GITHUB_TOKEN }}"
+          echo "AWS_REGION is ${{ secrets.AWS_REGION }}"
+          echo "AWS_BUCKET_NAME is ${{ secrets.AWS_BUCKET_NAME }}"
+          echo "AWS_BUCKET_KEY_NAME is ${{ secrets.AWS_BUCKET_KEY_NAME }}"
+          echo "AWS_ROLE is ${{ secrets.AWS_ROLE }}"
+          echo "GITHUB_TOKEN is ${{ secrets.GITHUB_TOKEN }}"
           echo "ref_branch is ${{ needs.build.outputs.ref_branch }}"
           echo "ENV is ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}"
 
