@@ -133,9 +133,9 @@ jobs:
           python ./auto_config_main.py
 
       - name: Configure AWS credentials from AWS account
-        using: 'node16'
         uses: aws-actions/configure-aws-credentials@v2
         with:
+          node-version: '16'
           role-to-assume: ${ AWS_ROLE }
           aws-region: ${ AWS_REGION }
           role-session-name: GitHub-Actions-TERRAFORM
