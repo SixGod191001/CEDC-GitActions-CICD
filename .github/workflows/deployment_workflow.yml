@@ -47,12 +47,6 @@ permissions:
       pull-requests: write # This is required for gh bot to comment PR
 env:
   TF_LOG: INFO
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-  AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
-  AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
-  AWS_ROLE: ${{ secrets.AWS_ROLE }}
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
 
 jobs:
   build:
@@ -119,6 +113,16 @@ jobs:
         shell: bash
         working-directory: .
     steps:
+      - name: Print environment variables
+        run: |
+          echo "AWS_REGION is ${{ env.AWS_REGION }}"
+          echo "AWS_BUCKET_NAME is ${{ env.AWS_BUCKET_NAME }}"
+          echo "AWS_BUCKET_KEY_NAME is ${{ env.AWS_BUCKET_KEY_NAME }}"
+          echo "AWS_ROLE is ${{ env.AWS_ROLE }}"
+          echo "GITHUB_TOKEN is ${{ env.GITHUB_TOKEN }}"
+          echo "ref_branch is ${{ needs.build.outputs.ref_branch }}"
+          echo "ENV is ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}"
+
       - name: Checkout code
         uses: actions/checkout@v3
         with:
@@ -135,8 +139,8 @@ jobs:
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ env.AWS_ROLE }}
-          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
           role-session-name: GitHub-Actions-TERRAFORM
 
 
@@ -152,7 +156,7 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init -lock-timeout=600s -backend-config="bucket=${{ env.AWS_BUCKET_NAME }}" -backend-config="key=${{ env.AWS_BUCKET_KEY_NAME }}" -backend-config="region=${{ env.AWS_REGION }}"
+        run: terraform init -lock-timeout=600s -backend-config="bucket=${{ secrets.AWS_BUCKET_NAME }}" -backend-config="key=${{ secrets.AWS_BUCKET_KEY_NAME }}" -backend-config="region=${{ secrets.AWS_REGION }}"
 
       - name: Terraform Validate
         id: validate
@@ -170,7 +174,7 @@ jobs:
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-          github-token: ${{ env.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
