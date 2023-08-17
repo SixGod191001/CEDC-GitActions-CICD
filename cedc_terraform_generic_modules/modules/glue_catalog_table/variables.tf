@@ -20,7 +20,7 @@ variable "glue_catalog_table_list" {
 }
 
 variable "datafile_bucket_name" {
-  description = ""The burcket of the file"
+  description = "The burcket of the file"
   type = string
 }
 
