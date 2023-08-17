@@ -99,10 +99,10 @@ jobs:
           fi
             
       - name: Output ENV
-        run: echo "${{ build.outputs.env_name }}"
+        run: echo "I'm using variable ${{ steps.branch_check.outputs.env_name }}"
 
       - name: Output branch
-        run: echo "${{ build.outputs.ref_branch }}"
+        run: echo "I'm using variable ${{ steps.set_ref_branch.outputs.ref_branch }}"
 
   deploy:
     needs: [build]
