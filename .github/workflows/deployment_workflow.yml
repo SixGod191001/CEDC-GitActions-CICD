@@ -108,8 +108,8 @@ jobs:
     needs: [build]
     if: |
       ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
-
-    name: Checkout code from branch: ${{ needs.build.outputs.ref_branch }}
+   
+    name: "Checkout code from branch: ${{ needs.build.outputs.ref_branch }}"
     environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
     defaults:
       run:
@@ -126,7 +126,7 @@ jobs:
     needs: [checkout_code]
     if: |
       ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
-
+   
     name: Automatically config terraform main configuration
     environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
     defaults:
@@ -145,7 +145,7 @@ jobs:
     needs: [config_terraform_configuration]
     if: |
       ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
-
+   
     name: Setup AWS credentials
     environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
     defaults:
@@ -165,7 +165,7 @@ jobs:
     needs: [config_aws_credentials]
     if: |
       ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
-
+   
     name: Setup Terraform Version
     environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
     defaults:
@@ -182,7 +182,7 @@ jobs:
     needs: [setup_terraform]
     if: |
       ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
-
+   
     name: Teraform format
     environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
     defaults:
@@ -199,7 +199,7 @@ jobs:
     needs: [terraform_format]
     if: |
       ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
-
+   
     name: Terraform init with S3 backend
     environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
     defaults:
@@ -215,7 +215,7 @@ jobs:
     needs: [terraform_init]
     if: |
       ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
-
+   
     name: Terraform validate
     environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
     defaults:
@@ -231,7 +231,7 @@ jobs:
     needs: [terraform_validate]
     if: |
       ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
-
+   
     name: Terraform plan
     environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
     defaults:
@@ -250,7 +250,7 @@ jobs:
     needs: [terraform_plan]
     if: |
       ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
-
+   
     name: Write pull requests log
     environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
     defaults:
@@ -299,7 +299,7 @@ jobs:
     needs: [terraform_plan]
     if: |
       ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
-
+   
     name: Terraform plan
     environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
     defaults:
@@ -315,7 +315,7 @@ jobs:
     needs: [terraform_plan_status]
     if: |
       ${{ github.event_name }} == "push" || ${{ github.event_name }} == "workflow_dispatch" || ${{ github.event.pull_request.merged }} == true)
-
+   
     name: Terraform apply
     environment: ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}
     defaults:
