@@ -13,7 +13,12 @@ variable "glue_catalog_table_list" {
   type = string
 }
 
-variable "s3_bucket" {
-  description = "s3 bucket"
+variable "file_bucket_name" {
+  description = ""The burcket of the file"
+  type = string
+}
+
+variable "s3_key" {
+  description = "The s3 path tail"
   type = string
 }
