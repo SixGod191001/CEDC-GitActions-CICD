@@ -5,3 +5,4 @@ module "prepared_s3_objects" {
   table_name     = "dim_brand_csv"
 }
 
+
