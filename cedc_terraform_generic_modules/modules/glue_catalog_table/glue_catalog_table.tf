@@ -1,5 +1,5 @@
 locals {
-  table_list        = fileset(path.module, var.catalog_table_name)
+  table_list        = fileset(path.module, var.glue_catalog_table_list)
 } 
 
 resource "aws_glue_catalog_table" "create_catalog_table" {
