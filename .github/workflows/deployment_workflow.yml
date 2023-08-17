@@ -135,8 +135,9 @@ jobs:
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${ AWS_ROLE }
-          aws-region: ${ AWS_REGION }
+          node-version: '16'
+          role-to-assume: $AWS_ROLE
+          aws-region: $AWS_REGION
           role-session-name: GitHub-Actions-TERRAFORM
       
       
@@ -152,7 +153,7 @@ jobs:
   
       - name: Terraform Init
         id: init
-        run: terraform init -lock-timeout=600s -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}" 
+        run: terraform init -lock-timeout=600s -backend-config="bucket=$AWS_BUCKET_NAME" -backend-config="key=$AWS_BUCKET_KEY_NAME" -backend-config="region=$AWS_REGION" 
       
       - name: Terraform Validate
         id: validate
@@ -170,7 +171,7 @@ jobs:
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-          github-token: ${ GITHUB_TOKEN }
+          github-token: $GITHUB_TOKEN
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
