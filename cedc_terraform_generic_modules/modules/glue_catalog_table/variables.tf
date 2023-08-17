@@ -8,12 +8,18 @@ variable "catalog_database_name" {
   type = string
 }
 
+
+variable "table_strctr_file_path" {
+  description = "The glue catalog table list"
+  type = string
+}
+
 variable "glue_catalog_table_list" {
   description = "The glue catalog table list"
   type = string
 }
 
-variable "file_bucket_name" {
+variable "datafile_bucket_name" {
   description = ""The burcket of the file"
   type = string
 }
