@@ -1,8 +1,3 @@
-variable "glue_database_name" {
-  description = "The glue database name"
-  type = string
-}
-
 variable "table_strctr_file_path" {
   description = "The glue catalog table strctr path"
   type = string
