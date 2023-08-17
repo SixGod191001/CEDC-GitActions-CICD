@@ -4,3 +4,4 @@ module "prepared_s3_objects" {
   keys           = ["databrew_workshop"]
   files          = ["${path.module}/datafiles/","${path.module}/feature-engineering/","${path.module}/profile-output/","${path.module}/recipes/","${path.module}/shared/"]
 }
+
