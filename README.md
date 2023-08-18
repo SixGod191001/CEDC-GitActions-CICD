@@ -86,63 +86,6 @@ This project is aiming to build a whole cloud based CICD ETL process. Include be
       │     (Jakey)      │
       └────────────────┘
    
-5. Glue
-   - Pyspark Operator
-   - Common Function Wrapper
-   - Folder Structure
-     - GluePysparkWorkspace
-	   - commons
-	     - init.py
-		 - secret_manager_handler.py
-		 - ...
-	   - Jb_<name>
-	     - xxx.py
-
-6. Lambda
-   Execute Step Functions
-    - option1: call without parameters
-	- option2: call with parameters
-
-
-7. Terraform
-   - Event Bridge
-   - Lambda
-   - Step Functions
-   - Glue
-   - DynamoDB Table
-   - Execute Role (Lambda Execute Role, Step Functions Execute Role, Glue Execute Role)
-   
-   
-.
-├── main.tf
-├── variables.tf
-├── outputs.tf
-├── providers.tf
-├── modules/
-│   ├── module1/
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   ├── outputs.tf
-│   ├── module2/
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   ├── outputs.tf
-├── environments/
-│   ├── dev/
-│   │   ├── main.tfvars
-│   ├── prod/
-│   │   ├── main.tfvars
-├── .terraform/
-├── terraform.tfstate
-├── terraform.tfstate.backup
-├── .gitignore
-├── README.md
-
-
-6. Step Functions
-call glue
-
-
    ## Github CICD integration in AWS
 
 To integrate Github CICD with AWS, follow these steps:
