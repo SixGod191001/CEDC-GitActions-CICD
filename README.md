@@ -1,6 +1,34 @@
 ![CEDC](https://gitee.com/SixGod2019/shared-info/raw/master/github_images/images/cedc-logo.png)
-# CEDC-GitActions-CICD
-This is repo to use git actions with terraform to deploy resources to aws
+
+## Backgroud
+This project is aiming to build a whole cloud based CICD ETL process. Include below Parts:
+
+1. Cloud Service
+   - EventBrige
+   - Lambda
+   - Step Function
+   - Glue
+2. Terraform 
+3. GitAction CICD
+4. Glue ETL Common Solution
+5. Multi-account architecture
+
+## Project Name
+<font color=red>**C**</font>loud base <font color=red>**E**</font>TL <font color=red>**D**</font>evOps process of <font color=red>**C**</font>ommunity = <font color=red>**CEDC**</font> **GITACTION**</font> **CICD**
+
+## Project Directory
+- [cedc_terraform_generic_modules](https://github.com/SixGod191001/CEDC-GitActions-CICD/tree/main/cedc_terraform_generic_modules)
+- [cedc_terraform_development](https://github.com/SixGod191001/CEDC-GitActions-CICD/tree/main/cedc_terraform_development)
+  
+## Project Wiki
+[Project Wiki](https://github.com/SixGod191001/CEDC-GitActions-CICD/wiki)
+  - [Home](https://github.com/SixGod191001/CEDC-GitActions-CICD/wiki)
+  - [Q&A](https://github.com/SixGod191001/CEDC/wiki/QA---%E5%B7%B2%E7%9F%A5%E9%97%AE%E9%A2%98-&-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88)
+    
+## Project Sprint
+[Sprint](https://github.com/users/SixGod191001/projects/3)
+
+## Architecture
 
 ## CICD Diagram
 ![](https://github.com/SixGod191001/CEDC-GitActions-CICD/blob/main/documents/GithubActions.drawio.png)
@@ -12,37 +40,17 @@ This is repo to use git actions with terraform to deploy resources to aws
 ![](https://github.com/SixGod191001/CEDC-GitActions-CICD/blob/main/documents/github_release_workflow.drawio.png)
 
 
+## Operation process
+## WORKSHOP
+1. Step Function  https://catalog.workshops.aws/stepfunctions/en-US/introduction
+2. Sagemaker      https://catalog.us-east-1.prod.workshops.aws/workshops/63069e26-921c-4ce1-9cc7-dd882ff62575/en-US
+3. DataBrew       https://catalog.us-east-1.prod.workshops.aws/workshops/6532bf37-3ad2-4844-bd26-d775a31ce1fa/en-US
 
-1. https://catalog.workshops.aws/stepfunctions/en-US/introduction
-2. Sagemaker  https://catalog.us-east-1.prod.workshops.aws/workshops/63069e26-921c-4ce1-9cc7-dd882ff62575/en-US
-3. DataBrew  https://catalog.us-east-1.prod.workshops.aws/workshops/6532bf37-3ad2-4844-bd26-d775a31ce1fa/en-US
-Basic:
-   - task state
-   - run job
-   - callback with task token
-   - AWS SDK Service integrations
-   - Choice and Map State
-   - Parallel State
-Development:
-   - Error Handling
-   - Manage State Machines with infrastructure as code
-   - Cloud9
-   - AWS CDK
-   - AWS SAM
-   - Terraform
-Operation:
-   - Metrics
-   - Logs
-   - Traces
-Usecase:
-   - Large-Scale Parallelization with Distributed Map
-   - Large-Scale Parallelization with Distributed Map
-
-4. GitActions workflow
+## GitActions workflow
    - Feature --> DEV  (PR/Push)
-   - DEV --> approve --> QA (PR/Push)
-   - QA --> approve --> Release(tag)
-   
+   - DEV --> approve --> Release(tag) (PR/Push) tag是备份，不触发发布流程
+   - Release(tag) --> approve --> Main(PROD)
+
    condition: not all actions will trigger the workflow (include *.tf, *.py etc, exclude README.md etc)
    manual runbook:
      - input variables: 
@@ -50,7 +58,34 @@ Usecase:
        - branch
        - ENV (github ENV: DEV,QA,PROD)
 	   - xxx
+## GitActions workflow Chart
 
+      ┌────────────────┐
+      │   Feature Env  │
+      │     (Branch)   │
+      └────────────────┘
+             │
+             ▼
+      ┌────────────────┐ ◀── Pull Request
+      │   Dev Env      │
+      │  (Branch: dev) │
+      │ (aws:cedc_glue)│
+      └────────────────┘
+             │
+             ▼
+      ┌────────────────┐    Pull Request --TAG
+      │   Relaease Env       │◀── With Reviewer
+      │ (Branch: release) │
+      │    (Cui)     │
+      └────────────────┘
+             │
+             ▼
+      ┌────────────────┐    Release Request
+      │   Prod Env     │◀── With Approval
+      │ (Branch: main)  │
+      │     (Jakey)      │
+      └────────────────┘
+   
 5. Glue
    - Pyspark Operator
    - Common Function Wrapper
@@ -184,33 +219,7 @@ c. Create two policies with the following permissions:
 
 d. Create an S3 bucket to store the state file.
 
- ## CICD Workflow  
- ```
-      ┌────────────────┐
-      │   Feature Env  │
-      │     (Branch)   │
-      └────────────────┘
-             │
-             ▼
-      ┌────────────────┐ ◀── Pull Request
-      │   Dev Env      │
-      │  (Branch: dev) │
-      │ (aws:cedc_glue)│
-      └────────────────┘
-             │
-             ▼
-      ┌────────────────┐    Pull Request
-      │   QA Env       │◀── With Reviewer
-      │ (Branch: main) │
-      │    (Jacky)     │
-      └────────────────┘
-             │
-             ▼
-      ┌────────────────┐    Release Request
-      │   Prod Env     │◀── With Approval
-      │ (Branch: tag)  │
-      │     (Cui)      │
-      └────────────────┘
+
 
  ```
 ## CEDC——命名规范
