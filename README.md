@@ -1,3 +1,4 @@
+![CEDC](https://gitee.com/SixGod2019/shared-info/raw/master/github_images/images/cedc-logo.png)
 # CEDC-GitActions-CICD
 This is repo to use git actions with terraform to deploy resources to aws
 
