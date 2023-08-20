@@ -1,5 +1,5 @@
 variable "s3_bucket_name" {
-  description = "s3 bucket name"
+  description = "this is the name of ssm parameter which contains s3 bucket name"
   type        = string
 }
 

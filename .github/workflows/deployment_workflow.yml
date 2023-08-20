@@ -83,9 +83,9 @@ jobs:
           elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "main" ]; then
             echo "env_name=PROD" >> $GITHUB_OUTPUT
           elif [ "${{ steps.set_ref_branch.outputs.ref_branch }}" = "dev" ]; then
+            echo "env_name=DEV" >> $GITHUB_OUTPUT
+          elif [[ "${{ steps.set_ref_branch.outputs.ref_branch }}" == release* ]]; then
             echo "env_name=UAT" >> $GITHUB_OUTPUT
-          elif [[ "${{ steps.set_ref_branch.outputs.ref_branch }}" == refs/tags/* ]]; then
-            echo "env_name=Release" >> $GITHUB_OUTPUT
           elif [[ "${{ steps.set_ref_branch.outputs.ref_branch }}" == feature* ]]; then
             echo "env_name=Feature" >> $GITHUB_OUTPUT
           else
@@ -115,15 +115,6 @@ jobs:
         shell: bash
         working-directory: .
     steps:
-      - name: Print environment variables
-        run: |
-          echo "AWS_REGION is ${{ secrets.AWS_REGION }}"
-          echo "AWS_BUCKET_NAME is ${{ secrets.AWS_BUCKET_NAME }}"
-          echo "AWS_BUCKET_KEY_NAME is ${{ secrets.AWS_BUCKET_KEY_NAME }}"
-          echo "AWS_ROLE is ${{ secrets.AWS_ROLE }}"
-          echo "GITHUB_TOKEN is ${{ secrets.GITHUB_TOKEN }}"
-          echo "ref_branch is ${{ needs.build.outputs.ref_branch }}"
-          echo "ENV is ${{ github.event.inputs.deploy_target ||  needs.build.outputs.env_name }}"
       - name: Checkout code
         uses: actions/checkout@v3
         with:
@@ -136,6 +127,11 @@ jobs:
       - name: Dynamic set main configuration
         run: |
           python ./auto_config_main.py
+
+      - name: Dynamic get bucket name by aws environment
+        run: |
+          python ./auto_set_bucket_name.py
+
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -154,8 +150,14 @@ jobs:
         run: terraform fmt -check
         continue-on-error: true
 
-      - name: Terraform Init
-        id: init
+      - name: Terraform Init - Feature
+        id: initFeature
+        if: ${{ needs.build.outputs.env_name == 'Feature' }}
+        run: terraform init -lock-timeout=600s -backend-config="bucket=${{ secrets.AWS_BUCKET_NAME }}" -backend-config="key=${{ secrets.AWS_BUCKET_KEY_NAME) }}-${{ github.actor }}" -backend-config="region=${{ secrets.AWS_REGION }}"
+
+      - name: Terraform Init - None Feature
+        id: initNoneFeature
+        if: ${{ needs.build.outputs.env_name != 'Feature' }}
         run: terraform init -lock-timeout=600s -backend-config="bucket=${{ secrets.AWS_BUCKET_NAME }}" -backend-config="key=${{ secrets.AWS_BUCKET_KEY_NAME }}" -backend-config="region=${{ secrets.AWS_REGION }}"
 
       - name: Terraform Validate

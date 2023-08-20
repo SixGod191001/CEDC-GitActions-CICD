@@ -25,3 +25,9 @@ variable "system_policy_names" {
   type        = list(string)
   default     = []
 }
+
+variable "ssm_parameter_name_for_s3_bucket" {
+  description = "A list of ssm parameter name for s3 bucket cross all the ENV"
+  type        = list(string)
+  default     = []
+}

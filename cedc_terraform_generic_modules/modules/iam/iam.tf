@@ -23,3 +23,4 @@ resource "aws_iam_policy_attachment" "iam_system_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/${var.system_policy_names[count.index]}"
 }
 
+
