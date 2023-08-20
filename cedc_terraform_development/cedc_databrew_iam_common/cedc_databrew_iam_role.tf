@@ -1,4 +1,4 @@
-module "step_functions_iam_role" {
+module "cedc_databrew_common_role" {
   source          = "../../cedc_terraform_generic_modules/modules/iam"
   role_name       = "jacky_databrew_common_role"
   trust_policy = file("${path.module}/trust_policy.json")
