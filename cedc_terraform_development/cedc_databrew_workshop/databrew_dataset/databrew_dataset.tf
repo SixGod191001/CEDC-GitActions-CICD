@@ -4,6 +4,3 @@ module "databrew_dataset" {
   database_name  = "testdb"
   table_name     = "customers"
 }
-
-
-
