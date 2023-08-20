@@ -1,0 +1,14 @@
+{
+    "Statement": [
+        {
+            "Action": [
+                "states:StartExecution",
+                "states:ListStateMachines"
+            ],
+            "Effect": "Allow",
+            "Resource": "*",
+            "Sid": "AllowLambdaToInvokeStepFunction"
+        }
+    ],
+    "Version": "2012-10-17"
+}
