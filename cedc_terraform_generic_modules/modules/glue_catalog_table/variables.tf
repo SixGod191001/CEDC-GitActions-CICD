@@ -1,9 +1,14 @@
-variable "catalog_table_name" {
-  description = "The catalog table name"
+variable "table_strctr_file_path" {
+  description = "The glue catalog table strctr path"
   type = string
 }
 
-variable "catalog_database_name" {
-  description = "The catalog database name"
+variable "glue_catalog_table_list" {
+  description = "The glue catalog table list"
   type = string
+}
+
+variable "dependencies" {
+  type    = list(string)
+  default = []
 }
