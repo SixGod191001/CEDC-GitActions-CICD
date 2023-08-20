@@ -9,6 +9,10 @@ path = "./cedc_terraform_development"
 def replace_match(match):
     print("process match --> {}".format(match))
     value = get_parameter_value(str(match[0]))
+
+    if value is None:
+        return match[0] + match[1]
+
     return value + match[1]
 
 
@@ -17,14 +21,16 @@ def get_parameter_value(parameter_name):
     # 在这里替换为你的获取参数值的逻辑
     ssm_client = boto3.client('ssm')
 
-    response = ssm_client.get_parameter(
-        Name=parameter_name,
-        WithDecryption=True
-    )
-    print("ssm response json is {}".format(response))
-    parameter_value = response['Parameter']['Value']
-    print("get ssm value is {}".format(parameter_value))
-    return parameter_value
+    try:
+        response = ssm_client.get_parameter(
+            Name=parameter_name,
+            WithDecryption=True
+        )
+        parameter_value = response['Parameter']['Value']
+        return parameter_value
+    except ssm_client.exceptions.ParameterNotFound:
+        print("Parameter {} not found in SSM. Skipping this iteration.".format(parameter_name))
+        return None
 
 
 def process_json_file(file_path):
