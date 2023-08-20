@@ -27,10 +27,7 @@ def rename_path(input):
 
 tf_files = find_tf_files(path)
 
-content = 'variable "subdirectories" {\n'
-content += '  type = list(string)\n'
-content += '  default = [' + ', '.join(['"{0}"'.format(key) for key in mapping.keys()]) + ']\n'
-content += '}\n\n'
+content = ''
 
 for k, v in mapping.items():
     dependencies = []
