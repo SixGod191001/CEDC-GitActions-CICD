@@ -125,7 +125,7 @@ jobs:
         run: find . -type d -o -type f
 
       - name: Install python package
-        run: pip install ./requirements.txt
+        run: pip install -r ./requirements.txt
 
       - name: Dynamic set main configuration
         run: |
