@@ -1,4 +1,4 @@
-resource "awscc_databrew_dataset" "example_dataset" {
+resource "awscc_databrew_dataset" "dataset" {
   name  = var.name
   input = {
     data_catalog_input_definition = {
