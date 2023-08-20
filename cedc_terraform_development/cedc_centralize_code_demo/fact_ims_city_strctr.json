@@ -1,0 +1,21 @@
+{ "database": "default",
+  "table_name": "fact_ims_city",
+  "columns": [
+    {"name": "YM","type": "string"},
+    {"name": "CityCode","type": "string"},
+    {"name": "BrandCode","type": "string"},
+    {"name": "Corp","type": "string"},
+    {"name": "Product","type": "string"},
+    {"name": "Molecule","type": "string"},
+    {"name": "IMSCITY_Amount","type": "decimal(38,16)"},
+    {"name": "IMSCITY_QTY","type": "decimal(38,16)"},
+    {"name": "Defined_MKT","type": "string"},
+    {"name": "FocusCompeGrp","type": "string"},
+    {"name": "Manufactory","type": "string"},
+    {"name": "Flag_Aspen","type": "string"},
+    {"name": "PACKAGE","type": "string"},
+    {"name": "PACK_SIZE","type": "string"},
+    {"name": "NFCI_Code","type": "string"},
+    {"name": "NFCI_Description","type": "string"}
+  ]
+}
