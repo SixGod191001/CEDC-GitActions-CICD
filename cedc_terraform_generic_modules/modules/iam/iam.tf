@@ -24,7 +24,7 @@ resource "aws_iam_policy_attachment" "iam_system_policy_attachment" {
 }
 
 data "aws_iam_policy" "system_policy" {
-  name_prefix = var.system_policy_names[count.index]
+  name = var.system_policy_names[count.index]
 }
 
 
