@@ -31,3 +31,9 @@ variable "ssm_parameter_name_for_s3_bucket" {
   type        = list(string)
   default     = []
 }
+
+variable "use_service_role_arn" {
+  description = "Whether to use service-role ARN"
+  type        = bool
+  default     = false
+}
