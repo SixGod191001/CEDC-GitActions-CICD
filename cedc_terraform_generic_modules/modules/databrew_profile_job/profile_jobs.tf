@@ -30,13 +30,11 @@ data "aws_iam_role" "role_arn" {
 }
 
 data "aws_ssm_parameter" "bucket" {
-  count = var.bucket != null ? 1 : 0
-  name       = var.bucket
+  name = var.bucket
 }
 
 data "aws_ssm_parameter" "bucket_owner" {
-  count = var.bucket_owner != null ? 1 : 0
-  name       = var.bucket_owner
+  name = var.bucket_owner
 }
 
 locals {
