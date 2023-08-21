@@ -10,7 +10,7 @@ resource "awscc_databrew_job" "profile_job" {
   dataset_name    = var.dataset_name
   output_location = {
     bucket       = data.aws_ssm_parameter.bucket.value
-    bucket_owner = var.bucket_owner
+    bucket_owner = var.bucket_owner != null ? data.aws_ssm_parameter.bucket_owner.value : data.aws_caller_identity.current.account_id
     key          = var.key
   }
   encryption_mode       = var.encryption_mode
@@ -25,6 +25,7 @@ resource "awscc_databrew_job" "profile_job" {
 #  }
 }
 
+data "aws_caller_identity" "current" {}
 
 data "aws_iam_role" "role_arn" {
   name = var.role_name
