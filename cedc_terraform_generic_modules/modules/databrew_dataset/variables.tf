@@ -1,6 +1,7 @@
 variable "name" {
   description = "The dataset name must contain 1-255 characters. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space."
   type        = string
+  required    = true
 }
 
 variable "database_name" {
