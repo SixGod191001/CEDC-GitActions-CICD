@@ -13,16 +13,16 @@ resource "awscc_databrew_job" "profile_job" {
     bucket_owner = var.bucket_owner != null ? data.aws_ssm_parameter.bucket_owner.value : data.aws_caller_identity.current.account_id
     key          = var.key
   }
-  encryption_mode       = var.encryption_mode
-  encryption_key_arn    = local.encryption_key_arn
-#  profile_configuration = {
-#    dataset_statistics_configuration = {
-#
-#    }
-#    column_statistics_configurations = {
-#
-#    }
-#  }
+  encryption_mode    = var.encryption_mode
+  encryption_key_arn = local.encryption_key_arn
+  #  profile_configuration = {
+  #    dataset_statistics_configuration = {
+  #
+  #    }
+  #    column_statistics_configurations = {
+  #
+  #    }
+  #  }
 }
 
 data "aws_caller_identity" "current" {}
@@ -32,11 +32,11 @@ data "aws_iam_role" "role_arn" {
 }
 
 data "aws_ssm_parameter" "bucket" {
-  name     = var.bucket
+  name = var.bucket
 }
 
 data "aws_ssm_parameter" "bucket_owner" {
-  name     = var.bucket_owner
+  name = var.bucket_owner
 }
 
 locals {
