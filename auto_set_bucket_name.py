@@ -28,8 +28,8 @@ def get_parameter_value(parameter_name):
         )
         parameter_value = response['Parameter']['Value']
         return parameter_value
-    except ssm_client.exceptions.ParameterNotFound:
-        print("Parameter {} not found in SSM. Skipping this iteration.".format(parameter_name))
+    except Exception as e:
+        print("An error occurred while getting parameter {}: {}".format(parameter_name, str(e)))
         return None
 
 
