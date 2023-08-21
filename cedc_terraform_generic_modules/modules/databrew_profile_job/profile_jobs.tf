@@ -32,12 +32,12 @@ data "aws_iam_role" "role_arn" {
 
 data "aws_ssm_parameter" "bucket" {
   for_each = var.bucket != null ? { var.bucket = var.bucket } : {}
-  name     = var.bucket != null ? var.bucket : null
+  name     = each.value
 }
 
 data "aws_ssm_parameter" "bucket_owner" {
   for_each = var.bucket_owner != null ? { var.bucket_owner = var.bucket_owner } : {}
-  name     = var.bucket_owner != null ? var.bucket_owner : null
+  name     = each.value
 }
 
 locals {
