@@ -1,19 +1,16 @@
 variable "name" {
   description = "Job name"
   type        = string
-  required    = true
 }
 
 variable "role_name" {
   description = "Role name"
   type        = string
-  required    = true
 }
 
 variable "type" {
   description    = "Job type"
   type           = string
-  required       = true
   allowed_values = ["PROFILE", "RECIPE"]
 }
 
