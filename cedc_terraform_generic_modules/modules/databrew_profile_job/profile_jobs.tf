@@ -9,8 +9,8 @@ resource "awscc_databrew_job" "profile_job" {
   }
   dataset_name    = var.dataset_name
   output_location = {
-    bucket       = data.aws_ssm_parameter.bucket.value
-    bucket_owner = data.aws_ssm_parameter.bucket_owner.value
+    bucket       = var.bucket != null ? data.aws_ssm_parameter.bucket[var.bucket].value : null
+    bucket_owner = var.bucket_owner != null ? data.aws_ssm_parameter.bucket_owner[var.bucket_owner].value : null
     key          = local.key
   }
   encryption_mode       = var.encryption_mode
@@ -32,12 +32,12 @@ data "aws_iam_role" "role_arn" {
 
 data "aws_ssm_parameter" "bucket" {
   for_each = var.bucket != null ? { bucket = var.bucket } : {}
-  name = var.bucket
+  name     = var.bucket != null ? var.bucket : null
 }
 
 data "aws_ssm_parameter" "bucket_owner" {
   for_each = var.bucket_owner != null ? { bucket_owner = var.bucket_owner } : {}
-  name = var.bucket_owner
+  name     = var.bucket_owner != null ? var.bucket_owner : null
 }
 
 locals {
