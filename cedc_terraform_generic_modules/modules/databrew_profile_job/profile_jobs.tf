@@ -1,4 +1,4 @@
-resource "awscc_databrew_job" "profile_jobs" {
+resource "awscc_databrew_job" "profile_job" {
   name       = var.name
   role_arn   = data.aws_iam_role.role_arn.arn
   type       = var.type
