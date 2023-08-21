@@ -41,5 +41,5 @@ data "aws_ssm_parameter" "bucket_owner" {
 
 locals {
   size               = var.mode == "FULL_DATASET" ? null : var.size
-  encryption_key_arn = var.encryption_key_arn == "SSE-S3" ? null : var.encryption_key_arn
+  encryption_key_arn = var.encryption_mode == "SSE-S3" ? null : var.encryption_key_arn
 }
