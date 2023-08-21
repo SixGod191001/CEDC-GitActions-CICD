@@ -35,12 +35,12 @@ for k, v in mapping.items():
     content += f'module "{module_name}" {{\n'
     content += f' source = "{k}"\n'
     for i in v:
-        with open(os.path.join(k, i), 'r',encoding='utf-8') as file:
+        with open(os.path.join(k, i), 'r', encoding='utf-8') as file:
             file_content = file.read()
         # 使用正则表达式匹配dependencies部分的内容
         matches = re.findall(r'dependencies\s*=\s*\[([^\]]+)\]', file_content)
         if matches:
-            dependencies = matches
+            dependencies = matches[0].split(',')
         else:
             print(f"Dependencies not found in the {os.path.join(k, i)}.")
     if len(dependencies) != 0:
