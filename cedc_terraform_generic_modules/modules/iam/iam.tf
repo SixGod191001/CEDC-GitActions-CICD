@@ -24,6 +24,7 @@ resource "aws_iam_policy_attachment" "iam_system_policy_attachment" {
 }
 
 data "aws_iam_policy" "system_policy" {
+  count = length(var.system_policy_names)
   name = var.system_policy_names[count.index]
 }
 
