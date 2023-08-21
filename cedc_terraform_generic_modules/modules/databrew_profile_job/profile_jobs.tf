@@ -30,17 +30,17 @@ data "aws_iam_role" "role_arn" {
 }
 
 data "aws_ssm_parameter" "bucket" {
+  count = var.bucket != null ? 1 : 0
   name       = var.bucket
-  depends_on = var.bucket != "" ? [] : null
 }
 
 data "aws_ssm_parameter" "bucket_owner" {
+  count = var.bucket_owner != null ? 1 : 0
   name       = var.bucket_owner
-  depends_on = var.bucket_owner != "" ? [] : null
 }
 
 locals {
   size               = var.mode == "FULL_DATASET" ? null : var.size
-  key                = var.bucket != "" ? var.key : null
+  key                = var.bucket != null ? var.key : null
   encryption_key_arn = var.encryption_key_arn == "SSE-S3" ? null : var.encryption_key_arn
 }

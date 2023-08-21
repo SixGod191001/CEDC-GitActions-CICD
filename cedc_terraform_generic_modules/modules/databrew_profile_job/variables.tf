@@ -9,16 +9,16 @@ variable "role_name" {
 }
 
 variable "type" {
-  description    = "Job type"
-  type           = string
-  allowed_values = ["PROFILE", "RECIPE"]
+  description = "Job type"
+  type        = string
+  #  allowed_values = ["PROFILE", "RECIPE"]
 }
 
 variable "mode" {
-  description    = "Sample configuration mode for profile jobs"
-  type           = string
-  allowed_values = ["FULL_DATASET", "CUSTOM_ROWS"]
-  default        = null
+  description = "Sample configuration mode for profile jobs"
+  type        = string
+  #  allowed_values = ["FULL_DATASET", "CUSTOM_ROWS"]
+  default     = null
 }
 
 variable "size" {
@@ -52,10 +52,10 @@ variable "key" {
 }
 
 variable "encryption_mode" {
-  description    = "Encryption mode, SSE-KMS mode needs encryption_key_arn"
-  type           = string
-  allowed_values = ["SSE-KMS", "SSE-S3"]
-  default        = null
+  description = "Encryption mode, SSE-KMS mode needs encryption_key_arn"
+  type        = string
+  #  allowed_values = ["SSE-KMS", "SSE-S3"]
+  default     = null
 }
 
 variable "encryption_key_arn" {
