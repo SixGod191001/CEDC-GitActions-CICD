@@ -15,14 +15,14 @@ resource "awscc_databrew_job" "profile_job" {
   }
   encryption_mode       = var.encryption_mode
   encryption_key_arn    = local.encryption_key_arn
-  profile_configuration = {
-    dataset_statistics_configuration = {
-
-    }
-    column_statistics_configurations = {
-
-    }
-  }
+#  profile_configuration = {
+#    dataset_statistics_configuration = {
+#
+#    }
+#    column_statistics_configurations = {
+#
+#    }
+#  }
 }
 
 data "aws_iam_role" "role_arn" {
