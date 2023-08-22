@@ -23,12 +23,7 @@ resource "awscc_databrew_job" "profile_job" {
   profile_configuration = {
     #    dataset_statistics_configuration = {}
     #    column_statistics_configurations = {}
-    entity_detector_configuration = var.entity_types != [] ? {
-      entity_types       = var.entity_types
-      allowed_statistics = var.allowed_statistics != [] ? {
-        statistics = var.allowed_statistics
-      } : null
-    } : null
+    entity_detector_configuration = local.entity_detector_configuration
     #    profile_columns = {}
   }
 }
@@ -50,4 +45,9 @@ data "aws_ssm_parameter" "bucket_owner" {
 locals {
   size               = var.mode == "FULL_DATASET" ? null : var.size
   encryption_key_arn = var.encryption_mode == "SSE-S3" ? null : var.encryption_key_arn
+  allowed_statistics = var.allowed_statistics != [] ? { statistics = var.allowed_statistics } : null
+  entity_detector_configuration = var.entity_types != [] ? {
+      entity_types       = var.entity_types
+      allowed_statistics = local.allowed_statistics
+    } : null
 }
