@@ -15,6 +15,6 @@ variable "datafile_bucket_name" {
 
 variable "s3_key" {
   description = "The s3 path tail"
-  type        = list(string)
-  default     = ["databrew_workshop/datafiles/customers/", "databrew_workshop/datafiles/sales/"]
+  type        = string
+  
 }
