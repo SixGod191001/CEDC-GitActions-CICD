@@ -36,7 +36,6 @@ variable "dataset_name" {
 variable "bucket" {
   description = "S3 bucket name for output location, please input the right ssm parameters for this bucket"
   type        = string
-  default     = null
 }
 
 variable "bucket_owner" {
