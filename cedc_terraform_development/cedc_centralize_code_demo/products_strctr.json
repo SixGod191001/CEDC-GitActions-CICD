@@ -1,0 +1,14 @@
+{ "database": "default",
+  "table_name": "products",
+  "columns": [
+    {"name": "product key", "type": "bigint"},
+    {"name": "sku #", "type": "string"},
+    {"name": "product name", "type": "string"},
+    {"name": "product description", "type": "string"},
+    {"name": "brand", "type": "string"},
+	{"name": "unit price", "type": "bigint"},
+	{"name": "category", "type": "string"},
+	{"name": "sub category", "type": "string"},
+	{"name": "product type", "type": "string"},
+  ]
+}
