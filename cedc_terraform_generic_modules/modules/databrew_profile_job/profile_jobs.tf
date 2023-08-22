@@ -13,20 +13,24 @@ resource "awscc_databrew_job" "profile_job" {
     bucket_owner = var.bucket_owner != null ? data.aws_ssm_parameter.bucket_owner.value : data.aws_caller_identity.current.account_id
     key          = var.key
   }
-  encryption_mode    = var.encryption_mode
-  encryption_key_arn = local.encryption_key_arn
-  max_capacity       = var.max_capacity
-  timeout            = var.timeout
-  max_retries        = var.max_reties
-  tags               = var.tags
-  #  profile_configuration = {
-  #    dataset_statistics_configuration = {
-  #
-  #    }
-  #    column_statistics_configurations = {
-  #
-  #    }
-  #  }
+  encryption_mode       = var.encryption_mode
+  encryption_key_arn    = local.encryption_key_arn
+  max_capacity          = var.max_capacity
+  timeout               = var.timeout
+  max_retries           = var.max_reties
+  tags                  = var.tags
+  log_subscription      = var.log_subscription
+  profile_configuration = {
+    #    dataset_statistics_configuration = {}
+    #    column_statistics_configurations = {}
+    entity_detector_configuration = {
+      entity_types       = var.entity_types
+      allowed_statistics = {
+        statistics = var.allowed_statistics
+      }
+    }
+    #    profile_columns = {}
+  }
 }
 
 data "aws_caller_identity" "current" {}
