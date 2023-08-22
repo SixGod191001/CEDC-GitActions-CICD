@@ -26,7 +26,8 @@ resource "awscc_databrew_job" "profile_job" {
     entity_detector_configuration = {
       entity_types       = var.entity_types
       allowed_statistics = {
-        statistics = var.allowed_statistics != [] ? { statistics = var.allowed_statistics } : null
+        for_each = length(var.allowed_statistics) > 0 ? [1] : []
+        statistics = var.allowed_statistics
       }
     }
     #    profile_columns = {}
