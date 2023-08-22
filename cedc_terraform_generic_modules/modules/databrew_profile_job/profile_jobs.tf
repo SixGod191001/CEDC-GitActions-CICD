@@ -23,11 +23,12 @@ resource "awscc_databrew_job" "profile_job" {
   profile_configuration = {
     #    dataset_statistics_configuration = {}
     #    column_statistics_configurations = {}
-    entity_detector_configuration = {
-      entity_types = var.entity_types
-      allowed_statistics = null
-
-    }
+    entity_detector_configuration = var.entity_types != [] ? {
+      entity_types       = var.entity_types
+      allowed_statistics = var.allowed_statistics != [] ? {
+        statistics = var.allowed_statistics
+      } : null
+    } : null
     #    profile_columns = {}
   }
 }
