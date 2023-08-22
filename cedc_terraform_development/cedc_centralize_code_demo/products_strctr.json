@@ -10,5 +10,7 @@
 	{"name": "category", "type": "string"},
 	{"name": "sub category", "type": "string"},
 	{"name": "product type", "type": "string"},
+	
+    
   ]
 }
