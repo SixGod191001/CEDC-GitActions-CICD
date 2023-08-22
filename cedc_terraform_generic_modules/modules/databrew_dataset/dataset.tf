@@ -9,7 +9,7 @@ resource "awscc_databrew_dataset" "dataset" {
 }
 
 
-resource "awscc_databrew_datasets3" "datasets3" {
+resource "awscc_databrew_dataset" "datasets3" {
   name = var.name
   input = {
     s3_input_definition = {
