@@ -7,7 +7,7 @@ module "databrew_profile_job" {
   bucket       = "scriptbucket"
   bucket_owner = "ETL_Account"
   key          = "jacky_databrew_workshop/profile-output/"
-  entity_types = "USA_ALL"
+  entity_types = ["USA_ALL"]
   dependencies = [
     "cedc_terraform_development/cedc_databrew_iam_common", "cedc_terraform_development/cedc_databrew_workshop/databrew_dataset"
   ]
