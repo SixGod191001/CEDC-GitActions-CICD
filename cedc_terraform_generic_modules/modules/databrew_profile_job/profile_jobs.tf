@@ -15,6 +15,10 @@ resource "awscc_databrew_job" "profile_job" {
   }
   encryption_mode    = var.encryption_mode
   encryption_key_arn = local.encryption_key_arn
+  max_capacity       = var.max_capacity
+  timeout            = var.timeout
+  max_retries        = var.max_reties
+  tags               = var.tags
   #  profile_configuration = {
   #    dataset_statistics_configuration = {
   #

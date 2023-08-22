@@ -63,6 +63,30 @@ variable "encryption_key_arn" {
   default     = null
 }
 
+variable "max_capacity" {
+  description = "Maximum number of units"
+  type        = number
+  default     = 5
+}
+
+variable "timeout" {
+  description = "Job timeout (minutes)"
+  type        = number
+  default     = 60
+}
+
+variable "max_reties" {
+  description = "Maximum number of times to retry job on failure"
+  type        = number
+  default     = 0
+}
+
+variable "tags" {
+  description = "tags"
+  type        = list(object({ key = string, value = string }))
+  default     = [{ key = "project", value = "CEDC" }]
+}
+
 variable "dependencies" {
   description = "Cross folder module dependencies"
   type        = list(string)
