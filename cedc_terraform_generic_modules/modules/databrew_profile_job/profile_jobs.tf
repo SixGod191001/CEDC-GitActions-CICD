@@ -21,7 +21,7 @@ resource "awscc_databrew_job" "profile_job" {
   tags                      = var.tags
   log_subscription          = var.log_subscription
   profile_configuration     = local.profile_configuration
-#  validation_configurations = var.validation_configurations != [] ? var.validation_configurations : null
+  validation_configurations = var.validation_configurations != [] ? var.validation_configurations : null
 }
 
 data "aws_caller_identity" "current" {}
