@@ -21,7 +21,7 @@ resource "awscc_databrew_job" "profile_job" {
   tags                      = var.tags
   log_subscription          = var.log_subscription
   profile_configuration     = local.profile_configuration
-#  validation_configurations = var.validation_configurations != [] ? var.validation_configurations : null
+  validation_configurations = var.validation_configurations != [] ? var.validation_configurations : null
 }
 
 data "aws_caller_identity" "current" {}
@@ -50,14 +50,13 @@ locals {
 
   dataset_statistics_configuration = var.included_statistics != [] ? {
     included_statistics = var.included_statistics
-    overrides = null
-#    overrides           = contains(var.included_statistics, "CORRELATION") ? [
-#      {
-#        # In DatasetStatisticsConfiguration, a profile job supports the CORRELATION override.
-#        statistic  = "CORRELATION",
-#        parameters = var.columnSelectors != null ? var.columnSelectors : var.columnNumber
-#      }
-#    ] : null
+    overrides           = contains(var.included_statistics, "CORRELATION") ? [
+      {
+        # In DatasetStatisticsConfiguration, a profile job supports the CORRELATION override.
+        statistic  = "CORRELATION",
+        parameters = var.columnSelectors != null ? var.columnSelectors : var.columnNumber
+      }
+    ] : null
   } : null
 
   profile_configuration = local.dataset_statistics_configuration != null || local.entity_detector_configuration != null ? {

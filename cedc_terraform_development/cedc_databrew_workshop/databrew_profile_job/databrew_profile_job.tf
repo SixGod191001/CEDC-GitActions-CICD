@@ -8,7 +8,6 @@ module "databrew_profile_job" {
   bucket_owner = "ETL_Account"
   key          = "jacky_databrew_workshop/profile-output/"
   entity_types = ["USA_ALL"]
-  included_statistics = ["NONE"]
   dependencies = [
     "cedc_terraform_development/cedc_databrew_iam_common", "cedc_terraform_development/cedc_databrew_workshop/databrew_dataset"
   ]
