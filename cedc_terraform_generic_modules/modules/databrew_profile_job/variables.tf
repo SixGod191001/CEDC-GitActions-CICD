@@ -118,13 +118,15 @@ variable "included_statistics" {
 
 variable "columnNumber" {
   description = "Dataset level configurations - The number of numeric columns. The profile job selects the first n columns from the dataset. This value should be greater than 1. Use \"ALL\" to select all numeric columns."
-  type        = string
-  default     = "10"
+  type        = map(string)
+  default     = {
+    columnNumber : "10"
+  }
 }
 
 variable "columnSelectors" {
   description = "Dataset level configurations - List of column selectors. Each selector can have either a column name or a regular expression. example: \"[{\"name\":\"example\"}, {\"regex\":\"example.*\"}]\""
-  type        = string
+  type        = map(string)
   default     = null
 
 }
