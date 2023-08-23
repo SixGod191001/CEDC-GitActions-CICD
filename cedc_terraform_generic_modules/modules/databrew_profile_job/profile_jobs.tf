@@ -48,6 +48,6 @@ locals {
   allowed_statistics = var.allowed_statistics != [] ? { statistics = var.allowed_statistics } : null
   entity_detector_configuration = var.entity_types != [] ? {
       entity_types       = var.entity_types
-      allowed_statistics = local.allowed_statistics
+      statistics = local.allowed_statistics
     } : null
 }
