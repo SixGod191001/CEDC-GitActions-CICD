@@ -65,19 +65,19 @@ variable "encryption_key_arn" {
 }
 
 variable "max_capacity" {
-  description = "Maximum number of units"
+  description = "Advanced job settings - Maximum number of units"
   type        = number
   default     = 5
 }
 
 variable "timeout" {
-  description = "Job timeout (minutes)"
+  description = "Advanced job settings - Job timeout (minutes)"
   type        = number
   default     = 60
 }
 
 variable "max_reties" {
-  description = "Maximum number of times to retry job on failure"
+  description = "Advanced job settings - Maximum number of times to retry job on failure"
   type        = number
   default     = 0
 }
@@ -89,13 +89,13 @@ variable "tags" {
 }
 
 variable "log_subscription" {
-  description = "Log subscription (ENABLE | DISABLE)"
+  description = "Advanced job settings - CloudWatch logs (ENABLE | DISABLE)"
   type        = string
   default     = "DISABLE"
 }
 
 variable "entity_types" {
-  description = "PII categories (USA_ALL | USA_SSN | EMAIL | USA_ITIN | USA_PASSPORT_NUMBER | PHONE_NUMBER | USA_DRIVING_LICENSE | BANK_ACCOUNT | CREDIT_CARD | IP_ADDRESS | MAC_ADDRESS | USA_DEA_NUMBER | USA_HCPCS_CODE | USA_NATIONAL_PROVIDER_IDENTIFIER | USA_NATIONAL_DRUG_CODE | USA_HEALTH_INSURANCE_CLAIM_NUMBER | USA_MEDICARE_BENEFICIARY_IDENTIFIER | USA_CPT_CODE | PERSON_NAME | DATE)"
+  description = "Dataset level configurations - PII categories (USA_ALL | USA_SSN | EMAIL | USA_ITIN | USA_PASSPORT_NUMBER | PHONE_NUMBER | USA_DRIVING_LICENSE | BANK_ACCOUNT | CREDIT_CARD | IP_ADDRESS | MAC_ADDRESS | USA_DEA_NUMBER | USA_HCPCS_CODE | USA_NATIONAL_PROVIDER_IDENTIFIER | USA_NATIONAL_DRUG_CODE | USA_HEALTH_INSURANCE_CLAIM_NUMBER | USA_MEDICARE_BENEFICIARY_IDENTIFIER | USA_CPT_CODE | PERSON_NAME | DATE)"
   type        = list(string)
   default     = []
 
@@ -103,11 +103,36 @@ variable "entity_types" {
 
 
 variable "allowed_statistics" {
-  description = "Configure the statistics that are allowed to be run on columns that contain detected entities. If AllowedStatistics is undefined, no statistics will be computed on columns that contain detected entities. "
+  description = "Dataset level configurations - PII statistics"
   type        = list(string)
   default     = []
-  # reference table: https://docs.aws.amazon.com/databrew/latest/dg/profile.configuration.html#statistics.table02
+  # reference PII table: https://docs.aws.amazon.com/databrew/latest/dg/profile.configuration.html#statistics.table02
 
+}
+
+variable "included_statistics" {
+  description = "Dataset level configurations - Configurable statistics at the dataset level (DUPLICATE_ROWS_COUNT | CORRELATION | NONE)"
+  type        = list(string)
+  default     = ["CORRELATION", "DUPLICATE_ROWS_COUNT"]
+}
+
+variable "columnNumber" {
+  description = "Dataset level configurations - The number of numeric columns. The profile job selects the first n columns from the dataset. This value should be greater than 1. Use \"ALL\" to select all numeric columns."
+  type        = string
+  default     = "10"
+}
+
+variable "columnSelectors" {
+  description = "Dataset level configurations - List of column selectors. Each selector can have either a column name or a regular expression. example: \"[{\"name\":\"example\"}, {\"regex\":\"example.*\"}]\""
+  type        = string
+  default     = null
+
+}
+
+variable "validation_configurations" {
+  description = "Data quality rules configuration"
+  type        = list(object({ ruleset_arn = string, validation_mode = string }))
+  default     = []
 }
 
 variable "dependencies" {

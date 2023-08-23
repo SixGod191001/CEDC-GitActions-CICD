@@ -20,12 +20,8 @@ resource "awscc_databrew_job" "profile_job" {
   max_retries           = var.max_reties
   tags                  = var.tags
   log_subscription      = var.log_subscription
-  profile_configuration = {
-    #    dataset_statistics_configuration = {}
-    #    column_statistics_configurations = {}
-    entity_detector_configuration = local.entity_detector_configuration
-    #    profile_columns = {}
-  }
+  profile_configuration = local.profile_configuration
+  validation_configurations = var.validation_configurations
 }
 
 data "aws_caller_identity" "current" {}
@@ -43,11 +39,31 @@ data "aws_ssm_parameter" "bucket_owner" {
 }
 
 locals {
-  size               = var.mode == "FULL_DATASET" ? null : var.size
-  encryption_key_arn = var.encryption_mode == "SSE-S3" ? null : var.encryption_key_arn
-  allowed_statistics = var.allowed_statistics != [] ? { statistics = var.allowed_statistics } : null
+  size                          = var.mode == "FULL_DATASET" ? null : var.size
+  encryption_key_arn            = var.encryption_mode == "SSE-S3" ? null : var.encryption_key_arn
+  allowed_statistics            = var.allowed_statistics != [] ? { statistics = var.allowed_statistics } : null
+
   entity_detector_configuration = var.entity_types != [] ? {
-      entity_types       = var.entity_types
-      statistics = local.allowed_statistics
-    } : null
+    entity_types = var.entity_types
+    statistics   = local.allowed_statistics
+  } : null
+
+  dataset_statistics_configuration = var.included_statistics != [] ? {
+    included_statistics = var.included_statistics
+    overrides           = contains(var.included_statistics, "CORRELATION") ? [
+      {
+        # In DatasetStatisticsConfiguration, a profile job supports the CORRELATION override.
+        statistic  = "CORRELATION",
+        parameters = var.columnSelectors != null ? "{\"columnSelectors\": \"${var.columnSelectors}}\"}" : "{ \"columnNumber\" : \"${var.columnNumber}\" }"
+      }
+    ] : null
+  } : null
+
+  profile_configuration = local.dataset_statistics_configuration != null || local.entity_detector_configuration != null ? {
+    dataset_statistics_configuration = local.dataset_statistics_configuration
+    #    column_statistics_configurations = {}
+    entity_detector_configuration    = local.entity_detector_configuration
+    #    profile_columns = {}
+  } : null
+
 }
