@@ -150,7 +150,15 @@ variable "column_statistics_configurations" {
       regex = optional(string)
     })))
   }))
-  default = []
+  default = [
+    {
+      statistics = {
+        included_statistics = null
+        overrides = null
+      }
+      selectors = null
+    }
+  ]
 }
 #example:
 #{
@@ -168,7 +176,7 @@ variable "column_statistics_configurations" {
 #            }
 #        ]
 #    }
-#}
+#}ww3
 
 
 variable "dependencies" {
