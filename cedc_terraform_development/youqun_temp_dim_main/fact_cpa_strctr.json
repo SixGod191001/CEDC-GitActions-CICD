@@ -1,7 +1,7 @@
 { "database": "default",
   "table_name": "fact_cpa",
   "columns": [
-    {"name": "YM", "type": "bigint"},
+    {"name": "YM", "type": "string"},
     {"name": "Defined_MKT", "type": "string"},
     {"name": "BrandCode", "type": "string"},
     {"name": "InsID", "type": "string"},
