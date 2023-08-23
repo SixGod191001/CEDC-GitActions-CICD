@@ -109,13 +109,13 @@ variable "allowed_statistics" {
 
 }
 
-variable "included_statistics" {
+variable "dateset_level_included_statistics" {
   description = "Dataset level configurations - Configurable statistics at the dataset level (DUPLICATE_ROWS_COUNT | CORRELATION | NONE)"
   type        = list(string)
   default     = ["CORRELATION", "DUPLICATE_ROWS_COUNT"]
 }
 
-variable "columnNumber" {
+variable "dateset_level_column_number" {
   description = "Dataset level configurations - The number of numeric columns. The profile job selects the first n columns from the dataset. This value should be greater than 1. Use \"ALL\" to select all numeric columns."
   type        = map(string)
   default     = {
@@ -123,11 +123,10 @@ variable "columnNumber" {
   }
 }
 
-variable "columnSelectors" {
+variable "dataset_level_column_selectors" {
   description = "Dataset level configurations - List of column selectors. Each selector can have either a column name or a regular expression. example: \"[{\"name\":\"example\"}, {\"regex\":\"example.*\"}]\""
   type        = map(string)
   default     = null
-
 }
 
 variable "validation_configurations" {
@@ -135,6 +134,49 @@ variable "validation_configurations" {
   type        = list(object({ ruleset_arn = string, validation_mode = string }))
   default     = []
 }
+
+variable "column_statistics_configurations" {
+  description = "Configuration for column statistics"
+  type = list(object({
+    statistics = object({
+      included_statistics = optional(list(string))
+      overrides = optional(list(object({
+        parameters = map(string)
+        statistic = string
+      })))
+    })
+    selectors = optional(list(object({
+      name  = optional(string)
+      regex = optional(string)
+    })))
+  }))
+  default = []
+}
+#example:
+#{
+#      statistics = {
+#        included_statistics = ["statistic1", "statistic2"]
+#        overrides = [
+#          {
+#            parameters = {
+#              "param1" = "value1"
+#              "param2" = "value2"
+#            }
+#            statistic = "override_statistic"
+#          }
+#        ]
+#      }
+#      selectors = [
+#        {
+#          name  = "selector1"
+#          regex = "regex1"
+#        },
+#        {
+#          name  = "selector2"
+#          regex = "regex2"
+#        }
+#      ]
+#    }
 
 variable "dependencies" {
   description = "Cross folder module dependencies"
