@@ -101,7 +101,6 @@ variable "entity_types" {
 
 }
 
-
 variable "allowed_statistics" {
   description = "Dataset level configurations - PII statistics"
   type        = list(string)
