@@ -13,15 +13,15 @@ resource "awscc_databrew_job" "profile_job" {
     bucket_owner = var.bucket_owner != null ? data.aws_ssm_parameter.bucket_owner.value : data.aws_caller_identity.current.account_id
     key          = var.key
   }
-  encryption_mode       = var.encryption_mode
-  encryption_key_arn    = local.encryption_key_arn
-  max_capacity          = var.max_capacity
-  timeout               = var.timeout
-  max_retries           = var.max_reties
-  tags                  = var.tags
-  log_subscription      = var.log_subscription
-  profile_configuration = local.profile_configuration
-  validation_configurations = var.validation_configurations
+  encryption_mode           = var.encryption_mode
+  encryption_key_arn        = local.encryption_key_arn
+  max_capacity              = var.max_capacity
+  timeout                   = var.timeout
+  max_retries               = var.max_reties
+  tags                      = var.tags
+  log_subscription          = var.log_subscription
+  profile_configuration     = local.profile_configuration
+  validation_configurations = var.validation_configurations != [] ? var.validation_configurations : null
 }
 
 data "aws_caller_identity" "current" {}
@@ -39,9 +39,9 @@ data "aws_ssm_parameter" "bucket_owner" {
 }
 
 locals {
-  size                          = var.mode == "FULL_DATASET" ? null : var.size
-  encryption_key_arn            = var.encryption_mode == "SSE-S3" ? null : var.encryption_key_arn
-  allowed_statistics            = var.allowed_statistics != [] ? { statistics = var.allowed_statistics } : null
+  size               = var.mode == "FULL_DATASET" ? null : var.size
+  encryption_key_arn = var.encryption_mode == "SSE-S3" ? null : var.encryption_key_arn
+  allowed_statistics = var.allowed_statistics != [] ? { statistics = var.allowed_statistics } : null
 
   entity_detector_configuration = var.entity_types != [] ? {
     entity_types = var.entity_types
