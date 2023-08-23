@@ -1,6 +1,6 @@
 module "databrew_dataset" {
   source         = "../../../cedc_terraform_generic_modules/modules/databrew_dataset"
-  name           = "haohao-customers"
+  name           = "haohao-datafiles"
   bucket         = "gitaction-s3-terraform"
-  key            = "haohao_databrew_workshop/datafiles/customers/customers.csv"
+  key            = "haohao_databrew_workshop/datafiles/"
 }
