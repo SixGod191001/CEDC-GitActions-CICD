@@ -154,29 +154,22 @@ variable "column_statistics_configurations" {
 }
 #example:
 #{
-#      statistics = {
-#        included_statistics = ["statistic1", "statistic2"]
-#        overrides = [
-#          {
-#            parameters = {
-#              "param1" = "value1"
-#              "param2" = "value2"
+#    "selectors": [{"name": "example"},
+#                  {"regex": "example*"}
+#    ],
+#    "statistics": {
+#       "included_statistics": ["CORRELATION", "DUPLICATE_ROWS_COUNT"]
+#        "overrides": [
+#            {
+#                "statistic": "VALUE_DISTRIBUTION",
+#                "parameters": {
+#                    "binNumber": "10"
+#                }
 #            }
-#            statistic = "override_statistic"
-#          }
 #        ]
-#      }
-#      selectors = [
-#        {
-#          name  = "selector1"
-#          regex = "regex1"
-#        },
-#        {
-#          name  = "selector2"
-#          regex = "regex2"
-#        }
-#      ]
 #    }
+#}
+
 
 variable "dependencies" {
   description = "Cross folder module dependencies"
