@@ -136,13 +136,13 @@ variable "validation_configurations" {
 }
 
 variable "column_statistics_configurations" {
-  description = "Configuration for column statistics"
-  type = list(object({
+  description = "Configuration for column statistics example - [{ selectors: [{name: \"example\"}, {regex: \"example*\"}], statistics: { included_statistics: [\"CORRELATION\", \"DUPLICATE_ROWS_COUNT\"], overrides: [{ statistic: \"VALUE_DISTRIBUTION\", parameters: { \"binNumber\": \"10\" } }] } }]"
+  type        = list(object({
     statistics = object({
       included_statistics = optional(list(string))
-      overrides = optional(list(object({
+      overrides           = optional(list(object({
         parameters = map(string)
-        statistic = string
+        statistic  = string
       })))
     })
     selectors = optional(list(object({
@@ -154,23 +154,23 @@ variable "column_statistics_configurations" {
     {
       statistics = {
         included_statistics = null
-        overrides = null
+        overrides           = null
       }
       selectors = null
     }
   ]
 }
-#example:
+#column_statistics_configurations example:
 #{
-#    "selectors": [{"name": "example"},
-#                  {"regex": "example*"}
+#    selectors: [{name: "example"},
+#                {regex: "example*"}
 #    ],
-#    "statistics": {
-#       "included_statistics": ["CORRELATION", "DUPLICATE_ROWS_COUNT"]
-#        "overrides": [
+#    statistics: {
+#       included_statistics: ["CORRELATION", "DUPLICATE_ROWS_COUNT"]
+#        overrides: [
 #            {
-#                "statistic": "VALUE_DISTRIBUTION",
-#                "parameters": {
+#                statistic: "VALUE_DISTRIBUTION",
+#                parameters: {
 #                    "binNumber": "10"
 #                }
 #            }
@@ -178,6 +178,14 @@ variable "column_statistics_configurations" {
 #    }
 #}
 
+variable "profile_columns" {
+  description = "Profile columns configuration - profile_columns example: [{name: \"example\"}, {regex: \"example.*\"}]"
+  type        = list(object({
+    name  = optional(string)
+    regex = optional(string)
+  }))
+  default = []
+}
 
 variable "dependencies" {
   description = "Cross folder module dependencies"
