@@ -50,13 +50,14 @@ locals {
 
   dataset_statistics_configuration = var.included_statistics != [] ? {
     included_statistics = var.included_statistics
-    overrides           = contains(var.included_statistics, "CORRELATION") ? [
-      {
-        # In DatasetStatisticsConfiguration, a profile job supports the CORRELATION override.
-        statistic  = "CORRELATION",
-        parameters = var.columnSelectors != null ? var.columnSelectors : var.columnNumber
-      }
-    ] : null
+    overrides = null
+#    overrides           = contains(var.included_statistics, "CORRELATION") ? [
+#      {
+#        # In DatasetStatisticsConfiguration, a profile job supports the CORRELATION override.
+#        statistic  = "CORRELATION",
+#        parameters = var.columnSelectors != null ? var.columnSelectors : var.columnNumber
+#      }
+#    ] : null
   } : null
 
   profile_configuration = local.dataset_statistics_configuration != null || local.entity_detector_configuration != null ? {
