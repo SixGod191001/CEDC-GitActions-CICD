@@ -1,0 +1,11 @@
+{ "database": "default",
+  "table_name": "sales",
+  "columns": [
+    {"name": "txn_date", "type": "string"},
+    {"name": "customer_id", "type": "bigint"},
+    {"name": "product_id", "type": "bigint"},
+    {"name": "quantity", "type": "string"},
+    {"name": "total_sales", "type": "double"}
+    
+  ]
+}

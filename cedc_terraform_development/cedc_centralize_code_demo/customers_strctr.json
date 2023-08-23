@@ -1,0 +1,14 @@
+{ "database": "default",
+  "table_name": "customers",
+  "columns": [
+    {"name": "customer_id", "type": "bigint"},
+    {"name": "prefix", "type": "string"},
+    {"name": "first_name", "type": "string"},
+    {"name": "middle_name", "type": "string"},
+    {"name": "last_name", "type": "string"},
+    {"name": "suffix", "type": "string"},
+    {"name": "gender", "type": "string"},
+    {"name": "dob", "type": "string"},
+    {"name": "address", "type": "string"}
+  ]
+}
