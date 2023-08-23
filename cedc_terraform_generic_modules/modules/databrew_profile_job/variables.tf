@@ -176,7 +176,7 @@ variable "column_statistics_configurations" {
 #            }
 #        ]
 #    }
-#}ww3
+#}
 
 
 variable "dependencies" {
