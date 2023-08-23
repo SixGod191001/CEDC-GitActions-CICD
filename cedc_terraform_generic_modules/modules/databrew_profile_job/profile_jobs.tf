@@ -54,7 +54,7 @@ locals {
       {
         # In DatasetStatisticsConfiguration, a profile job supports the CORRELATION override.
         statistic  = "CORRELATION",
-        parameters = var.columnSelectors != null ? "{\"columnSelectors\": \"${var.columnSelectors}\"}" : "{ \"columnNumber\" : \"${var.columnNumber}\" }"
+        parameters = var.columnSelectors != null ? "{\"columnSelectors\": \"${var.columnSelectors}\"}" : "[{ \"columnNumber\" : \"${var.columnNumber}\"}]"
       }
     ] : null
   } : null
