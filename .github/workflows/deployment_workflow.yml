@@ -171,7 +171,7 @@ jobs:
         run: terraform plan -no-color
 #        run: terraform plan -no-color -var="bucket=${AWS_BUCKET_NAME}" -var="key=${AWS_BUCKET_KEY_NAME}" -var="region=${AWS_REGION}"
         # if: github.event_name == 'pull_request'
-        continue-on-error: true
+#        continue-on-error: true
 
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'

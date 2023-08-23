@@ -3,7 +3,7 @@ variable "role_name" {
   type        = string
 }
 
-variable "trust_policy"{
+variable "trust_policy" {
   description = "trust policy"
   type        = string
 }
