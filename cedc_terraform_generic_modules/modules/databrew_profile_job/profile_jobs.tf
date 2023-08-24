@@ -13,6 +13,8 @@ resource "awscc_databrew_job" "profile_job" {
     bucket_owner = var.bucket_owner != null ? data.aws_ssm_parameter.bucket_owner.value : data.aws_caller_identity.current.account_id
     key          = var.key
   }
+
+  recipe                    = local.recipe
   encryption_mode           = var.encryption_mode
   encryption_key_arn        = local.encryption_key_arn
   max_capacity              = var.max_capacity
@@ -42,6 +44,7 @@ locals {
   size               = var.mode == "FULL_DATASET" ? null : var.size
   encryption_key_arn = var.encryption_mode == "SSE-S3" ? null : var.encryption_key_arn
   allowed_statistics = length(var.allowed_statistics) != 0 ? { statistics = var.allowed_statistics } : null
+  recipe             = var.recipe_name != null ? { name = var.recipe_name, version = var.recipe_version } : null
 
   entity_detector_configuration = length(var.entity_types) != 0 ? {
     entity_types = var.entity_types
@@ -54,7 +57,7 @@ locals {
 
   validation_configurations = length(var.validation_configurations) != 0 ? var.validation_configurations : null
 
-  profile_configuration =  {
+  profile_configuration = {
     dataset_statistics_configuration = local.dataset_statistics_configuration
     column_statistics_configurations = var.column_statistics_configurations
     entity_detector_configuration    = local.entity_detector_configuration

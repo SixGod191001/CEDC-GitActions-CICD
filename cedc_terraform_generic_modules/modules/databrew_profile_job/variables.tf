@@ -11,8 +11,26 @@ variable "role_name" {
 variable "type" {
   description = "Job type"
   type        = string
-  default     = "PROFILE"
+  default     = null
   #  allowed_values = ["PROFILE", "RECIPE"]
+}
+
+variable "project_name" {
+  description = "Project name"
+  type        = string
+  default     = null
+}
+
+variable "recipe_name" {
+  description = "Recipe name (Required)"
+  type        = string
+  default     = null
+}
+
+variable "recipe_version" {
+  description = "Recipe version"
+  type        = optional(string)
+  default     = null
 }
 
 variable "mode" {
