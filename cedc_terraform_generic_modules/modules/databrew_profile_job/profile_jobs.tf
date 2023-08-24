@@ -59,7 +59,7 @@ locals {
     ] : null
   } : null
 
-  profile_columns = var.profile_columns != [] ? var.profile_columns : null
+  profile_columns = length(var.profile_columns) != 0 ? var.profile_columns : null
 
   validation_configurations = var.validation_configurations != [] ? var.validation_configurations : null
 
@@ -67,6 +67,6 @@ locals {
     dataset_statistics_configuration = local.dataset_statistics_configuration
     column_statistics_configurations = var.column_statistics_configurations
     entity_detector_configuration    = local.entity_detector_configuration
-    profile_columns                  = null
+    profile_columns                  = local.profile_columns
   }
 }
