@@ -1,6 +1,6 @@
 module "cedc_databrew_common_role" {
   source              = "../../cedc_terraform_generic_modules/modules/iam"
-  role_name           = "macui_databrew_common_role1"
+  role_name           = "macui_databrew_common_role"
   trust_policy        = file("${path.module}/trust_policy.json")
   system_policy_names = ["AWSGlueDataBrewServiceRole"]
   custom_policy_names = [
