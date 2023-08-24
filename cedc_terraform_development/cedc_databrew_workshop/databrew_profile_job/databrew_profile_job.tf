@@ -19,25 +19,25 @@ module "databrew_profile_job" {
       }
     ]
   }
-#  column_statistics_configurations = [
-#    {
-#      selectors : [
-#        { name : "name" },
-#        { regex : "middle*" }
-#      ],
-#      statistics : {
-#        included_statistics : ["CORRELATION", "DUPLICATE_ROWS_COUNT"]
-#        overrides : [
-#          {
-#            statistic : "VALUE_DISTRIBUTION",
-#            parameters : {
-#              "binNumber" : "10"
-#            }
-#          }
-#        ]
-#      }
-#    }
-#  ]
+  #  column_statistics_configurations = [
+  #    {
+  #      selectors : [
+  #        { name : "name" },
+  #        { regex : "middle*" }
+  #      ],
+  #      statistics : {
+  #        included_statistics : ["CORRELATION", "DUPLICATE_ROWS_COUNT"]
+  #        overrides : [
+  #          {
+  #            statistic : "VALUE_DISTRIBUTION",
+  #            parameters : {
+  #              "binNumber" : "10"
+  #            }
+  #          }
+  #        ]
+  #      }
+  #    }
+  #  ]
 
   dependencies = [
     "cedc_terraform_development/cedc_databrew_iam_common", "cedc_terraform_development/cedc_databrew_workshop/databrew_dataset"
