@@ -28,8 +28,8 @@ variable "recipe_name" {
 }
 
 variable "recipe_version" {
-  description = "Recipe version"
-  type        = optional(string)
+  description = "Recipe version (Optional)"
+  type        = string
   default     = null
 }
 
