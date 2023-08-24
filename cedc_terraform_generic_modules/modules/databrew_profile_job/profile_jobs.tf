@@ -41,27 +41,18 @@ data "aws_ssm_parameter" "bucket_owner" {
 locals {
   size               = var.mode == "FULL_DATASET" ? null : var.size
   encryption_key_arn = var.encryption_mode == "SSE-S3" ? null : var.encryption_key_arn
-  allowed_statistics = var.allowed_statistics != [] ? { statistics = var.allowed_statistics } : null
+  allowed_statistics = length(var.allowed_statistics) != 0 ? { statistics = var.allowed_statistics } : null
 
-  entity_detector_configuration = var.entity_types != [] ? {
+  entity_detector_configuration = length(var.entity_types) != 0 ? {
     entity_types = var.entity_types
     statistics   = local.allowed_statistics
   } : null
 
-  dataset_statistics_configuration = var.dateset_level_included_statistics != [] ? {
-    included_statistics = var.dateset_level_included_statistics
-    overrides           = contains(var.dateset_level_included_statistics, "CORRELATION") ? [
-      {
-        # In DatasetStatisticsConfiguration, a profile job supports the CORRELATION override.
-        statistic  = "CORRELATION",
-        parameters = var.dataset_level_column_selectors != null ? var.dataset_level_column_selectors : var.dateset_level_column_number
-      }
-    ] : null
-  } : null
+  dataset_statistics_configuration = length(var.dataset_statistics_configuration.included_statistics) != 0 ? var.dataset_statistics_configuration : null
 
   profile_columns = length(var.profile_columns) != 0 ? var.profile_columns : null
 
-  validation_configurations = var.validation_configurations != [] ? var.validation_configurations : null
+  validation_configurations = length(var.validation_configurations) != 0 ? var.validation_configurations : null
 
   profile_configuration =  {
     dataset_statistics_configuration = local.dataset_statistics_configuration

@@ -106,28 +106,33 @@ variable "allowed_statistics" {
   type        = list(string)
   default     = []
   # reference PII table: https://docs.aws.amazon.com/databrew/latest/dg/profile.configuration.html#statistics.table02
-
 }
 
-variable "dateset_level_included_statistics" {
-  description = "Dataset level configurations - Configurable statistics at the dataset level (DUPLICATE_ROWS_COUNT | CORRELATION | NONE)"
-  type        = list(string)
-  default     = ["CORRELATION", "DUPLICATE_ROWS_COUNT"]
-}
-
-variable "dateset_level_column_number" {
-  description = "Dataset level configurations - The number of numeric columns. The profile job selects the first n columns from the dataset. This value should be greater than 1. Use \"ALL\" to select all numeric columns."
-  type        = map(string)
-  default     = {
-    columnNumber : "10"
+variable "dataset_statistics_configuration" {
+  type = object({
+    included_statistics = list(string)
+    overrides           = list(object({
+      parameters = map(string)
+      statistic  = string
+    }))
+  })
+  default = {
+    included_statistics = []
+    overrides           = []
   }
 }
-
-variable "dataset_level_column_selectors" {
-  description = "Dataset level configurations - List of column selectors. Each selector can have either a column name or a regular expression. example: \"[{\"name\":\"example\"}, {\"regex\":\"example.*\"}]\""
-  type        = map(string)
-  default     = null
-}
+# example
+#  {
+#    included_statistics = ["CORRELATION"]
+#    overrides = [
+#      {
+#        parameters = {
+#          "columnSelectors": "[{\"name\":\"first_name\"}, {\"regex\":\"middle.*\"}]"
+#        }
+#        statistic = "CORRELATION"
+#      }
+#    ]
+#  }
 
 variable "validation_configurations" {
   description = "Data quality rules configuration"
