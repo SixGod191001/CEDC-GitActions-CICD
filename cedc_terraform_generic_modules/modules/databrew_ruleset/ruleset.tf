@@ -8,9 +8,7 @@ resource "awscc_databrew_ruleset" "ruleset" {
 
 data "aws_caller_identity" "current" {}
 
-data "aws_ssm_parameter" "account_number" {
-  name = local.account_number
-}
+data "aws_ssm_parameter" "account_number" { name = var.ssm_name_for_account_number }
 
 locals {
   account_number = var.ssm_name_for_account_number != null ? data.aws_ssm_parameter.account_number.value : data.aws_caller_identity.current.account_id
