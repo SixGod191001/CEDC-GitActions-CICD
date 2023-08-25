@@ -14,12 +14,7 @@ module "example_ruleset" {
       ]
       disabled         = false
       name             = "SalesCheck"
-#      substitution_map = [
-#        {
-#          value           = "total_sales"
-#          value_reference = "Total_Sales"
-#        }
-#      ]
+      substitution_map = null
       threshold = {
         type  = "GREATER_THAN" # threshold.type value must be one of: ["GREATER_THAN_OR_EQUAL" "LESS_THAN_OR_EQUAL" "GREATER_THAN" "LESS_THAN"]
         unit  = "PERCENTAGE" # threshold.unit value must be one of: ["COUNT""PERCENTAGE"]
