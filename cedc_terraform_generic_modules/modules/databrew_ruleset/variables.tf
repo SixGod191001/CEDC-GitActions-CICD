@@ -12,20 +12,20 @@ variable "ruleset_name" {
 
 variable "rules" {
   type        = list(object({
-    check_expression  = string
+    check_expression  = string # Data quality check
     column_selectors  = list(object({
       name  = string
       regex = string
     }))
     disabled          = bool
-    name              = string
+    name              = string # Rule name
     substitution_map  = list(object({
       value           = string
       value_reference = string
     }))
     threshold         = object({
-      type  = string
-      unit  = string
+      type  = string # threshold.type value must be one of: ["GREATER_THAN_OR_EQUAL" "LESS_THAN_OR_EQUAL" "GREATER_THAN" "LESS_THAN"]
+      unit  = string # threshold.unit value must be one of: ["COUNT""PERCENTAGE"]
       value = number
     })
   }))

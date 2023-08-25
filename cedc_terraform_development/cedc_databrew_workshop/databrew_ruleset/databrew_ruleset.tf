@@ -5,24 +5,23 @@ module "example_ruleset" {
   ruleset_name        = "JackySalesRuleset"
   rules               = [
     {
-      check_expression = "total_sales > 0"
+      check_expression = "total_sales > 0" # Data quality check
       column_selectors = [
         {
-          name  = "total_sales"
-          regex = "^[0-9]+(\\.[0-9]+)?$"
+          name = "total_sales"
         }
       ]
       disabled         = false
       name             = "SalesCheck"
       substitution_map = [
         {
-          value           = "sales"
-          value_reference = "dataset_name"
+          value           = "total_sales"
+          value_reference = "Total Sales"
         }
       ]
       threshold = {
-        type  = "GREATER_THAN"
-        unit  = "PERCENTAGE" # Attribute rules[0].threshold.unit value must be one of: ["COUNT""PERCENTAGE"]
+        type  = "GREATER_THAN" # threshold.type value must be one of: ["GREATER_THAN_OR_EQUAL" "LESS_THAN_OR_EQUAL" "GREATER_THAN" "LESS_THAN"]
+        unit  = "PERCENTAGE" # threshold.unit value must be one of: ["COUNT""PERCENTAGE"]
         value = 90.0
       }
     }
