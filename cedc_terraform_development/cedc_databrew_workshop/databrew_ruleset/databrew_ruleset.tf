@@ -22,7 +22,7 @@ module "example_ruleset" {
       ]
       threshold = {
         type  = "percentage"
-        unit  = "percent"
+        unit  = "PERCENTAGE" # Attribute rules[0].threshold.unit value must be one of: ["COUNT""PERCENTAGE"]
         value = 90.0
       }
     }
