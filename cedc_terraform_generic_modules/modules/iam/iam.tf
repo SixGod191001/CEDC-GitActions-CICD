@@ -28,5 +28,10 @@ data "aws_iam_policy" "system_policy" {
   name     = each.key
 }
 
+resource "null_resource" "wait" {
+  provisioner "local-exec" {
+    command = "sleep 15"
 
+  depends_on = [aws_iam_role.iam_role]
+}
 
