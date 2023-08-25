@@ -8,10 +8,13 @@ resource "awscc_databrew_ruleset" "ruleset" {
 
 data "aws_caller_identity" "current" {}
 
-data "aws_ssm_parameter" "account_number" { name = var.ssm_name_for_account_number }
+data "aws_ssm_parameter" "account_number" {
+  count = var.ssm_name_for_account_number != null ? 1 : 0
+  name = var.ssm_name_for_account_number
+}
 
 locals {
-  account_number = var.ssm_name_for_account_number != null ? data.aws_ssm_parameter.account_number.value : data.aws_caller_identity.current.account_id
+  account_number = var.ssm_name_for_account_number != null ? data.aws_ssm_parameter.account_number[0].value : data.aws_caller_identity.current.account_id
   target_arn     = "arn:aws:data-brew:${var.region}:${local.account_number}:dataset/${var.dataset_name}"
 }
 
