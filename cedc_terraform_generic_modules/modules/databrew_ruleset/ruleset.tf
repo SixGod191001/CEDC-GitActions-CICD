@@ -14,7 +14,7 @@ data "aws_ssm_parameter" "account_number" {
 }
 
 locals {
-  account_number = ssm_name_for_account_number != null ? data.aws_ssm_parameter.account_number.value : data.aws_caller_identity.current.account_id
+  account_number = var.ssm_name_for_account_number != null ? data.aws_ssm_parameter.account_number.value : data.aws_caller_identity.current.account_id
   target_arn     = "arn:aws:data-brew:${var.region}:${local.account_number}:dataset/${var.dataset_name}"
 }
 
