@@ -38,11 +38,6 @@ variable "key_id" {
   default     = null
 }
 
-variable "overwrite" {
-  description = "Overwrite an existing parameter (deprecated)"
-  type        = bool
-  default     = null
-}
 
 variable "tags" {
   description = "Map of tags to assign to the object"
@@ -54,6 +49,12 @@ variable "tier" {
   description = "Parameter tier to assign to the parameter"
   type        = string
   default     = null
+}
+
+variable "overwrite" {
+  description = "(Optional, Deprecated) Overwrite an existing parameter."
+  type        = bool
+  default     = true
 }
 
 variable "value" {
