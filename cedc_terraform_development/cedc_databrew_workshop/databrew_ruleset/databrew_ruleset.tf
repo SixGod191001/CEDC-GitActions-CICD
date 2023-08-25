@@ -8,7 +8,8 @@ module "example_ruleset" {
       check_expression = "total_sales > 0" # Data quality check
       column_selectors = [
         {
-          name = "total_sales"
+          name  = "total_sales"
+          regex = null
         }
       ]
       disabled         = false
