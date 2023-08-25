@@ -5,7 +5,7 @@ module "example_ruleset" {
   ruleset_name        = "JackySalesRuleset"
   rules               = [
     {
-      check_expression = "total_sales > 0" # Data quality check
+      check_expression = ":total_sales > 0" # Data quality check
       column_selectors = [
         {
           name  = "total_sales"
