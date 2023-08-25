@@ -1,5 +1,4 @@
 resource "awscc_databrew_ruleset" "ruleset" {
-  id          = var.ruleset_id
   description = var.ruleset_description
   name        = var.ruleset_name
   rules       = var.rules

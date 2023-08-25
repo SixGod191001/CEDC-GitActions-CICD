@@ -1,7 +1,6 @@
 module "example_ruleset" {
   source = "../../../cedc_terraform_generic_modules/modules/databrew_ruleset"
 
-  ruleset_id          = "jacky-ruleset-sales"
   ruleset_description = "Sales role set"
   ruleset_name        = "JackySalesRuleset"
   rules               = [

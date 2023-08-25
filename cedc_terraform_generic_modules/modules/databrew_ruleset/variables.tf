@@ -1,9 +1,3 @@
-variable "ruleset_id" {
-  type        = string
-  default     = null
-  description = "Uniquely identifies the resource."
-}
-
 variable "ruleset_description" {
   type        = string
   default     = null
