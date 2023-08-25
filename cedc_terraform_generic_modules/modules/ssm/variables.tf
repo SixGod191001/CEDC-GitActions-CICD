@@ -51,12 +51,6 @@ variable "tier" {
   default     = null
 }
 
-variable "overwrite" {
-  description = "(Optional, Deprecated) Overwrite an existing parameter."
-  type        = bool
-  default     = true
-}
-
 variable "value" {
   description = "Value of the parameter"
   type        = string
