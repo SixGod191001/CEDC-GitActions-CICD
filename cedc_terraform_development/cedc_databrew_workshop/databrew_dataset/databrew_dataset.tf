@@ -1,6 +1,5 @@
 module "databrew_dataset" {
   source         = "../../../cedc_terraform_generic_modules/modules/databrew_dataset"
   name           = "liuzhu-customers"
-  database_name  = "testdb"
-  table_name     = "customers"
+  bucket         = "s3://gitaction-s3-terraform/databrew_workshop/datafiles/customers/customers.csv"
 }

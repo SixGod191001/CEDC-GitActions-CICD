@@ -18,3 +18,8 @@ variable "dependencies" {
   type    = list(string)
   default = []
 }
+
+variable "bucket" {
+  description = "S3 bucket name"
+  type    = string
+}
