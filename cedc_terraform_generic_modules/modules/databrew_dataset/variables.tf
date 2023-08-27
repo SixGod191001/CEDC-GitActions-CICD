@@ -3,15 +3,15 @@ variable "name" {
   type        = string
 }
 
-variable "database_name" {
-  description = "Glue catalog database name"
-  type        = string
-}
-
-variable "table_name" {
-  description = "Glue catalog table name"
-  type        = string
-}
+#variable "database_name" {
+#  description = "Glue catalog database name"
+#  type        = string
+#}
+#
+#variable "table_name" {
+#  description = "Glue catalog table name"
+#  type        = string
+#}
 
 variable "dependencies" {
   description = "Cross folder module dependencies"
