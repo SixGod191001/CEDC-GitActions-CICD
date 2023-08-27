@@ -13,11 +13,11 @@ resource "awscc_databrew_job" "profile_job" {
     key          = var.key
   }
 }
-  profile_configuration = {
+  
     entity_detector_configuration = { 
                      entity_types = var.entity_types  #["person", "job_title", "email", "phone_number", "date", "time", "location", "organization"]
     }
-  }
+
 
 data "aws_caller_identity" "current" {}
 
