@@ -23,3 +23,20 @@ variable "bucket" {
   description = "S3 bucket name"
   type    = string
 }
+
+variable "key" {
+  description = "S3 key name"
+  type    = string
+}
+
+variable "delimiter" {
+  description = "csv format"
+  type        = string
+  default     = ","
+}
+
+variable "header_row" {
+  description = "csv format header row"
+  type        = string
+  default     = true
+}
