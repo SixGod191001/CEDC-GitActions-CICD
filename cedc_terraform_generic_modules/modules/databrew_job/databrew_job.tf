@@ -13,6 +13,12 @@ resource "awscc_databrew_job" "profile_job"{
     key          = var.key
   }
 
+  input {
+    s3_input {
+      path = var.selected_file != "" ? "s3://bucket_name/path/to/files/${var.selected_file}" : null
+    }
+  }
+
   profile_configuration = {
     entity_detector_configuration = {
                      entity_types = var.entity_types  #["person", "job_title", "email", "phone_number", "date", "time", "location", "organization"]
