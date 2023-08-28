@@ -35,11 +35,6 @@ variable "dataset_name" {
   default     = null
 }
 
-variable "selected_file" {
-  description = "Selected CSV file for the profile job"
-  default     = "customers.csv"
-}
-
 variable "bucket" {
   description = "S3 bucket name for output location, please input the right ssm parameters for this bucket (required)"
   type        = string
