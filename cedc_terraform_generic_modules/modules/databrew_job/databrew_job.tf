@@ -7,17 +7,17 @@ resource "awscc_databrew_job" "profile_job"{
     size = var.size
   }
   dataset_name    = var.dataset_name
+  selected_file   = locals.selected_file
   output_location = {
     bucket       = data.aws_ssm_parameter.bucket.value
     bucket_owner = var.bucket_owner != null ? data.aws_ssm_parameter.bucket_owner.value : data.aws_caller_identity.current.account_id
     key          = var.key
   }
 
-  input {
-    s3_input {
-      path = var.selected_file != "" ? "s3://bucket_name/path/to/files/${var.selected_file}" : null
-    }
+  locals {
+      selected_file = var.selected_file != "" ? "s3://bucket_name/path/to/files/${var.selected_file}" : null
   }
+  
 
   profile_configuration = {
     entity_detector_configuration = {
