@@ -1,13 +1,6 @@
-module "databrew_dataset01" {
+module "databrew_dataset" {
   source         = "../../../cedc_terraform_generic_modules/modules/databrew_dataset"
-  name           = "yuwei-customers"
-  database_name  = "testdb"
-  table_name     = "customers"
+  name           = "liuyuwei-dataset"
+  bucket         = "gitaction-s3-terraform"
+  key            = "liuyuwei_databrew_workshop/datafiles/"
 }
-module "databrew_dataset02" {
-  source         = "../../../cedc_terraform_generic_modules/modules/databrew_dataset"
-  name           = "yuwei-sales"
-  database_name  = "testdb"
-  table_name     = "sales"
-}
-
