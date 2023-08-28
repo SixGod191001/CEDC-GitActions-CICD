@@ -14,11 +14,6 @@ resource "awscc_databrew_job" "profile_job"{
     key          = var.key
   }
 
-  locals {
-      selected_file = var.selected_file != "" ? "s3://bucket_name/path/to/files/${var.selected_file}" : null
-  }
-  
-
   profile_configuration = {
     entity_detector_configuration = {
                      entity_types = var.entity_types  #["person", "job_title", "email", "phone_number", "date", "time", "location", "organization"]
@@ -39,4 +34,8 @@ data "aws_ssm_parameter" "bucket" {
 data "aws_ssm_parameter" "bucket_owner" {
   name = var.bucket_owner
 }
+
+locals {
+      selected_file = var.selected_file != "" ? "s3://bucket_name/path/to/files/${var.selected_file}" : null
+  }
 
