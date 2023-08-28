@@ -1,6 +1,6 @@
-resource "awscc_databrew_job" "profile_job" {
+resource "awscc_databrew_job" "profile_job"{
   name       = var.name
-  role_name   = var.role_name
+  role_arn   = data.aws_iam_role.role_arn.arn
   type       = var.type
   job_sample = {
     mode = var.mode
@@ -12,12 +12,12 @@ resource "awscc_databrew_job" "profile_job" {
     bucket_owner = var.bucket_owner != null ? data.aws_ssm_parameter.bucket_owner.value : data.aws_caller_identity.current.account_id
     key          = var.key
   }
-}
 
   profile_configuration = {
     entity_detector_configuration = {
                      entity_types = var.entity_types  #["person", "job_title", "email", "phone_number", "date", "time", "location", "organization"]
     }
+}
 }
 
 data "aws_caller_identity" "current" {}
