@@ -1,4 +1,4 @@
-'''
+
 import os
 import re
 
@@ -53,4 +53,4 @@ with open('./main.tf', 'w') as file:
 
 print(content)
 print("Content written to main.tf successfully.")
-'''
+
