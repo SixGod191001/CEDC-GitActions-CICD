@@ -26,7 +26,7 @@ variable "mode" {
 variable "size" {
   description = "Sample configuration size for profile jobs"
   type        = number
-  default     = 20000
+  default     = null
 }
 
 variable "dataset_name" {
