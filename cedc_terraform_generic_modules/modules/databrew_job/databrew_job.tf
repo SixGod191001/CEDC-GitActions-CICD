@@ -7,7 +7,7 @@ resource "awscc_databrew_job" "profile_job"{
     size = var.size
   }
   dataset_name    = var.dataset_name
-  selected_file   = local.selected_file
+
   output_location = {
     bucket       = data.aws_ssm_parameter.bucket.value
     bucket_owner = var.bucket_owner != null ? data.aws_ssm_parameter.bucket_owner.value : data.aws_caller_identity.current.account_id
@@ -35,7 +35,4 @@ data "aws_ssm_parameter" "bucket_owner" {
   name = var.bucket_owner
 }
 
-locals {
-      selected_file = var.selected_file != "" ? "s3://bucket_name/path/to/files/${var.selected_file}" : null
-  }
 
