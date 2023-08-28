@@ -4,7 +4,7 @@ resource "awscc_databrew_job" "profile_job"{
   type       = var.type
   job_sample = {
     mode = var.mode
-    size = local.size
+    size = var.size
   }
   dataset_name    = var.dataset_name
   output_location = {
