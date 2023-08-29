@@ -8,5 +8,19 @@ module "databrew_profile_job" {
   bucket                           = "scriptbucket"
   bucket_owner                     = "ETL_Account"
   key                              = "youqun_databrew_workshop/profile-output/"
-  entity_types                     = ["PERSON_NAME","DATE"]
+  entity_types                     = ["USA_ALL"]
+  dataset_statistics_configuration = {
+    included_statistics = ["CORRELATION"]
+    overrides           = [
+      {
+        parameters = {
+          "columnSelectors" : "[{\"name\":\"first_name\"}, {\"regex\":\"middle.*\"}]"
+        }
+        statistic = "CORRELATION"
+      }
+    ]
+  }
+  dependencies = [
+    "cedc_terraform_development/cedc_databrew_iam_common", "cedc_terraform_development/cedc_databrew_workshop/databrew_dataset"
+  ]
 }
