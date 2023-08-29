@@ -1,6 +1,6 @@
 module "databrew_profile_job" {
   source                           = "../../../cedc_terraform_generic_modules/modules/databrew_job"
-  name                             = "haohao sales profile job"
+  name                             = "haohao customer profile job"
   role_name                        = "haohao_databrew_common_role"
   type                             = "PROFILE"
   dataset_name                     = "haohao-sales"
