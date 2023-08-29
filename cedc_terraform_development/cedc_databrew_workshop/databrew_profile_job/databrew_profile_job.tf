@@ -3,7 +3,7 @@ module "databrew_profile_job" {
   name                             = "haohao customer profile job"
   role_name                        = "haohao_databrew_common_role"
   type                             = "PROFILE"
-  dataset_name                     = "haohao-sales"
+  dataset_name                     = "haohao-customers"
   mode                             = "FULL_DATASET"
   bucket                           = "scriptbucket"
   bucket_owner                     = "ETL_Account"
