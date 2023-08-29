@@ -31,7 +31,4 @@ module "example_ruleset" {
   region       = "ap-northeast-1"
   dataset_name = "youqun-sales"
 
-  dependencies = [
-    "cedc_terraform_development/cedc_all_project_level_configuration"
-  ]
  }
