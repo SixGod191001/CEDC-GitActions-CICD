@@ -5,6 +5,7 @@ module "cedc_databrew_common_role" {
   system_policy_names = ["AWSGlueDataBrewServiceRole"]
   custom_policy_names    = ["elaine_AwsGlueDataBrewServicePolicyForOutputS3-ID" , "elaine_AwsGlueDataBrewServicePolicyForInputS3-ID"]
   custom_policy_contents = [file("${path.module}/AwsGlueDataBrewServicePolicyForOutputS3-ID.json"),file("${path.module}/AwsGlueDataBrewServicePolicyForOutputS3-ID.json")]
+
 }
 
 
