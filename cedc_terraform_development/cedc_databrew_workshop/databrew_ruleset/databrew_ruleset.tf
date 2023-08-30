@@ -16,11 +16,7 @@ module "example_ruleset" {
       disabled         = false
       name             = "Duplicate rows"
       substitution_map = null
-      threshold = {
-        type  = null # threshold.type value must be one of: ["GREATER_THAN_OR_EQUAL" "LESS_THAN_OR_EQUAL" "GREATER_THAN" "LESS_THAN"]
-        unit  = null # threshold.unit value must be one of: ["COUNT""PERCENTAGE"]
-        value = null
-      }
+      threshold = null
     }
   ]
 
