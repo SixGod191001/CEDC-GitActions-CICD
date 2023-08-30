@@ -1,9 +1,9 @@
 module "databrew_profile_job" {
   source                           = "../../../cedc_terraform_generic_modules/modules/databrew_job"
-  name                             = "youqun customer profile job"
+  name                             = "youqun sales profile job"
   role_name                        = "youqun_databrew_common_role"
   type                             = "PROFILE"
-  dataset_name                     = "youqun-customers"
+  dataset_name                     = "youqun-sales"
   mode                             = "FULL_DATASET"
   bucket                           = "scriptbucket"
   bucket_owner                     = "ETL_Account"
@@ -14,10 +14,13 @@ module "databrew_profile_job" {
     overrides           = [
       {
         parameters = {
-          "columnSelectors" : "[{\"name\":\"first_name\"}, {\"regex\":\"middle.*\"}]"
+          "columnSelectors" : "[{\"name\":\"Customer_Id\"}, {\"regex\":\"Total.*\"}]"
         }
         statistic = "CORRELATION"
       }
     ]
   }
+  dependencies = [
+   "cedc_terraform_development/cedc_databrew_workshop/databrew_dataset"
+  ]
 }
