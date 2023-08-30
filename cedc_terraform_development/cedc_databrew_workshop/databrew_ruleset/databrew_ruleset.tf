@@ -6,7 +6,7 @@ module "example_ruleset" {
 
   rules               = [
     {
-      check_expression = "duplicate rows count == 0" # Data quality check
+      check_expression = "DUPLICATE_ROWS_COUNT() == 0" # Data quality check
       column_selectors = null
       disabled         = false
       name             = "Duplicate rows"
