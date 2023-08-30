@@ -7,16 +7,11 @@ module "example_ruleset" {
   rules               = [
     {
       check_expression = "duplicate rows count == 0" # Data quality check
-      column_selectors = [
-        {
-          name  = null
-          regex = null
-        }
-      ]
+      column_selectors = null
       disabled         = false
       name             = "Duplicate rows"
       substitution_map = null
-      threshold = null
+      threshold        = null
     }
   ]
 
