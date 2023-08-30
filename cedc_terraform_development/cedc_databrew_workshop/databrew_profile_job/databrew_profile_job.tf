@@ -21,3 +21,7 @@ module "databrew_profile_job" {
     ]
   }
 }
+depends_on = [
+    scriptbucket,
+    yuwei_databrew_common_role,
+]
