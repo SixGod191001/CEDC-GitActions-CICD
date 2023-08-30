@@ -29,5 +29,5 @@ module "example_ruleset" {
     }
   ]
   region       = "ap-northeast-1"
-  dataset_name = "jacky-sales"
+  dataset_name = "youqun-sales"
   }
