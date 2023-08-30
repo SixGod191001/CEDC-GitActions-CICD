@@ -17,3 +17,10 @@ locals {
   account_number = var.ssm_name_for_account_number != null ? data.aws_ssm_parameter.account_number[0].value : data.aws_caller_identity.current.account_id
   target_arn     = "arn:aws:databrew:${var.region}:${local.account_number}:dataset/${var.dataset_name}"
 }
+
+resource "null_resource" "wait" {
+  provisioner "local-exec" {
+    command = "sleep 15"
+  }
+  depends_on = [awscc_databrew_ruleset.ruleset]
+}
