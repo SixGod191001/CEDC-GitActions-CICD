@@ -2,23 +2,24 @@ resource "awscc_databrew_ruleset" "ruleset" {
   description = var.ruleset_description
   name        = var.ruleset_name
   target_arn  = local.target_arn
+  rules       = var.rules
 
-  rules = {
-    check_expression = var.check_expression
-    name             = var.name
-    disabled         = var.disabled
-    column_selectors = {
-      name  = var.name
-      regex = var.regex
-    }
-    
-    threshold = {
-      value = var.value
-      type  = var.type
-      unit  = var.unit
-    }
+  # rules = {
+  #     check_expression = var.check_expression
+  #     name             = var.name
+  #     disabled         = var.disabled
+  #     column_selectors = {
+  #         name  = var.name
+  #         regex = var.regex
+  #     }
+  # 
+  #     threshold = {
+  #         value = var.value
+  #         type  = var.type
+  #         unit  = var.unit
+  #     }
+  # }
   }
-}
 
 data "aws_caller_identity" "current" {}
 
