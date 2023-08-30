@@ -10,7 +10,12 @@ module "example_ruleset" {
       column_selectors = null
       disabled         = false
       name             = "Duplicate rows"
-      substitution_map = {":val", "0"}
+      substitution_map = [
+        {
+          value           = "0"
+          value_reference = ":val"
+        }
+      ]
       threshold        = null
     }
   ]
