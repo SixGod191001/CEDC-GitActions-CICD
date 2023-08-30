@@ -1,8 +1,8 @@
 module "example_ruleset" {
   source = "../../../cedc_terraform_generic_modules/modules/databrew_ruleset"
 
-  ruleset_description = "Sales role set"
-  ruleset_name        = "youqunSalesRuleset"
+  ruleset_description = "Customer role set"
+  ruleset_name        = "youqunCustomerRuleset"
   rules               = [
     {
       check_expression = "total_sales > 0" # Data quality check
@@ -13,7 +13,7 @@ module "example_ruleset" {
         }
       ]
       disabled         = false
-      name             = "SalesCheck"
+      name             = "CustomerCheck"
       substitution_map = null
       threshold = {
         type  = "GREATER_THAN" # threshold.type value must be one of: ["GREATER_THAN_OR_EQUAL" "LESS_THAN_OR_EQUAL" "GREATER_THAN" "LESS_THAN"]
@@ -29,6 +29,6 @@ module "example_ruleset" {
     }
   ]
   region       = "ap-northeast-1"
-  dataset_name = "youqun-sales"
+  dataset_name = "youqun-customers"
 
  }

@@ -18,9 +18,3 @@ locals {
   target_arn     = "arn:aws:databrew:${var.region}:${local.account_number}:dataset/${var.dataset_name}"
 }
 
-resource "null_resource" "wait" {
-  provisioner "local-exec" {
-    command = "sleep 15"
-  }
-  depends_on = [awscc_databrew_ruleset.ruleset]
-}
