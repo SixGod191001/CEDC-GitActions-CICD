@@ -6,11 +6,11 @@ module "example_ruleset" {
 
   rules               = [
     {
-      check_expression = "AGG(DUPLICATE_VALUES_COUNT) == 0" # Data quality check  duplicate rows count == 0
+      check_expression = "AGG(DUPLICATE_VALUES_COUNT) == :val" # Data quality check  duplicate rows count == 0
       column_selectors = null
       disabled         = false
       name             = "Duplicate rows"
-      substitution_map = null
+      substitution_map = {":val", "0"}
       threshold        = null
     }
   ]
