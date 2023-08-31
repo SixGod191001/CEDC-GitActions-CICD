@@ -1,14 +1,14 @@
 module "example_ruleset" {
   source = "../../../cedc_terraform_generic_modules/modules/databrew_ruleset"
 
-  ruleset_description = "Sales role set"
+  ruleset_description = "Sales rule set"
   ruleset_name        = "youqunSalesRuleset"
   rules               = [
     {
-      check_expression = "total_sales > 0" # Data quality check
+      check_expression = "Total_Sales > 0" # Data quality check
       column_selectors = [
         {
-          name  = "total_sales"
+          name  = "Total_Sales"
           regex = null
         }
       ]
