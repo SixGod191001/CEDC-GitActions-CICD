@@ -1,25 +1,28 @@
 module "example_ruleset" {
   source = "../../../cedc_terraform_generic_modules/modules/databrew_ruleset"
 
-  ruleset_description = "Sales rule set"
+  ruleset_description = "Sales role set"
   ruleset_name        = "Haohao Sales DQ Checks"
-
   rules               = [
     {
-      check_expression = "AGG(DUPLICATE_VALUES_COUNT) <:val" # Data quality check  duplicate rows count == 0
-      column_selectors = null
-      disabled         = false
-      name             = "Duplicate rows"
-      substitution_map = [
+      check_expression = "total_sales > 0" # Data quality check
+      column_selectors = [
         {
-          value           = "10"
-          value_reference = ":val"
+          name  = "total_sales"
+          regex = null
         }
       ]
-      threshold        = null
+      disabled         = false
+      name             = "SalesCheck"
+      substitution_map = null
+      threshold = {
+        type  = "GREATER_THAN" # threshold.type value must be one of: ["GREATER_THAN_OR_EQUAL" "LESS_THAN_OR_EQUAL" "GREATER_THAN" "LESS_THAN"]
+        unit  = "PERCENTAGE" # threshold.unit value must be one of: ["COUNT""PERCENTAGE"]
+        value = 90.0
+      }
     }
   ]
-
+  
   region       = "ap-northeast-1"
   dataset_name = "haohao-sales"
-}
+ 
