@@ -10,7 +10,16 @@ module "example_ruleset" {
       # check_expression = "AGG(MISSING_VALUES_PERCENTAGE) == :val1"
       # check_expression = "`total_sales` < :val"
       check_expression = ":col1 > :val and :col2 > :val"
-      column_selectors = null
+      column_selectors = [
+        {
+          name  = "`Quantity`"
+          regex = null
+        },
+        {
+          name  = "`total_sales`"
+          regex = null
+        }
+      ]
       disabled         = false
       name             = "Quantity and total Sales should be >0"
       # substitution_map = null
