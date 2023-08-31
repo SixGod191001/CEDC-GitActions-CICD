@@ -25,3 +25,26 @@ module "databrew_profile_job" {
    "cedc_terraform_development/cedc_databrew_workshop/databrew_dataset"
   ]
 }
+
+recipe = {
+  name        = "yuewi_profile_recipe"
+  description = "Profile Recipe"
+  steps       = [
+    {
+      action_operation = {
+        action_type = "PROFILING"
+        parameters  = {
+          column_name = "Customer_Id"
+        }
+      }
+    },
+    {
+      action_operation = {
+        action_type = "PROFILING"
+        parameters  = {
+          regex_pattern = "Total.*"
+        }
+      }
+    }
+  ]
+}
