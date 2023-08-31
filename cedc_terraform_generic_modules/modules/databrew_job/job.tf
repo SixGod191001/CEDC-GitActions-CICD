@@ -64,7 +64,7 @@ locals {
     profile_columns                  = local.profile_columns
   }
 }
-
+/*
 #recipe create
 resource "aws_databrew_job" "example_job" {
   name          = var.job_name
@@ -91,3 +91,4 @@ resource "aws_databrew_job" "example_job" {
     }
   }
 }
+*/
