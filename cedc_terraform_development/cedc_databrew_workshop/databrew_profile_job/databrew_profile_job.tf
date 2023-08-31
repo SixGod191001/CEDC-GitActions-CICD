@@ -26,25 +26,14 @@ module "databrew_profile_job" {
   ]
 }
 
-recipe = {
-  name        = "yuewi_profile_recipe"
-  description = "Profile Recipe"
-  steps       = [
-    {
-      action_operation = {
-        action_type = "PROFILING"
-        parameters  = {
-          column_name = "Customer_Id"
-        }
-      }
-    },
-    {
-      action_operation = {
-        action_type = "PROFILING"
-        parameters  = {
-          regex_pattern = "Total.*"
-        }
-      }
-    }
-  ]
+module "databrew_job" {
+  source        = "../../../cedc_terraform_generic_modules/modules/databrew_job"
+  job_name      = "yuwei_recipe_job"
+  dataset_name  = "yuwei_customers"
+  job_type      = "profile"
+  role_arn      = "yuwei_databrew_common_role"
+  log_subscription = true
+  recipe = {
+    # Recipe configuration here
+  }
 }
