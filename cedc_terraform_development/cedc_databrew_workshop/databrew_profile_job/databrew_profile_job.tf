@@ -15,7 +15,8 @@ module "databrew_profile_job" {
     overrides           = [
       {
         parameters = {
-          "columnSelectors" : "[{\"name\":\"Customer_Id\"}, {\"regex\":\"Total.*\"}]"
+          "columnSelectors" : "[{\"name\":\"Middle_Name\"}]"
+          # "columnSelectors" : "[{\"name\":\"Customer_ID\"}, {\"regex\":\"Total.*\"}]"
         }
         statistic = "CORRELATION"
       }
@@ -25,7 +26,7 @@ module "databrew_profile_job" {
    "cedc_terraform_development/cedc_databrew_workshop/databrew_dataset"
   ]
 }
-
+/*
 module "databrew_job" {
   source        = "../../../cedc_terraform_generic_modules/modules/databrew_job"
   job_name      = "yuwei_recipe_job"
@@ -37,3 +38,4 @@ module "databrew_job" {
     # Recipe configuration here
   }
 }
+*/
