@@ -25,4 +25,4 @@ module "example_ruleset" {
   
   region       = "ap-northeast-1"
   dataset_name = "haohao-sales"
- 
+} 
