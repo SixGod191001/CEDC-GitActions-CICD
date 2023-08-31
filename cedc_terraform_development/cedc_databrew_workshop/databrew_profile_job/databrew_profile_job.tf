@@ -1,4 +1,4 @@
-/*
+
 module "databrew_profile_job" {
   source                           = "../../../cedc_terraform_generic_modules/modules/databrew_job"
   name                             = "yuwei customer profile job"
@@ -25,4 +25,3 @@ module "databrew_profile_job" {
    "cedc_terraform_development/cedc_databrew_workshop/databrew_dataset"
   ]
 }
-*/
