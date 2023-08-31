@@ -64,3 +64,30 @@ locals {
     profile_columns                  = local.profile_columns
   }
 }
+
+#recipe create
+resource "aws_databrew_job" "example_job" {
+  name          = var.job_name
+  dataset_name  = var.dataset_name
+  type          = var.job_type
+  role_arn      = var.role_arn
+  log_subscription = var.log_subscription
+
+  recipe {
+    # Recipe configuration here
+    # Example: Using a 'CSV' recipe
+    type = "CSV"
+    format_options {
+      delimiter = ","
+    }
+  }
+
+  # Other job configuration here
+  # Example: Output options
+  outputs {
+    s3 {
+      bucket_name = "example-bucket"
+      file_name  = "output.csv"
+    }
+  }
+}
