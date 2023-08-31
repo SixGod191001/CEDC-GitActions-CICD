@@ -220,29 +220,4 @@ variable "job_name" {
   description = "DataBrew job name"
   type        = string
 }
-/*
-variable "dataset_name" {
-  description = "DataBrew dataset name"
-  type        = string
-}
-*/
-variable "job_type" {
-  description = "DataBrew job type"
-  type        = string
-}
 
-variable "role_arn" {
-  description = "IAM role ARN for DataBrew job"
-  type        = string
-}
-/*
-variable "log_subscription" {
-  description = "CloudWatch log subscription for DataBrew job"
-  type        = bool
-}
-*/
-variable "recipe" {
-  description = "DataBrew recipe configuration"
-  type        = map
-  default     = null
-}
