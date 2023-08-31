@@ -8,7 +8,7 @@ module "example_ruleset" {
     {
       # check_expression = "AGG(DUPLICATE_VALUES_COUNT) <:val" # Data quality check  duplicate rows count == 0
       # check_expression = "AGG(MISSING_VALUES_PERCENTAGE) == :val1"
-      check_expression = "AGG(<total_sales>) < :val"
+      check_expression = "total_sales < :val"
       column_selectors = null
       disabled         = false
       name             = "Check missing value"
