@@ -215,9 +215,10 @@ variable "dependencies" {
   type        = list(string)
   default     = []
 }
-
+/*
 variable "job_name" {
   description = "DataBrew job name"
   type        = string
 }
 
+*/
