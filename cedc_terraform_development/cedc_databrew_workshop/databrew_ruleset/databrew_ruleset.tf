@@ -13,6 +13,16 @@ module "example_ruleset" {
       disabled         = false
       name             = "Quantity and total Sales should be >0"
       # substitution_map = null
+      column_selectors = [
+        {
+          name  = "total_sales"
+          regex = null
+        },
+        {
+          name  = "Quantity"
+          regex = null
+        }
+      ]
       substitution_map = [
         {
          value_reference = ":val"
