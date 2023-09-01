@@ -8,12 +8,12 @@ module "example_ruleset" {
     {
       # check_expression = "AGG(DUPLICATE_VALUES_COUNT) <:val" # Data quality check  duplicate rows count == 0
       # check_expression = "AGG(MISSING_VALUES_PERCENTAGE) == :val1"
-      # check_expression = "`total_sales` < :val"
-      check_expression = ":col > :val"
-      disabled         = false
-      name             = "Quantity and total Sales should be >0"
-      # substitution_map = null
+      # check_expression = "`total_sales` > :val"
+      check_expression = ":col < :val"
       column_selectors = null
+      disabled         = false
+      name             = "Total Sales should be >0"
+      # substitution_map = null
       substitution_map = [
         {
          value_reference = ":val"
