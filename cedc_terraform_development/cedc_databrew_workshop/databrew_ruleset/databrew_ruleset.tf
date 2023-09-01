@@ -12,11 +12,11 @@ module "example_ruleset" {
       check_expression = ":col1 and :col2 > :val"
       column_selectors = [
         {
-          name  = "`Quantity`"
+          name  = "Quantity"
           regex = null
         },
         {
-          name  = "`total_sales`"
+          name  = "total_sales"
           regex = null
         }
       ]
