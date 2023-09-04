@@ -2,7 +2,7 @@ module "example_ruleset" {
   source = "../../../cedc_terraform_generic_modules/modules/databrew_ruleset"
 
   ruleset_description = "Sales ruleset"
-  ruleset_name        = "elaine Sales Checks"
+  ruleset_name        = "elaine_Sales_Checks"
 
   rules               = [
     {
