@@ -3,11 +3,11 @@ module "databrew_project1" {
   name         = "youqun project"
   dataset_name = "youqun-sales"
   role_name    = "youqun_databrew_common_role"
-  recipe_name  = "youqunrecipe"
+  recipe_name  = "youqun recipe"
   depends_on   = [module.example_recipe1]
 }
 
 module "example_recipe1" {
   source           = "../../../cedc_terraform_generic_modules/modules/databrew_recipe"
-  recipe_name      = "youqunrecipe"
+  recipe_name      = "youqun recipe"
 }

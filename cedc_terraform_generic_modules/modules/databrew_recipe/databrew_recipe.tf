@@ -1,6 +1,6 @@
 resource "aws_databrew_recipe" "example_recipe" {
   name         = var.recipe_name
-  recipe_steps = <<EOF
+  recipe_steps =
 [
   {
     "action": "header",
@@ -17,5 +17,5 @@ resource "aws_databrew_recipe" "example_recipe" {
     }
   }
 ]
-EOF
+
 }
