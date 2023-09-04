@@ -1,25 +1,26 @@
 module "example_ruleset" {
   source = "../../../cedc_terraform_generic_modules/modules/databrew_ruleset"
 
-  ruleset_description = "Sales rule set"
-  ruleset_name        = "youqunSalesRuleset"
+  ruleset_description = "Sales ruleset"
+  ruleset_name        = "youqun Sales Checks"
+
   rules               = [
     {
-      check_expression = "Total_Sales > 0" # Data quality check
-      column_selectors = [
-        {
-          name  = "Total_Sales"
-          regex = null
-        }
-      ]
+      check_expression = ":col > :val"
+      column_selectors = null
       disabled         = false
-      name             = "SalesCheck"
-      substitution_map = null
-      threshold = {
-        type  = "GREATER_THAN" # threshold.type value must be one of: ["GREATER_THAN_OR_EQUAL" "LESS_THAN_OR_EQUAL" "GREATER_THAN" "LESS_THAN"]
-        unit  = "PERCENTAGE" # threshold.unit value must be one of: ["COUNT""PERCENTAGE"]
-        value = 90.0
-      }
+      name             = "Total Sales should be >0"
+      substitution_map = [
+        {
+         value_reference = ":val"
+         value           = "0"
+        },
+        {
+         value_reference = ":col"
+         value           = "`total_sales`"
+        }
+       ]
+      threshold        = null
     }
   ]
   tags = [
@@ -29,5 +30,5 @@ module "example_ruleset" {
     }
   ]
   region       = "ap-northeast-1"
-  dataset_name = "youqun-sales"
-  }
+  dataset_name = "haohao-sales"
+}
