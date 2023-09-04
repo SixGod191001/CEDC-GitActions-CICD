@@ -14,7 +14,7 @@ module "databrew_profile_job" {
     overrides           = [
       {
         parameters = {
-          "columnSelectors" : "[{\"name\":\"Customer_Id\"}, {\"regex\":\"Middle.*\"}]"
+          "columnSelectors" : "[{\"name\":\"first_name\"}, {\"regex\":\"middle.*\"}]"
         }
         statistic = "CORRELATION"
       }
@@ -24,3 +24,4 @@ module "databrew_profile_job" {
    "cedc_terraform_development/cedc_databrew_workshop/databrew_dataset"
   ]
 }
+
