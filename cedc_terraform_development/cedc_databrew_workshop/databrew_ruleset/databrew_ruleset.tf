@@ -17,7 +17,7 @@ module "example_ruleset" {
         },
         {
          value_reference = ":col"
-         value           = "`total_sales`"
+         value           = "`Total_Sales`"
         }
        ]
       threshold        = null
