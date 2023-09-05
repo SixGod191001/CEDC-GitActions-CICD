@@ -34,5 +34,3 @@ data "aws_ssm_parameter" "bucket" {
 data "aws_ssm_parameter" "bucket_owner" {
   name = var.bucket_owner
 }
-
-
