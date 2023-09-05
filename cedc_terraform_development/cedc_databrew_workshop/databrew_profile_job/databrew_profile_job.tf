@@ -8,5 +8,5 @@ module "databrew_profile_job" {
   bucket                           = "scriptbucket"
   bucket_owner                     = "ETL_Account"
   key                              = "kunyuan_databrew_workshop/profile-output/"
-  entity_types                     = ["PERSON_NAME","DATE"]
+  entity_types                     = ["PERSON_NAME"]
 }
