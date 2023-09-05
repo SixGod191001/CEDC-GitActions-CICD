@@ -10,4 +10,5 @@ module "databrew_dataset_sales" {
   name           = "kunyuan-sales"
   bucket         = "gitaction-s3-terraform"
   key            = "kunyuan_databrew_workshop/datafiles/sales/"
+  depends_on     = [module.databrew_dataset]
 }
