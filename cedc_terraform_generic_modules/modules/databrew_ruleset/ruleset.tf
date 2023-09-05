@@ -6,6 +6,7 @@ resource "awscc_databrew_ruleset" "ruleset" {
   target_arn  = local.target_arn
 }
 
+
 data "aws_caller_identity" "current" {}
 
 data "aws_ssm_parameter" "account_number" {
