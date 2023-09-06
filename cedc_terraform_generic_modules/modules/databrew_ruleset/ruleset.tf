@@ -4,7 +4,7 @@ resource "awscc_databrew_ruleset" "ruleset" {
   target_arn  = local.target_arn
   rules       = var.rules
 
-
+}
 
 data "aws_caller_identity" "current" {}
 
