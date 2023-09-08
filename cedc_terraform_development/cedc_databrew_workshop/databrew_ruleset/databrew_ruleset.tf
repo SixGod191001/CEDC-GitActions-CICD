@@ -4,6 +4,7 @@ module "example_ruleset" {
   ruleset_description = "Sales ruleset"
   ruleset_name        = "liuyuwei Sales Checks"
 
+
   rules               = [
     {
       check_expression = ":col > :val"
