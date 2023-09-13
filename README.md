@@ -45,6 +45,7 @@ This project is aiming to build a whole cloud based CICD ETL process. Include be
 1. Step Function  https://catalog.workshops.aws/stepfunctions/en-US/introduction
 2. Sagemaker      https://catalog.us-east-1.prod.workshops.aws/workshops/63069e26-921c-4ce1-9cc7-dd882ff62575/en-US
 3. DataBrew       https://catalog.us-east-1.prod.workshops.aws/workshops/6532bf37-3ad2-4844-bd26-d775a31ce1fa/en-US
+4. Sagemakernotebook    https://aws.amazon.com/cn/blogs/china/building-machine-learning-applications-with-amazon-sagemaker/
 
 ## GitActions workflow
    - Feature --> DEV  (PR/Push)
